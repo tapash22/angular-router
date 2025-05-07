@@ -2,13 +2,18 @@
     class=" w-full h-20 shadow-xs shadow-gray-700 flex justify-center items-center">
     <div class="w-full h-full p-2 m-0 flex justify-start align-middle">
         <div class="w-6/12 h-full flex justify-start items-center gap-3 px-2">
-            <fa-icon [icon]="iconHome" class="text-3xl text-gray-400 p-3"></fa-icon>
-            <p>tapash</p>
+            <fa-icon [icon]="iconHome"
+                class="text-3xl text-gray-400 p-2 "></fa-icon>
+            <h1 class="text-xl font-bold">{{lastSegment}}{{pathSegments}}</h1>
         </div>
-        
-        <div class="w-6/12 h-full flex justify-end align-middle">
-            <fa-icon [icon]="iconBell" class="text-3xl text-gray-400 p-3"></fa-icon>
 
+        <div class="w-6/12 h-full flex justify-end items-center gap-2 px-2">
+            <fa-icon [icon]="iconBell"
+                class="text-3xl text-gray-400 p-3"></fa-icon>
+            <div class="w-[30px] h-[30px] rounded-full ring-2 ring-gray-700">
+                <img src="./favicon.ico"
+                    class="bg-cover w-full h-full rounded-full" />
+            </div>
         </div>
     </div>
 </div>
