@@ -1,1 +1,74 @@
-<p>login works!</p>
+<div class="w-screen h-screen flex justify-center items-center p-5">
+    <div class="w-1/3 min-h-[60%] p-3 rounded-2xl shadow-sm shadow-gray-500 block bg-white">
+        <h2
+            class="flex justify-center align-middle text-2xl font-bold tracking-wide py-3">
+            Login
+        </h2>
+
+        <!-- FORM START -->
+        <form #loginForm="ngForm" (ngSubmit)="loginUser()">
+
+            <!-- Email Field -->
+            <div class="mb-4">
+                <label for="email" class="block mb-1 text-sm font-medium text-gray-700">Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="Email"
+                    class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    required
+                    [(ngModel)]="loginData.email"
+                    #emailModel="ngModel" />
+                <!-- Email Validation Error Messages -->
+                <div
+                    class="text-red-500 text-sm mt-1"
+                    *ngIf="emailModel.invalid && (emailModel.dirty || emailModel.touched)">
+                    <div *ngIf="emailModel.errors?.['required']">Email is required.</div>
+                    <div *ngIf="emailModel.errors?.['email']">Please enter a valid email.</div>
+                </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-4">
+                <label for="password" class="block mb-1 text-sm font-medium text-gray-700">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                    class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    required
+                    minlength="4"
+                    [(ngModel)]="loginData.password"
+                    #passwordModel="ngModel" />
+                <!-- Password Validation Error Messages -->
+                <div
+                    class="text-red-500 text-sm mt-1"
+                    *ngIf="passwordModel.invalid && (passwordModel.dirty || passwordModel.touched)">
+                    <div *ngIf="passwordModel.errors?.['required']">Password is required.</div>
+                    <div *ngIf="passwordModel.errors?.['minlength']">Password must be at least 4 characters long.</div>
+                </div>
+            </div>
+
+            <!-- General Error Message -->
+            <div *ngIf="errorMessage" class="text-red-500 text-center mb-4">
+                {{ errorMessage }}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-center">
+                <button
+                    type="submit"
+                    [disabled]="loginForm.invalid || isLoading"
+                    class="add-button px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 flex items-center justify-center w-full">
+                    <span *ngIf="!isLoading">Submit</span>
+                    <span *ngIf="isLoading"
+                        class="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
+                </button>
+            </div>
+
+        </form>
+        <!-- FORM END -->
+    </div>
+</div>
