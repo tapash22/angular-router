@@ -3,10 +3,11 @@ import { FormsModule } from "@angular/forms";
 import { AuthService } from "../../service/auth/auth.service";
 import { CommonModule } from "@angular/common";
 import { LoginPayload, User, RegistrationPayload } from "../../interfaces/user";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-login",
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule,RouterLink],
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.css",
 })
@@ -56,6 +57,7 @@ export class LoginComponent implements OnInit {
   loginUser() {
     this.errorMessage = null;
     const { email, password } = this.loginData;
+    console.log(this.loginData)
 
     if (!email || !password) {
       this.errorMessage = "Both email and password are required.";

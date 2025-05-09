@@ -7,7 +7,7 @@ export const MOCK_USERS: User[] = [
     id: 1,
     name: 'Tapash Paul',
     email: 'tapasp263@gmail.com',
-    password: '123456',
+    password: 'Mnbvc0(8',
     role: 'admin',
   },
   {

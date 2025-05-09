@@ -46,7 +46,7 @@ export class AuthService {
   }
 
   const userToSave: User = {
-    id: Date.now(),  // unique ID
+    id: this.users.length ? this.users.length+1 : 1,  // unique ID
     name: newUser.name,
     email: newUser.email,
     password: newUser.password,
@@ -71,6 +71,10 @@ export class AuthService {
       }
     }
     return this.currentUser
+  }
+
+  getAllUsers():User[] | [] {
+   return this.users;
   }
 
 
