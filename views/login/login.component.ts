@@ -1,26 +1,36 @@
-import { Component } from '@angular/core';
-import { User } from '../../interfaces/user';
-import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../service/auth/auth.service';
-import { CommonModule } from '@angular/common';
-
-export type LoginPayload  = Pick<User, 'email'| 'password'>
+import { Component, OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { AuthService } from "../../service/auth/auth.service";
+import { CommonModule } from "@angular/common";
+import { LoginPayload, User, RegistrationPayload } from "../../interfaces/user";
+import { RouterLink } from "@angular/router";
 
 @Component({
-  selector: 'app-login',
-  imports: [FormsModule,CommonModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  selector: "app-login",
+  imports: [FormsModule, CommonModule,RouterLink],
+  templateUrl: "./login.component.html",
+  styleUrl: "./login.component.css",
 })
-export class LoginComponent {
-  loginData: LoginPayload ={
-    email:'',
-    password:''
-  }
+export class LoginComponent implements OnInit {
+  loginData: LoginPayload = {
+    email: "",
+    password: "",
+  };
+
+  // registerUser: RegistrationPayload | null = null;
 
   errorMessage: string | null = null;
 
   constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    const preFill = localStorage.getItem("userEmail");
+
+    if (preFill) {
+      const { email } = JSON.parse(preFill);
+      this.loginData.email = email;
+    }
+  }
 
   // loginUser() {
   //   const { email, password } = this.loginData;
@@ -45,27 +55,26 @@ export class LoginComponent {
   isLoading = false;
 
   loginUser() {
-  this.errorMessage = null;
-  const { email, password } = this.loginData;
+    this.errorMessage = null;
+    const { email, password } = this.loginData;
+    console.log(this.loginData)
 
-  if (!email || !password) {
-    this.errorMessage = 'Both email and password are required.';
-    return;
-  }
-
-  this.isLoading = true;
-
-  setTimeout(() => {
-    const isLoggedIn = this.authService.login(email, password);
-    this.isLoading = false;
-
-    if (isLoggedIn) {
-      this.authService.navigateByUrl('/dashboard');
-    } else {
-      this.errorMessage = 'Invalid email or password.';
+    if (!email || !password) {
+      this.errorMessage = "Both email and password are required.";
+      return;
     }
-  }, 500); 
-}
 
+    this.isLoading = true;
 
+    setTimeout(() => {
+      const isLoggedIn = this.authService.login(email, password);
+      this.isLoading = false;
+
+      if (isLoggedIn) {
+        this.authService.navigateByUrl("/dashboard");
+      } else {
+        this.errorMessage = "Invalid email or password.";
+      }
+    }, 500);
+  }
 }

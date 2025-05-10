@@ -58,4 +58,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import("./views/login/login.component").then((m) => m.LoginComponent),
   },
+  {
+    path: "registration",
+    loadComponent: () =>
+      import("./views/registration/registration.component").then((m) => m.RegistrationComponent),
+  },
 ];
