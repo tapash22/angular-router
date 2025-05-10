@@ -40,7 +40,7 @@ export class RegistrationComponent {
     setTimeout(() => {
       const isRegistered = this.authService.register(this.registerUser);
       if (isRegistered) {
-        this.authService.navigateByUrl("/login");
+        this.authService.navigateByUrl("/auth/login");
       } else {
         this.errorMessage = "This email is already registered";
       }

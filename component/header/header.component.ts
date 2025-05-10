@@ -37,6 +37,8 @@ export class HeaderComponent implements OnInit {
     ).subscribe((event: NavigationEnd) => {
       const url = event.urlAfterRedirects;  // e.g., '/admin/user'
       this.pathSegments = url.split('/').filter(Boolean);  // ['admin', 'user']
+      const newPath = this.pathSegments.map(segment => '/' + segment).join('');
+      console.log(typeof newPath)
     });
   }
 }
