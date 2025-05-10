@@ -58,7 +58,7 @@ export class AuthService {
   logout():void{
     this.currentUser = null
     localStorage.removeItem('currentUser')
-    this.navigateByUrl('/login')
+    this.navigateByUrl('/auth/login')
   }
 
   getCurrentUser():User | null{
