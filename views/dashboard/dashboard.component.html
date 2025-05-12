@@ -1,18 +1,8 @@
-<!-- <div class="w-screen h-screen flex justify-center p-0 m-0">
-    <app-layout></app-layout>
-    <div *ngFor="let user of usersData; let i = index"
-        class="flex w-full h-auto py-2 px-5 gap-2.5">
-        <p class="text-2xl font-medium tracking-wide leading-4">
-            {{user.id}}{{user.name}}{{user.email}}{{user.password}}{{user.role}}
-        </p>
-    </div>
-</div> -->
 
 <div
     class="dashboard w-screen h-screen p-0 m-0 flex justify-center items-center">
     <div *ngIf="showSidebar"
         class="navigation w-1/6  h-full shadow-2xl shadow-red-800 flex items-center">
-        {{showSidebar}}lll
         <app-navigation></app-navigation>
     </div>
     <div
