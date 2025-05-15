@@ -1,6 +1,6 @@
 <div class="w-full h-full flex justify-center items-center p-5">
     <div
-        class="min-w-[60%] min-h-[50%] p-3 rounded-2xl shadow-sm shadow-gray-500 block bg-white">
+        class="min-w-[70%] min-h-[45%] p-3 rounded-2xl shadow-sm shadow-gray-500 block bg-white">
         <h2
             class="flex justify-center align-middle text-2xl font-bold tracking-wide py-3">
             Login
@@ -18,7 +18,7 @@
                     name="email"
                     id="email"
                     placeholder="Email"
-                    class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required
                     [(ngModel)]="loginData.email"
                     #emailModel="ngModel" />
@@ -42,7 +42,7 @@
                     name="password"
                     id="password"
                     placeholder="Password"
-                    class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required
                     minlength="4"
                     [(ngModel)]="loginData.password"
@@ -64,7 +64,7 @@
             </div>
 
             <!-- Submit Button -->
-            <div class="block w-full">
+            <div class="block w-full py-2">
                 <button
                     type="submit"
                     [disabled]="loginForm.invalid || isLoading"
@@ -73,10 +73,10 @@
                     <span *ngIf="isLoading"
                         class="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
                 </button>
-                <a routerLink="/auth/registration" class="w-full flex justify-center py-3">Don't have an account? Register</a>
             </div>
-
+            
         </form>
+        <a routerLink="/auth/registration" class="w-full flex justify-center py-0">Don't have an account? Register</a>
         <!-- FORM END -->
     </div>
 </div>

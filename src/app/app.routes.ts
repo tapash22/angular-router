@@ -70,7 +70,7 @@ export const routes: Routes = [
           import("./views/login/login.component").then((m) => m.LoginComponent),
       },
       {
-        path: "registrati",
+        path: "registration",
         loadComponent: () =>
           import("./views/registration/registration.component").then(
             (m) => m.RegistrationComponent

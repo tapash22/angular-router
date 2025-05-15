@@ -1,6 +1,6 @@
 <div class="w-full h-full flex justify-center items-center p-5">
     <div
-        class="min-w-[60%] min-h-[50%] p-3 rounded-2xl shadow-sm shadow-gray-500 block bg-white">
+        class="min-w-[70%] min-h-[60%] p-3 rounded-2xl shadow-sm shadow-gray-500 block bg-white">
         <h2
             class="flex justify-center align-middle text-2xl font-bold tracking-wide py-3">
             Create Account
@@ -17,7 +17,7 @@
                     id="name"
                     minlength="3"
                     placeholder="User name"
-                    class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required
                     [(ngModel)]="registerUser.name"
                     #nameModel="ngModel" />
@@ -40,7 +40,7 @@
                     name="email"
                     id="email"
                     placeholder="User email"
-                    class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required
                     [(ngModel)]="registerUser.email"
                     #emailModel="ngModel" />
@@ -64,7 +64,7 @@
                     name="password"
                     id="password"
                     placeholder="User password"
-                    class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required
                     minlength="8"
                     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$"
@@ -92,19 +92,20 @@
             </div>
 
             <!-- Submit Button -->
-            <div class="block w-full">
+            <div class="block w-full py-2">
                 <button
                     type="submit"
                     [disabled]="registrationForm.invalid || isLoading"
-                    class="add-button px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 flex items-center justify-center w-full">
+                    class="add-button px-4 py-3 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 flex items-center justify-center w-full">
                     <span *ngIf="!isLoading">Create</span>
                     <span *ngIf="isLoading"
                         class="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
                 </button>
-                <a routerLink="/auth/login" class="w-full flex justify-center py-3 cursor-pointer">All Ready have an account! Login</a>
             </div>
-
+            
         </form>
         <!-- FORM END -->
+        <a routerLink="/auth/login" class="w-full flex justify-center py-0">All Ready have an account! Login</a>
+       
     </div>
 </div>

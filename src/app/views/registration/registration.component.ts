@@ -3,10 +3,12 @@ import { FormsModule } from "@angular/forms";
 import { AuthService } from "../../service/auth/auth.service";
 import { CommonModule } from "@angular/common";
 import { RegistrationPayload } from "../../interfaces/user";
+import { RouterLink } from "@angular/router";
+
 
 @Component({
   selector: "app-registration",
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule,RouterLink],
   templateUrl: "./registration.component.html",
   styleUrl: "./registration.component.css",
 })
@@ -46,4 +48,10 @@ export class RegistrationComponent {
       }
     }, 500);
   }
+
+
+// goToLogin() {
+//   this.router.navigate(['/auth/login']);
+//   console.log(this.router)
+// }
 }
