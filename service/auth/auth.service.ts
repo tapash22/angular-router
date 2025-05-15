@@ -1,21 +1,47 @@
 import { inject, Injectable } from "@angular/core";
-import { User,RegistrationPayload } from "../../interfaces/user";
+import { User } from "../../interfaces/user";
 import { Router } from "@angular/router";
-import { MOCK_USERS } from "../../localStore/user-data";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  private router = inject(Router) //import router
-
-  private users: User[] = MOCK_USERS //import user array
+  private users: User[] = [
+    {
+      id: 1,
+      name: "Alice Johnson",
+      email: "alice@example.com",
+      password: "password123",
+      role: "admin",
+    },
+    {
+      id: 2,
+      name: "Bob Smith",
+      email: "bob@example.com",
+      password: "password123",
+      role: "manager",
+    },
+    {
+      id: 3,
+      name: "Carol Williams",
+      email: "carol@example.com",
+      password: "password123",
+      role: "officer",
+    },
+    {
+      id: 4,
+      name: "David Lee",
+      email: "david@example.com",
+      password: "password123",
+      role: "user",
+    },
+  ];
 
   private currentUser: User | null = null;
+  private router = inject(Router)
 
   constructor() {}
 
-  //login method
   login(email: string, password: string): boolean {
     const user = this.users.find(
       (u) => u.email === email && u.password === password
@@ -29,37 +55,11 @@ export class AuthService {
     return false;
   }
 
-//logout method
-
   logout():void{
     this.currentUser = null
     localStorage.removeItem('currentUser')
     this.navigateByUrl('/auth/login')
   }
-
-//registration method
-  register(newUser: RegistrationPayload): boolean {
-  const exists = this.users.some((u) => u.email === newUser.email);
-
-  if (exists) {
-    return false; // Email already in use
-  }
-
-  const userToSave: User = {
-    id: this.users.length ? this.users.length+1 : 1,  // unique ID
-    name: newUser.name,
-    email: newUser.email,
-    password: newUser.password,
-    role: 'user',  // default role
-  };
-
-  this.users.push(userToSave);
-  localStorage.setItem('user', JSON.stringify(this.users));
-  return true;
-}
-
-
-//current user information
 
   getCurrentUser():User | null{
 
@@ -73,21 +73,14 @@ export class AuthService {
     return this.currentUser
   }
 
-  getAllUsers():User[] | [] {
-   return this.users;
-  }
-
-
   isAuthenticated(): boolean{
     return !!this.getCurrentUser()
   }
 
-  //role check
   hasRole(role: 'admin' |'manager'|'officer'|'user'): boolean{
     return this.getCurrentUser()?.role === role
   }
 
-  //router nagivation
   navigateByUrl(url:string):void{
     this.router.navigateByUrl(url,{replaceUrl:true})
   }
