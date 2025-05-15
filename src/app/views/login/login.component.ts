@@ -66,15 +66,23 @@ export class LoginComponent implements OnInit {
 
     this.isLoading = true;
 
-    setTimeout(() => {
-      const isLoggedIn = this.authService.login(email, password);
-      this.isLoading = false;
+  setTimeout(() => {
+    const isLoggedIn = this.authService.login(email,password); // Pass as object
 
-      if (isLoggedIn) {
-        this.authService.navigateByUrl("/dashboard");
+    this.isLoading = false;
+
+    if (isLoggedIn) {
+      const userJson = localStorage.getItem('currentUser');
+      const currentUser = userJson ? JSON.parse(userJson) : null;
+
+      if (currentUser?.role) {
+        this.authService.navigateByUrl(`/dashboard/${currentUser.role}`);
       } else {
-        this.errorMessage = "Invalid email or password.";
+        this.errorMessage = "User role not found.";
       }
-    }, 500);
+    } else {
+      this.errorMessage = "Invalid email or password.";
+    }
+  }, 500);
   }
 }

@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { activatedGuard } from "./auth/activated.guard";
 import { guestGuard } from "./auth/guest.guard";
+import { roleGuard } from "./auth/role.guard";
 
 export const routes: Routes = [
   {
@@ -19,11 +20,13 @@ export const routes: Routes = [
     children: [
       {
         path: "admin",
+        canActivate:[roleGuard],
         loadComponent: () =>
           import("./views/admin/admin.component").then((m) => m.AdminComponent),
       },
       {
         path: "manager",
+        canActivate:[roleGuard],
         loadComponent: () =>
           import("./views/manager/manager.component").then(
             (m) => m.ManagerComponent
@@ -31,6 +34,7 @@ export const routes: Routes = [
       },
       {
         path: "officer",
+        canActivate:[roleGuard],
         loadComponent: () =>
           import("./views/officer/officer.component").then(
             (m) => m.OfficerComponent

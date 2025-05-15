@@ -1,41 +1,14 @@
 import { inject, Injectable } from "@angular/core";
 import { User } from "../../interfaces/user";
 import { Router } from "@angular/router";
+import { MOCK_USERS } from "../../src/app/localStore/user-data";
+import { LoginPayload } from "../../src/app/interfaces/user";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  private users: User[] = [
-    {
-      id: 1,
-      name: "Alice Johnson",
-      email: "alice@example.com",
-      password: "password123",
-      role: "admin",
-    },
-    {
-      id: 2,
-      name: "Bob Smith",
-      email: "bob@example.com",
-      password: "password123",
-      role: "manager",
-    },
-    {
-      id: 3,
-      name: "Carol Williams",
-      email: "carol@example.com",
-      password: "password123",
-      role: "officer",
-    },
-    {
-      id: 4,
-      name: "David Lee",
-      email: "david@example.com",
-      password: "password123",
-      role: "user",
-    },
-  ];
+  private users: User[] = MOCK_USERS;
 
   private currentUser: User | null = null;
   private router = inject(Router)
