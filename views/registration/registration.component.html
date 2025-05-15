@@ -3,11 +3,33 @@
         class="min-w-[60%] min-h-[50%] p-3 rounded-2xl shadow-sm shadow-gray-500 block bg-white">
         <h2
             class="flex justify-center align-middle text-2xl font-bold tracking-wide py-3">
-            Login
+            Create Account
         </h2>
 
         <!-- FORM START -->
-        <form #loginForm="ngForm" (ngSubmit)="loginUser()" class="p-5">
+        <form #registrationForm="ngForm" (ngSubmit)="createUser()" class="p-5" >
+            <div class="mb-4">
+                <label for="name"
+                    class="block mb-1 text-sm font-medium text-gray-700">Name</label>
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    minlength="3"
+                    placeholder="User name"
+                    class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    required
+                    [(ngModel)]="registerUser.name"
+                    #nameModel="ngModel" />
+                <!-- Email Validation Error Messages -->
+                <div
+                    class="text-red-500 text-sm mt-1"
+                    *ngIf="emailModel.invalid && (emailModel.dirty || emailModel.touched)">
+                    <div *ngIf="nameModel.errors?.['required']">Name is
+                        required.</div>
+                    <div *ngIf="nameModel.errors?.['minlength']"> Name must be at least 3 characters long</div>
+                </div>
+            </div>
 
             <!-- Email Field -->
             <div class="mb-4">
@@ -17,10 +39,10 @@
                     type="email"
                     name="email"
                     id="email"
-                    placeholder="Email"
+                    placeholder="User email"
                     class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required
-                    [(ngModel)]="loginData.email"
+                    [(ngModel)]="registerUser.email"
                     #emailModel="ngModel" />
                 <!-- Email Validation Error Messages -->
                 <div
@@ -41,20 +63,26 @@
                     type="password"
                     name="password"
                     id="password"
-                    placeholder="Password"
+                    placeholder="User password"
                     class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required
-                    minlength="4"
-                    [(ngModel)]="loginData.password"
+                    minlength="8"
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$"
+                    [(ngModel)]="registerUser.password"
                     #passwordModel="ngModel" />
                 <!-- Password Validation Error Messages -->
                 <div
                     class="text-red-500 text-sm mt-1"
                     *ngIf="passwordModel.invalid && (passwordModel.dirty || passwordModel.touched)">
+
                     <div *ngIf="passwordModel.errors?.['required']">Password is
                         required.</div>
                     <div *ngIf="passwordModel.errors?.['minlength']">Password
-                        must be at least 4 characters long.</div>
+                        must be at least 8 characters long.</div>
+                    <div *ngIf="passwordModel.errors?.['pattern']">
+                        Password must include: uppercase, lowercase, number, and
+                        special character.
+                    </div>
                 </div>
             </div>
 
@@ -67,13 +95,13 @@
             <div class="block w-full">
                 <button
                     type="submit"
-                    [disabled]="loginForm.invalid || isLoading"
+                    [disabled]="registrationForm.invalid || isLoading"
                     class="add-button px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 flex items-center justify-center w-full">
-                    <span *ngIf="!isLoading">Submit</span>
+                    <span *ngIf="!isLoading">Create</span>
                     <span *ngIf="isLoading"
                         class="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
                 </button>
-                <a routerLink="/auth/registration" class="w-full flex justify-center py-3">Don't have an account? Register</a>
+                <a routerLink="/auth/login" class="w-full flex justify-center py-3 cursor-pointer">All Ready have an account! Login</a>
             </div>
 
         </form>
