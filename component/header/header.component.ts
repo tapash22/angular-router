@@ -15,32 +15,33 @@ import { User } from '../../interfaces/user';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent  {
+export class HeaderComponent implements OnInit {
   iconBell = faBell;
   iconHome = faHome
-  newPath:string = ''
+  lastSegment:string = ''
+  pathSegments:string[] = []
 
   constructor(private router: Router, private authService: AuthService ) {}
 
+  // ngOnInit() {
+  //   this.router.events.pipe(
+  //     filter(event => event instanceof NavigationEnd)
+  //   ).subscribe((event: NavigationEnd) => {
+  //     const url = event.urlAfterRedirects; // safer than router.url
+  //     const segments = url.split('/').filter(Boolean); // removes empty strings
+  //     this.lastSegment = segments.length > 0 ? segments[segments.length - 1] : '';
+  //   });
+  // }
 
+  ngOnInit() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      const url = event.urlAfterRedirects;  // e.g., '/admin/user'
+      this.pathSegments = url.split('/').filter(Boolean);  // ['admin', 'user']
+    });
+  }
 
-ngOnInit() {
-  // 1. Get the current route on first load
-  const currentUrl = this.router.url;
-  this.updateNewPath(currentUrl);
-
-  // 2. Listen to route changes after that
-  this.router.events.pipe(
-    filter(event => event instanceof NavigationEnd)
-  ).subscribe((event: NavigationEnd) => {
-    this.updateNewPath(event.urlAfterRedirects);
-  });
-}
-
-  updateNewPath(url: string) {
-  const pathSegments = url.split('/').filter(Boolean);
-  this.newPath = pathSegments.map(segment => '/' + segment).join('');
-}
   logoutUser() {
     // Check if currentUser exists in localStorage
     const userDataBeforeLogout = localStorage.getItem("currentUser");
