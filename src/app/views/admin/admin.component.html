@@ -1,13 +1,16 @@
 <div class="block w-full h-full bg-transparent">
     <div class="w-full h-auto py-4 flex justify-center items-center gap-4">
         <div class="w-2/3 h-auto p-2">
-
+            <app-overview-chart [type]="chartType"
+                [data]="chartData"
+                [options]="chartOptions"></app-overview-chart>
         </div>
         <div class="w-1/3 h-auto p-2 block">
             <ul class="block w-full h-[400px] overflow-y-scroll ">
-                <li class="w-full h-auto py-2 px-4 shadow-sm shadow-gray-100  block rounded-xl my-2"
-                    *ngFor="let user of userList; let i = index"   [ngClass]="i % 2 === 0 ? 'bg-gray-100' : 'bg-gray-50'"
->
+                <li
+                    class="w-full h-auto py-2 px-4 shadow-sm shadow-gray-100  block rounded-xl my-2"
+                    *ngFor="let user of userList; let i = index"
+                    [ngClass]="i % 2 === 0 ? 'bg-gray-100' : 'bg-gray-50'">
                     <h2
                         class="text-lg font-normal text-black tracking-wide flex justify-between items-center">
                         {{user.name}}
