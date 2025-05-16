@@ -6,8 +6,10 @@
         <app-navigation></app-navigation>
     </div>
     <div
-        class="w-5/6 h-screen  bg-white block justify-start items-start ">
+        class="w-5/6 h-screen  bg-white block justify-start items-start overflow-x-hidden relative ">
         <app-header></app-header>
-        <router-outlet />
+        <div class="mt-20 overflow-x-hidden px-5">
+            <router-outlet />
+        </div>
     </div>
 </div>

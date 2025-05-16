@@ -66,7 +66,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import("./views/auth/auth.component").then((m) => m.AuthComponent),
     data: { hideSidebar: true },
-    canActivate: [guestGuard], // 👈 FIXED guard
+    canActivate: [guestGuard], 
     children: [
       {
         path: "login",

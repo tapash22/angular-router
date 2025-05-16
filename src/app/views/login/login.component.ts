@@ -17,8 +17,6 @@ export class LoginComponent implements OnInit {
     password: "",
   };
 
-  // registerUser: RegistrationPayload | null = null;
-
   errorMessage: string | null = null;
 
   constructor(private authService: AuthService) {}
@@ -31,26 +29,6 @@ export class LoginComponent implements OnInit {
       this.loginData.email = email;
     }
   }
-
-  // loginUser() {
-  //   const { email, password } = this.loginData;
-
-  //   if (!email || !password) {
-  //     this.errorMessage = 'Both email and password are required.';
-  //     return;
-  //   }
-
-  //   const isLoggedIn = this.authService.login(email, password);
-
-  //   if (isLoggedIn) {
-  //     this.errorMessage = null;
-  //     console.log('Login successful ✅');
-  //     // Redirect to dashboard or home page
-  //     this.authService.navigateByUrl('/dashboard');
-  //   } else {
-  //     this.errorMessage = 'Invalid email or password. Please try again.';
-  //   }
-  // }
 
   isLoading = false;
 
