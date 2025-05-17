@@ -2,12 +2,12 @@
     class="w-full h-auto py-2 px-4 shadow-sm shadow-gray-100  block rounded-xl my-2 cursor-pointer"
     [ngClass]="[
     index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-50',
-    selected ? 'bg-blue-500' : ''
+      selected ? 'border-2 border-blue-500 bg-blue-100' : '',
      ]"
     (click)="selectUser()">
     <h2
         class="text-lg font-normal text-black tracking-wide flex justify-between items-center">
-        {{user.name}}
+        {{user.name}}{{selected}}{{index}}
         <p
             class="p-2 rounded-lg bg-gray-300 text-center text-sm font-medium text-white  ">
             {{user.role |uppercase}}

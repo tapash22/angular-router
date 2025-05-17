@@ -12,9 +12,9 @@ export class UserListItemComponent {
   @Input() user!: User;
   @Input() index!: number;
   @Input() selected: boolean = false; 
-  @Output() userSelected = new EventEmitter<typeof this.user>();
+  @Output() userSelected = new EventEmitter<{index: number, user: User }>();
 
     selectUser() {
-    this.userSelected.emit(this.user);
+    this.userSelected.emit({index:this.index,user:this.user});
   }
 }

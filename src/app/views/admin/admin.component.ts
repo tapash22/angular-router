@@ -5,10 +5,11 @@ import { MOCK_USERS, projects } from "../../localStore/user-data";
 import { OverviewChartComponent } from "../../component/chart/overview-chart/overview-chart.component";
 import { ChartType, ChartData, ChartConfiguration } from "chart.js";
 import { UserListItemComponent } from "../../component/childs/user-list-item/user-list-item.component";
+import { ProjectCardComponent } from "../../component/childs/project-card/project-card.component";
 
 @Component({
   selector: "app-admin",
-  imports: [CommonModule, OverviewChartComponent, UserListItemComponent],
+  imports: [CommonModule, OverviewChartComponent, UserListItemComponent,ProjectCardComponent],
   templateUrl: "./admin.component.html",
   styleUrl: "./admin.component.css",
 })
@@ -43,7 +44,11 @@ export class AdminComponent {
     },
   };
 
-  handleUserSelection(user: User) {
-    console.log("selected user", user);
+  handleUserSelection(event:{index:number,user: User}) {
+    this.selectedIndex = event.index;
+  }
+
+  handleProject(event:{index:number,project:Project}){
+    this.selectedIndex = event.index;
   }
 }
