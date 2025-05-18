@@ -89,4 +89,74 @@ export const projects: Project[] = [
 ];
 
 
+// export const MOCK_USERS: User[] = [
+//   {
+//     id: 1,
+//     name: 'Tapash Paul',
+//     email: 'tapash.paul@techcorp.com',
+//     role: 'admin',
+//     department: 'IT',
+//     phone: '+1-555-0101',
+//     avatarUrl: 'https://i.pravatar.cc/150?img=1',
+//     status: 'active',
+//     joiningDate: '2020-01-15',
+//     location: 'New York, USA',
+//     performanceScore: 91,
+//     rating: 4.8,
+//     completedProjects: 25,
+//     ongoingProjects: 3,
+//     salary: 120000,
+//     lastEvaluationDate: '2024-12-20',
+//     totalTimeSpentHours: 2500,
+//     projects: [
+//       {
+//         id: 1,
+//         project_title: 'Website Redesign',
+//         project_subtitle: 'Modernize corporate website',
+//         project_project_length: 6,
+//         project_estimated_date: '2025-06-01',
+//         project_costing_needed: 50000,
+//         project_resource_needed: 5,
+//         project_requirement: ['UI/UX Design', 'Frontend Development', 'Backend Integration'],
+//         working_resource: [
+//           {
+//             id: 1,
+//             name: 'Tapash Paul',
+//             email: 'tapash.paul@techcorp.com',
+//             time_spent_hours: 140,
+//             performance_score: 95,
+//           },
+//           {
+//             id: 2,
+//             name: 'Alice',
+//             email: 'alice@gmail.com',
+//             time_spent_hours: 120,
+//             performance_score: 88,
+//           },
+//         ],
+//         projectStatus: 'start',
+//       },
+//       {
+//         id: 2,
+//         project_title: 'CRM Integration',
+//         project_subtitle: 'Connect internal tools with CRM',
+//         project_project_length: 4,
+//         project_estimated_date: '2025-04-15',
+//         project_costing_needed: 30000,
+//         project_resource_needed: 3,
+//         project_requirement: ['API Integration', 'Database Sync'],
+//         working_resource: [
+//           {
+//             id: 1,
+//             name: 'Tapash Paul',
+//             email: 'tapash.paul@techcorp.com',
+//             time_spent_hours: 100,
+//             performance_score: 90,
+//           },
+//         ],
+//         projectStatus: 'completed',
+//       },
+//     ],
+//   },
+// ];
 

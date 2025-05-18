@@ -27,3 +27,43 @@ export interface Project{
 }
 
 
+
+// export interface Project {
+//   id: number;
+//   project_title: string;
+//   project_subtitle: string;
+//   project_project_length: number; // duration in weeks or months
+//   project_estimated_date: string;
+//   project_costing_needed: number;
+//   project_resource_needed: number;
+//   project_requirement: string[];
+//   working_resource: {
+//     id: number;
+//     name: string;
+//     email: string;
+//     time_spent_hours: number; // ✅ Time spent by the individual user
+//     performance_score: number; // ✅ User's performance in this project (0–100 or 0–10 scale)
+//   }[];
+//   projectStatus: 'start' | 'in-progress' | 'completed';
+// }
+
+// export interface User {
+//   id: number;
+//   name: string;
+//   email: string;
+//   role: string;
+//   department: string;
+//   phone?: string;
+//   avatarUrl?: string;
+//   status: 'active' | 'inactive' | 'on-leave';
+//   joiningDate: string;
+//   location: string;
+//   performanceScore: number; // average performance across all projects
+//   rating: number;
+//   completedProjects: number;
+//   ongoingProjects: number;
+//   salary: number;
+//   lastEvaluationDate: string;
+//   totalTimeSpentHours: number; // ✅ Total time spent in all projects
+//   projects: Project[];
+// }
