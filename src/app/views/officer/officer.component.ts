@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { MOCK_USERS, projects } from "../../localStore/user-data";
+import { MOCK_USERS } from "../../localStore/user-data";
 import { OverviewChartComponent } from "../../component/chart/overview-chart/overview-chart.component";
 import { ChartType, ChartData, ChartConfiguration } from "chart.js";
 import { UserListItemComponent } from "../../component/childs/user-list-item/user-list-item.component";
@@ -19,7 +19,7 @@ import { Project, User } from "../../interfaces/user";
   styleUrl: "./officer.component.css",
 })
 export class OfficerComponent {
-  projectList: Project[] = projects;
+  // projectList: Project[] = projects;
   userList: User[] = MOCK_USERS;
 
   selectedIndex: number | null = null;
@@ -52,6 +52,8 @@ export class OfficerComponent {
   filterUserAsOfficer: User[] = this.userList.filter(
     (user) => user.role === "user"
   );
+
+  projectList:Project [] | null = this.userList.flatMap(user => user.projects ?? [])
 
   handleUserSelection(event: { index: number; user: User }) {
     this.selectedIndex = event.index;
