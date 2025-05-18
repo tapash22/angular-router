@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { User } from "../../interfaces/user";
+import { User } from "../../src/app/interfaces/user"; 
 import { Router } from "@angular/router";
 import { MOCK_USERS } from "../../src/app/localStore/user-data";
 import { LoginPayload } from "../../src/app/interfaces/user";

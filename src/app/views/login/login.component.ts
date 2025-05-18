@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
   loginUser() {
     this.errorMessage = null;
     const { email, password } = this.loginData;
-    console.log(this.loginData)
 
     if (!email || !password) {
       this.errorMessage = "Both email and password are required.";
@@ -51,10 +50,11 @@ export class LoginComponent implements OnInit {
 
     if (isLoggedIn) {
       const userJson = localStorage.getItem('currentUser');
-      const currentUser = userJson ? JSON.parse(userJson) : null;
+      const currentUser: User = userJson ? JSON.parse(userJson) : null;
 
       if (currentUser?.role) {
-        this.authService.navigateByUrl(`/dashboard/${currentUser.role}`);
+        let pathDirection = currentUser.role === 'user' ? 'employee' : currentUser.role
+        this.authService.navigateByUrl(`/dashboard/${pathDirection}`);
       } else {
         this.errorMessage = "User role not found.";
       }

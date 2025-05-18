@@ -31,6 +31,13 @@ export const MOCK_USERS: User[] = [
     password: 'password123',
     role: 'user',
   },
+    {
+    id: 5,
+    name: 'David Lee',
+    email: 'paul@example.com',
+    password: 'password123',
+    role: 'user',
+  },
 ];
 
 export const projects: Project[] = [

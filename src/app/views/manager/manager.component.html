@@ -1,1 +1,23 @@
-<p>manager works!</p>
+<div class="block w-full h-full bg-transparent">
+    <div class="w-full h-auto py-4 flex justify-center items-center gap-4">
+        <div class="w-2/3 h-auto p-2">
+            <app-overview-chart [type]="chartType"
+                [data]="chartData"
+                [options]="chartOptions"></app-overview-chart>
+        </div>
+        <div class="w-1/3 h-auto p-2 block">
+            <ul class="block w-full h-[400px] overflow-y-scroll ">
+                <app-user-list-item *ngFor="let user of filterUserAsManager; let i = index"
+                    [index]="i" [user]="user"
+                    [selected]="selectedIndex === i "
+                    (userSelected)="handleUserSelection($event)"></app-user-list-item>
+            </ul>
+        </div>
+    </div>
+    <div class="w-full h-auto py-4 grid grid-cols-3 gap-4">
+        <app-project-card *ngFor="let project of projectList; let i=index"
+            [project]="project" [index]="i"
+            [selected]="selectedIndex === i "
+            (selectProject)="handleProject($event)"></app-project-card>
+    </div>
+</div>
