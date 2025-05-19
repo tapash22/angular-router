@@ -1,5 +1,3 @@
-// src/app/data/mock-users.ts
-
 import { Project, User } from "../interfaces/user";
 
 export const MOCK_USERS: User[] = [

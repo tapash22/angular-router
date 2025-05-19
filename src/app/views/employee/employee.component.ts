@@ -16,7 +16,7 @@ import { AuthService } from "../../service/auth/auth.service";
 export class EmployeeComponent implements OnInit {
   userList: User[] = MOCK_USERS;
 
-  userDetails: User | null = null;
+  userDetails!: User
   selectedIndex: number | null = null;
 
   chartType: ChartType = "line";
@@ -50,7 +50,7 @@ export class EmployeeComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.userDetails = this.authService.getCurrentUser();
+    this.userDetails = this.authService.getCurrentUser()!;
   }
   handleProject(event: { index: number; project: Project }) {
     this.selectedIndex = event.index;
