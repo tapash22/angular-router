@@ -1,5 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { NavigationEnd, Router, RouterLink } from "@angular/router";
 import { AuthService } from "../../service/auth/auth.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -17,15 +23,16 @@ export class HeaderComponent implements OnInit {
   iconBell = faBell;
   iconHome = faHome;
   userProfileData!: User;
-  show: boolean = false
+  show: boolean = false;
   lastSegment: string = "";
   pathSegments: string[] = [];
 
-  @ViewChild('trigger') trigger!: ElementRef;
+  @ViewChild("trigger") trigger!: ElementRef;
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
     this.userProfileData = this.authService.getCurrentUser()!;
+    console.log(this.userProfileData.projects)
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd) ?? null)
       .subscribe((event: NavigationEnd) => {
@@ -39,7 +46,7 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
   }
 
-    @HostListener('document:click', ['$event'])
+  @HostListener("document:click", ["$event"])
   onClickOutside(event: MouseEvent) {
     const clickedInside = this.trigger?.nativeElement.contains(event.target);
     if (!clickedInside) {

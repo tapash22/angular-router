@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { User,RegistrationPayload } from "../../interfaces/user";
+import { User,RegistrationPayload, Project } from "../../interfaces/user";
 import { Router } from "@angular/router";
 import { MOCK_USERS } from "../../localStore/user-data";
 
@@ -90,5 +90,28 @@ export class AuthService {
   //router nagivation
   navigateByUrl(url:string):void{
     this.router.navigateByUrl(url,{replaceUrl:true})
+  }
+
+    updateOrAddProject(project: Project, index?: number): void {
+    const currentUser = this.getCurrentUser();
+    if (!currentUser) return;
+
+    if (!currentUser.projects) currentUser.projects = [];
+
+    if (
+      index !== undefined &&
+      index > -1 &&
+      index < currentUser.projects.length
+    ) {
+      currentUser.projects[index] = { ...project };
+    } else {
+      const newId =
+        Math.max(0, ...currentUser.projects.map((p) => p.id ?? 0)) + 1;
+      project.id = newId;
+      currentUser.projects.push({ ...project });
+    }
+
+    this.currentUser = currentUser;
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
   }
 }
