@@ -1,1 +1,23 @@
-<p>dynamic-form works!</p>
+<div class="p-6 bg-white shadow rounded-lg max-w-4xl mx-auto w-full">
+    <h2 class="text-xl font-semibold mb-4">{{ title }}</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="w-full ">
+            <div *ngFor="let field of fields"
+                [ngClass]="'grid-cols-' + (field.colSpan || 1)">
+                <app-dynamic-form-field
+                    [field]="field"
+                    [form]="form"></app-dynamic-form-field>
+            </div>
+        </div>
+
+        <div class="mt-6 flex justify-end">
+            <button
+                type="submit"
+                [class]="color + ' text-white px-4 py-2 rounded hover:opacity-90'"
+                [disabled]="disableIfInvalid && form.invalid">
+                {{ submitBtnTitle }}
+            </button>
+        </div>
+    </form>
+</div>

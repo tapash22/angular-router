@@ -1,0 +1,44 @@
+<!-- dynamic-form-field.component.html -->
+<div class="w-full p-2 ">
+  <label class="block p-2 text-sm font-medium">{{ field.label }}</label>
+
+  <ng-container [ngSwitch]="field.type">
+    <input
+      *ngSwitchCase="'text'"
+      type="text"
+      [formControl]="getControl(field.name)"
+      class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+    />
+    <input
+      *ngSwitchCase="'email'"
+      type="email"
+      [formControl]="getControl(field.name)"
+      class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+    />
+    <input
+      *ngSwitchCase="'number'"
+      type="number"
+      [formControl]="getControl(field.name)"
+      class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+    />
+    <input
+      *ngSwitchCase="'password'"
+      type="password"
+      [formControl]="getControl(field.name)"
+      class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+    />
+    <textarea
+      *ngSwitchCase="'textarea'"
+      [formControl]="getControl(field.name)"
+      class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+    ></textarea>
+  </ng-container>
+
+  <!-- Error message -->
+  <div
+    *ngIf="getControl(field.name)?.invalid && (getControl(field.name)?.touched || getControl(field.name)?.dirty)"
+    class="mt-1 text-sm "
+  >
+    {{ getErrorMessage(field.name) }}llllllll
+  </div>
+</div>

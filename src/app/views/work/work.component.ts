@@ -5,26 +5,49 @@ import { Project, User } from "../../interfaces/user";
 import { MOCK_USERS } from "../../localStore/user-data";
 import { FormsModule } from "@angular/forms";
 import { AuthService } from "../../service/auth/auth.service";
+import { DynamicDialogComponent } from "../../component/dialog/dynamic-dialog/dynamic-dialog.component";
+import { DynamicFormComponent } from "../../component/form/dynamic-form/dynamic-form.component";
+import { FieldSchema } from "../../interfaces/form-field-schema";
 
 @Component({
   selector: "app-work",
-  imports: [CommonModule, ProjectCardComponent, FormsModule],
+  imports: [
+    CommonModule,
+    ProjectCardComponent,
+    FormsModule,
+    DynamicDialogComponent,
+    DynamicFormComponent
+  ],
   templateUrl: "./work.component.html",
   styleUrl: "./work.component.css",
 })
 export class WorkComponent {
+  // for user
   userList: User[] = MOCK_USERS;
+
+  // for project
   project: Project = this.getEmptyProject();
-
   projectDialogOpen: boolean = false;
-
   selectedIndex: number | null = null;
+
+  // for dialog
+  isDialogVisible = false;
+
+  fields:FieldSchema[] = [
+    { name: "username", type: "text", label: "Username", required: true,colSpan:11 },
+    { name: "email", type: "email", label: "Email", required: true,colSpan:1 },
+    { name: "password", type: "password", label: "Password", required: true,colSpan:1 },
+  ];
+
+  // import and use authservice which are declear
   constructor(private authService: AuthService) {}
 
+  // project list
   get projectList(): Project[] {
     return this.authService.getCurrentUser()?.projects ?? [];
   }
 
+  // make field empty for project
   getEmptyProject(): Project {
     return {
       id: Date.now(),
@@ -40,6 +63,7 @@ export class WorkComponent {
     };
   }
 
+  // open selected project form
   handleProject(event: { index: number; project: Project }) {
     this.selectedIndex = event.index;
     // this.project = { ...event.project };
@@ -49,16 +73,15 @@ export class WorkComponent {
       working_resource: [...event.project.working_resource],
     };
     this.projectDialogOpen = true;
-
-    console.log(this.project);
   }
-
+  // open project form dialog
   openProjectDialog() {
     this.getEmptyProject();
     this.selectedIndex = null;
     this.projectDialogOpen = true;
   }
 
+  // close project dialog
   closeprojectDialog() {
     this.projectDialogOpen = false;
     this.project = null!;
@@ -67,6 +90,7 @@ export class WorkComponent {
     // this.getEmptyProject()
   }
 
+  // create or update project
   addProjectResource() {
     console.log(this.project, this.selectedIndex);
     this.authService.updateOrAddProject(
@@ -74,5 +98,17 @@ export class WorkComponent {
       this.selectedIndex ?? undefined
     );
     this.closeprojectDialog();
+  }
+
+  openDialog() {
+    this.isDialogVisible = true;
+  }
+
+  closeDialog() {
+    this.isDialogVisible = false;
+  }
+
+  saveData(){
+    console.log("click dialog for save data")
   }
 }

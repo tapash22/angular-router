@@ -13,6 +13,7 @@
         </div>
 
     </div>
+    <!-- project card list -->
     <div class="w-full h-auto py-4 grid grid-cols-4 gap-4">
         <app-project-card *ngFor="let project of projectList; let i=index"
             [project]="project" [index]="i"
@@ -21,10 +22,12 @@
             class="h-[400px]"></app-project-card>
     </div>
 
+    <!-- create project -->
     <div *ngIf="projectDialogOpen && project"
         class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black/50 z-50">
         <!-- Card Container -->
-        <div class="w-full h-[500px] overflow-y-scroll overflow-x-hidden max-w-4xl bg-white rounded-xl shadow-lg p-8">
+        <div
+            class="w-full h-[500px] overflow-y-scroll overflow-x-hidden max-w-4xl bg-white rounded-xl shadow-lg p-8">
             <div
                 class="max-w-4xl mx-auto p-6 bg-white rounded-xl  space-y-6">
                 <h2 class="text-2xl font-bold">Project Form</h2>
@@ -72,14 +75,15 @@
 
                 <!-- Requirements -->
                 <div>
-                    <label class="block font-medium mb-2">Project Requirements</label>
+                    <label class="block font-medium mb-2">Project
+                        Requirements</label>
                     <div class="space-y-2">
                         <div
                             *ngFor="let req of project.project_requirement; let i = index"
                             class="flex gap-2">
                             <input [(ngModel)]="project.project_requirement[i]"
                                 class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                   
+
                         </div>
                     </div>
 
@@ -114,7 +118,7 @@
                                     <label>Performance Score</label>
                                     <input type="number"
                                         [(ngModel)]="res.performance_score"
-                                        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"  />
+                                        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
                                 </div>
                             </div>
 
@@ -125,14 +129,16 @@
                 <!-- Status -->
                 <div>
                     <label class="block font-medium">Project Status</label>
-                    <select [(ngModel)]="project.projectStatus" class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <select [(ngModel)]="project.projectStatus"
+                        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400">
                         <option value="start">Start</option>
                         <option value="in-progress">In Progress</option>
                         <option value="completed">Completed</option>
                     </select>
                 </div>
                 <div class="flex justify-between items-center p-2 w-full ">
-                    <button type="button" class="bg-white ring-1 ring-gray-200 w-auto h-auto rounded-xl text-sm font-medium text-black tracking-wide px-5 py-3 "
+                    <button type="button"
+                        class="bg-white ring-1 ring-gray-200 w-auto h-auto rounded-xl text-sm font-medium text-black tracking-wide px-5 py-3 "
                         (click)="closeprojectDialog()">Close</button>
 
                     <button (click)="addProjectResource()"
@@ -143,4 +149,51 @@
             </div>
         </div>
     </div>
+
+    <!-- //dynamic form -->
+    <div class="w-full h-auto py-5">
+        <app-dynamic-form [fields]="fields"
+            title="User Form"></app-dynamic-form>
+    </div>
+
+<!-- dialog -->
+    <div class="relative">
+        <button
+            (click)="openDialog()"
+            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+            Open Dialog
+        </button>
+        <app-dynamic-dialog
+            [title]="'Dynamic Tailwind Dialog'"
+            [size]="'md'"
+            [show]="isDialogVisible"
+            [disableClose]="false"
+            [showFooter]="true"
+            (onClose)="closeDialog()">
+            <!-- Dialog body content -->
+            <div>
+                <p class="text-gray-700">
+                    This is some content inside the dialog. You can put any HTML
+                    or
+                    components here.
+                </p>
+            </div>
+
+            <!-- Footer buttons (pass using attribute selector) -->
+            <div footer-controls>
+                <button
+                    (click)="closeDialog()"
+                    class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+                    Cancel
+                </button>
+                <button
+                    (click)="saveData()"
+                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    Save
+                </button>
+            </div>
+        </app-dynamic-dialog>
+
+    </div>
+
 </div>

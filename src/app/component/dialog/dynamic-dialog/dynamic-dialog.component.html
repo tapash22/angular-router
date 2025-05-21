@@ -1,0 +1,31 @@
+<div
+  *ngIf="show"
+  class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black/50 z-50 "
+>
+  <div [ngClass]="dialogWidth" class="bg-white rounded-2xl shadow-lg flex flex-col max-h-[90vh] overflow-hidden">
+    <!-- Header -->
+    <div class="sticky top-0 z-10 flex items-center justify-between px-5 py-4 border-b border-gray-200 bg-white rounded-t-2xl">
+      <h2 class="text-lg font-semibold">{{ title }}</h2>
+      <button
+        (click)="closeDialog()"
+        [disabled]="disableClose"
+        class="text-gray-500 hover:text-gray-800 disabled:opacity-50"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="overflow-y-auto px-5 py-6" [ngClass]="{ 'mb-[82px]': showFooter, 'mb-2': !showFooter }">
+      <ng-content></ng-content>
+    </div>
+
+    <!-- Footer -->
+    <div
+      *ngIf="showFooter"
+      class="sticky bottom-0 z-10 flex items-center justify-center gap-4 px-5 py-4 bg-white border-t border-gray-200 rounded-b-2xl"
+    >
+      <ng-content select="[footer-controls]"></ng-content>
+    </div>
+  </div>
+</div>
