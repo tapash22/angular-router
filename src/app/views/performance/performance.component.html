@@ -1,1 +1,66 @@
-<p>performance works!</p>
+<div class="block w-full h-full bg-transparent relative">
+    <div class="w-full h-auto py-4 flex justify-center items-center gap-4">
+        <div
+            class="w-full h-auto p-2 flex justify-between items-center ">
+            <h2 class="text-xl font-bold tracking-wide ">
+                Performance Board
+            </h2>
+            <button
+                class="w-auto h-auto p-3 rounded-xl bg-white text-lg font-medium tracking-wide text-black shadow-sm shadow-gray-200 px-5 py-3"
+                (click)="dialogFormOpen()">
+                show performance
+            </button>
+        </div>
+    </div>
+    <app-dynamic-dialog *ngIf="showDialog" title="Dialog Form" size="lg"
+        [show]="showDialog" [showFooter]="true" (onClose)="closeDialog()">
+        <div>
+            <form [formGroup]="form">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium">Project
+                            Title</label>
+                        <input type="text" formControlName="project_title"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div>
+                        <label class="block font-medium">Project
+                            Subtitle</label>
+                        <input type="text"
+                            formControlName="project_subtitle"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div>
+                        <label class="block font-medium">Project Length
+                            (months)</label>
+                        <input type="number"
+                            formControlName="project_project_length"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div>
+                        <label class="block font-medium">Estimated
+                            Date</label>
+                        <input type="date"
+                            formControlName="project_estimated_date"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                </div>
+                <!-- <div [formGroup]="form" form-body>
+                </div> -->
+                <!-- Projected form fields go here -->
+                <!-- <ng-content select="[form-body]"></ng-content> -->
+            </form>
+        </div>
+        <div class="w-full" footer-controls>
+            <div class=" flex justify-end">
+                <button
+                    (click)="dialogAction()"
+                    [class]="color + ' text-black text-sm tracking-wide font-medium px-5 py-2 rounded hover:opacity-90'">
+                    {{ submitBtnTitle }}
+                    <!-- [disabled]="disableIfInvalid && form.invalid" -->
+                </button>
+            </div>
+        </div>
+    </app-dynamic-dialog>
+</div>

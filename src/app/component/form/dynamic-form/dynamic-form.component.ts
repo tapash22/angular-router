@@ -10,7 +10,7 @@ import { FormGroup, ReactiveFormsModule } from "@angular/forms";
 })
 export class DynamicFormComponent {
   @Input() form!: FormGroup;
-  @Input() title: string = '';
+  @Input() title?: string = '';
   @Input() submitBtnTitle: string = 'Submit';
   @Input() color: string = 'bg-blue-600';
   @Input() disableIfInvalid: boolean = true;
