@@ -1,0 +1,127 @@
+    <div *ngIf="projectDialogOpen && project"
+        class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-black/50 z-50">
+        <!-- Card Container -->
+        <div
+            class="w-full h-[500px] overflow-y-scroll overflow-x-hidden max-w-4xl bg-white rounded-xl shadow-lg p-8">
+            <div
+                class="max-w-4xl mx-auto p-6 bg-white rounded-xl  space-y-6">
+                <h2 class="text-2xl font-bold">Project Form</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium">Project Title</label>
+                        <input type="text" [(ngModel)]="project.project_title"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div>
+                        <label class="block font-medium">Project
+                            Subtitle</label>
+                        <input type="text"
+                            [(ngModel)]="project.project_subtitle"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div>
+                        <label class="block font-medium">Project Length
+                            (months)</label>
+                        <input type="number"
+                            [(ngModel)]="project.project_project_length"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div>
+                        <label class="block font-medium">Estimated Date</label>
+                        <input type="date"
+                            [(ngModel)]="project.project_estimated_date"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div>
+                        <label class="block font-medium">Costing Needed</label>
+                        <input type="number"
+                            [(ngModel)]="project.project_costing_needed"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div>
+                        <label class="block font-medium">Resources
+                            Needed</label>
+                        <input type="number"
+                            [(ngModel)]="project.project_resource_needed"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                </div>
+
+                <!-- Requirements -->
+                <div>
+                    <label class="block font-medium mb-2">Project
+                        Requirements</label>
+                    <div class="space-y-2">
+                        <div
+                            *ngFor="let req of project.project_requirement; let i = index"
+                            class="flex gap-2">
+                            <input [(ngModel)]="project.project_requirement[i]"
+                                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Working Resources -->
+                <div>
+                    <label class="block font-medium mb-2">Working
+                        Resources</label>
+                    <div class="space-y-4">
+                        <div
+                            *ngFor="let res of project.working_resource; let i = index"
+                            class="border p-4 rounded-md space-y-2">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label>Name</label>
+                                    <input [(ngModel)]="res.name"
+                                        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                                </div>
+                                <div>
+                                    <label>Email</label>
+                                    <input [(ngModel)]="res.email"
+                                        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                                </div>
+                                <div>
+                                    <label>Time Spent (hours)</label>
+                                    <input type="number"
+                                        [(ngModel)]="res.time_spent_hours"
+                                        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                                </div>
+                                <div>
+                                    <label>Performance Score</label>
+                                    <input type="number"
+                                        [(ngModel)]="res.performance_score"
+                                        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div>
+                    <label class="block font-medium">Project Status</label>
+                    <select [(ngModel)]="project.projectStatus"
+                        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <option value="start">Start</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-between items-center p-2 w-full ">
+                    <button type="button"
+                        class="bg-white ring-1 ring-gray-200 w-auto h-auto rounded-xl text-sm font-medium text-black tracking-wide px-5 py-3 "
+                        (click)="closeprojectDialog()">Close</button>
+
+                    <button (click)="addProjectResource()"
+                        class="bg-gray-200 shadow-sm shadow-gray-200 w-auto h-auto rounded-xl text-sm font-medium text-black tracking-wide px-5 py-3">create
+                        Project</button>
+                </div>
+
+            </div>
+        </div>
+    </div>

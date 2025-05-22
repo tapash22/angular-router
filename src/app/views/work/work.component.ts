@@ -1,9 +1,15 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ProjectCardComponent } from "../../component/childs/project-card/project-card.component";
 import { Project, User } from "../../interfaces/user";
 import { MOCK_USERS } from "../../localStore/user-data";
-import { FormsModule } from "@angular/forms";
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  Validators,
+} from "@angular/forms";
 import { AuthService } from "../../service/auth/auth.service";
 import { DynamicDialogComponent } from "../../component/dialog/dynamic-dialog/dynamic-dialog.component";
 import { DynamicFormComponent } from "../../component/form/dynamic-form/dynamic-form.component";
@@ -14,14 +20,14 @@ import { FieldSchema } from "../../interfaces/form-field-schema";
   imports: [
     CommonModule,
     ProjectCardComponent,
-    FormsModule,
+    ReactiveFormsModule,
     DynamicDialogComponent,
-    DynamicFormComponent
+    DynamicFormComponent,
   ],
   templateUrl: "./work.component.html",
   styleUrl: "./work.component.css",
 })
-export class WorkComponent {
+export class WorkComponent  {
   // for user
   userList: User[] = MOCK_USERS;
 
@@ -30,17 +36,52 @@ export class WorkComponent {
   projectDialogOpen: boolean = false;
   selectedIndex: number | null = null;
 
+  form: FormGroup;
+
   // for dialog
   isDialogVisible = false;
 
-  fields:FieldSchema[] = [
-    { name: "username", type: "text", label: "Username", required: true,colSpan:11 },
-    { name: "email", type: "email", label: "Email", required: true,colSpan:1 },
-    { name: "password", type: "password", label: "Password", required: true,colSpan:1 },
+  fields: FieldSchema[] = [
+    {
+      name: "username",
+      type: "text",
+      label: "Username",
+      required: true,
+      colSpan: 11,
+    },
+    {
+      name: "email",
+      type: "email",
+      label: "Email",
+      required: true,
+      colSpan: 2,
+    },
+    {
+      name: "password",
+      type: "password",
+      label: "Password",
+      required: true,
+      colSpan: 1,
+    },
   ];
 
   // import and use authservice which are declear
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private fb: FormBuilder) {
+    this.form = this.fb.group({
+      project_title: ["", Validators.required],
+      project_subtitle: [""],
+      project_project_length: [null],
+      project_estimated_date: [""],
+      project_costing_needed: [null],
+      project_resource_needed: [null],
+      projectStatus: ["start"],
+      project_requirement: this.fb.array([]),
+      working_resource: this.fb.array([]),
+    });
+
+    this.addRequirement();
+    this.addWorkingResource();
+  }
 
   // project list
   get projectList(): Project[] {
@@ -108,7 +149,65 @@ export class WorkComponent {
     this.isDialogVisible = false;
   }
 
-  saveData(){
-    console.log("click dialog for save data")
+  saveData() {
+    console.log("click dialog for save data");
+  }
+
+  //reactive form
+
+  // ngOnInit(): void {
+  //   this.form = this.fb.group({
+  //     project_title: ["", Validators.required],
+  //     project_subtitle: [""],
+  //     project_project_length: [null, [Validators.required, Validators.min(1)]],
+  //     project_estimated_date: ["", Validators.required],
+  //     project_costing_needed: [null, [Validators.required, Validators.min(0)]],
+  //     project_resource_needed: [null, [Validators.required, Validators.min(0)]],
+  //     projectStatus: ["start", Validators.required],
+  //     project_requirement: this.fb.array([
+  //       this.fb.control("", Validators.required),
+  //     ]),
+  //     working_resource: this.fb.array([this.createWorkingResourceGroup()]),
+  //   });
+  // }
+
+  // Getter for requirements array
+  get project_requirement(): FormArray {
+    return this.form.get("project_requirement") as FormArray;
+  }
+
+  // Getter for working resources array
+  get working_resource(): FormArray {
+    return this.form.get("working_resource") as FormArray;
+  }
+
+  // Create one working resource group
+  private createWorkingResourceGroup(): FormGroup {
+    return this.fb.group({
+      name: ["", Validators.required],
+      email: ["", [Validators.required, Validators.email]],
+      time_spent_hours: [null, [Validators.required, Validators.min(0)]],
+      performance_score: [null, [Validators.required, Validators.min(0)]],
+    });
+  }
+
+  // Add a new project requirement
+  addRequirement(): void {
+    this.project_requirement.push(this.fb.control("", Validators.required));
+  }
+
+  // Add a new working resource
+  addWorkingResource(): void {
+    this.working_resource.push(this.createWorkingResourceGroup());
+  }
+
+  // Handle form submission from child
+  handleFormSubmit(formValue: any): void {
+    if (this.form.valid) {
+      console.log("Form submitted with value:", formValue);
+      // Add your submit logic here (e.g., save to backend or localStorage)
+    } else {
+      console.warn("Form is invalid");
+    }
   }
 }
