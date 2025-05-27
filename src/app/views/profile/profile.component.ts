@@ -1,11 +1,65 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { AuthService } from "../../service/auth/auth.service";
+import { Project, User } from "../../interfaces/user";
+import { ProjectCardComponent } from "../../component/childs/project-card/project-card.component";
+import { CommonModule } from "@angular/common";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import {
+  faStar as solidStar,
+  faStarHalfAlt,
+} from "@fortawesome/free-solid-svg-icons";
+
+type StarType = 'full' | 'half' | 'empty';
 
 @Component({
-  selector: 'app-profile',
-  imports: [],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css'
+  selector: "app-profile",
+  imports: [ProjectCardComponent, CommonModule,FontAwesomeModule],
+  templateUrl: "./profile.component.html",
+  styleUrl: "./profile.component.css",
 })
 export class ProfileComponent {
+  userProfileData!: User;
+  selectedIndex: number | null = null;
+  activeSection: string = "basic";
 
+  solidStar = solidStar;
+  halfStar = faStarHalfAlt;
+
+   ratingStars: StarType[] = [];
+
+  menuItems: any[] = [
+    { id: "basic", label: "Basic Info" },
+    { id: "projects", label: "Projects" },
+    { id: "performance", label: "Performance" },
+  ];
+
+  scrollToSection(id: string) {
+    this.activeSection = id;
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
+  constructor(private authService: AuthService) {
+    this.userProfileData = this.authService.getCurrentUser()!;
+    this.generateStars(this.userProfileData.rating !)
+  }
+
+  
+  private generateStars(rating: number): void {
+    const full = Math.floor(rating);
+    const half = rating % 1 >= 0.5 ? 1 : 0;
+    const empty = 5 - full - half;
+
+    this.ratingStars = [
+      ...Array<StarType>(full).fill('full'),
+      ...Array<StarType>(half).fill('half'),
+      ...Array<StarType>(empty).fill('empty'),
+    ];
+  }
+
+  handleProject(event: { index: number; project: Project }) {
+    this.selectedIndex = event.index;
+  }
 }

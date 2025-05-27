@@ -47,4 +47,21 @@ export interface Project {
   projectStatus: 'start' | 'in-progress' | 'completed';
 }
 
+export interface WrokingPerformance{
+  id:number,
+  project_name:string
+  haveRole:string
+  project_status:string
+  performanceScore:number
+  projectBenefit:string[]
+  project_challenges:string[]
+  project_time_length:number
+}
 
+
+export interface Performance{
+  id:number
+  user_name:string
+  user_email:string
+  working_list:WrokingPerformance[]
+}

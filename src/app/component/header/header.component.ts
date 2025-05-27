@@ -9,7 +9,13 @@ import {
 import { NavigationEnd, Router, RouterLink } from "@angular/router";
 import { AuthService } from "../../service/auth/auth.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { faBell, faHome } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBell,
+  faHome,
+  faUser,
+  faArrowRightToBracket,
+  faKey,
+} from "@fortawesome/free-solid-svg-icons";
 import { filter } from "rxjs";
 import { User } from "../../interfaces/user";
 
@@ -19,25 +25,32 @@ import { User } from "../../interfaces/user";
   templateUrl: "./header.component.html",
   styleUrl: "./header.component.css",
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   iconBell = faBell;
   iconHome = faHome;
+  iconProfile = faUser;
+  iconLogout = faArrowRightToBracket;
+  iconResetPassword = faKey;
+
   userProfileData!: User;
   show: boolean = false;
   lastSegment: string = "";
   pathSegments: string[] = [];
+  pathWithSlashes: string = "";
 
   @ViewChild("trigger") trigger!: ElementRef;
-  constructor(private router: Router, private authService: AuthService) {}
 
-  ngOnInit() {
-    this.userProfileData = this.authService.getCurrentUser()!;
-    console.log(this.userProfileData.projects)
+
+  constructor(private router: Router, private authService: AuthService) {
+    //use service current user
+    this.userProfileData = authService.getCurrentUser()!;
+    // Listen for route changes
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd) ?? null)
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        const url = event.urlAfterRedirects; // e.g., '/admin/user'
-        this.pathSegments = url.split("/").filter(Boolean); // ['admin', 'user']
+        const url = event.urlAfterRedirects;
+        this.pathSegments = url.split("/").filter(Boolean);
+        this.pathWithSlashes = this.pathSegments.join(" / ");
       });
   }
 

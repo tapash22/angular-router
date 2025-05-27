@@ -1,0 +1,23 @@
+<app-dynamic-dialog
+  [title]="formTitle"
+  [size]="size"
+  [show]="show"
+  [showFooter]="showFooter"
+  (onClose)="closeDialog()"
+>
+  <form [formGroup]="form">
+    <ng-content select="[form-body]"></ng-content>
+
+    <div class="w-full" footer-controls>
+      <div class="flex justify-end">
+        <button
+          type="button"
+          (click)="submitForm()"
+          [class]="color + ' text-black text-sm tracking-wide font-medium px-5 py-2 rounded hover:opacity-90'"
+        >
+          {{ submitBtnTitle }}
+        </button>
+      </div>
+    </div>
+  </form>
+</app-dynamic-dialog>
