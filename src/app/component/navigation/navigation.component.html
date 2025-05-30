@@ -1,10 +1,11 @@
-<div class="navigation block w-full bg-green-600 h-screen p-0 m-0">
-    <ul class="block w-screen  h-full bg-red-400 pa-3">
+<div class="navigation block w-[320px] h-screen  shadow-sm shadow-gray-200">
+    <ul
+        class="block w-full  h-full bg-gray-100 pa-3 space-y-2 shadow-lg shadow-gray-200">
         <li *ngFor="let item of menuItems"
-            class="py-3 flex justify-start align-middle w-screen">
-            <a [routerLink]="item.link" routerLinkActive="active" class="link ">
-                {{ item.name |titlecase }}
-            </a>
+            class="flex justify-start align-middle w-screen hover:bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_50%,_#d6d7da8a_100%)]
+           transition-all duration-300 py-4 px-5 cursor-pointer text-lg font-medium"
+            [routerLink]="item.link" routerLinkActive="active">
+            {{ item.name |titlecase }}
         </li>
     </ul>
 </div>
