@@ -3,8 +3,44 @@
 <div class="flex h-[90vh] overflow-hidden">
     <!-- Sidebar -->
     <aside
-        class="w-64 bg-white text-black my-2 space-y-4 shadow-sm shadow-gray-400">
-        <h2 class="text-xl font-bold p-3 ">User Profile</h2>
+        class="w-64 bg-white text-black my-1 space-y-4 shadow-sm shadow-gray-400">
+        <div class="w-full block h-auto py-2 px-2">
+            <h2
+                class="text-lg font-medium space-x-2 flex justify-start items-center ">
+                <fa-icon [icon]="iconUser"
+                    class="text-xl text-gray-500 p-1"></fa-icon>
+                {{userProfileData.name}}
+                <fa-icon [icon]="iconCircle"
+                    class="text-lg text-gray-500 p-1"
+                    [ngClass]="{
+           'text-green-500': userProfileData.status === 'active',
+           'text-red-500': userProfileData.status !== 'active'
+         }"></fa-icon>
+            </h2>
+            <p
+                class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide text-black">
+                <fa-icon [icon]="iconUserRole"
+                    class="text-lg text-gray-500 p-1"></fa-icon>
+                {{ userProfileData.role }}
+            </p>
+            <p
+                class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide text-black">
+                <fa-icon [icon]="iconMail"
+                    class="text-lg text-gray-500 p-1"></fa-icon>
+                {{ userProfileData.email }}
+            </p>
+            <p
+                class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide text-black">
+                <fa-icon [icon]="iconPhone"
+                    class="text-lg text-gray-500 p-1"></fa-icon>
+                {{ userProfileData.phone }}
+            </p>
+            <p
+                class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide text-black">
+                <fa-icon [icon]="iconLocation"
+                    class="text-lg text-gray-500 p-1"></fa-icon>{{
+                userProfileData.location }}</p>
+        </div>
         <ul class="border-t-2 border-gray-200 p-0 space-y-2">
             <li
                 *ngFor="let item of menuItems"
@@ -20,23 +56,39 @@
     </aside>
 
     <!-- Content Area -->
-    <main class="flex-1 p-6 overflow-y-auto space-y-10 custom-scrollbar">
+    <main class="flex-1 p-6 overflow-y-auto  custom-scrollbar">
         <!-- Basic Info -->
-        <section id="basic" class="p-6 bg-white rounded shadow">
-            <h3 class="text-2xl font-bold mb-4">Basic Information</h3>
-            <p><strong>Name:</strong> {{ userProfileData.name }}</p>
-            <p><strong>Email:</strong> {{ userProfileData.email }}</p>
-            <p><strong>Role:</strong> {{ userProfileData.role }}</p>
-            <p><strong>Department:</strong> {{ userProfileData.department }}</p>
-            <p><strong>Phone:</strong> {{ userProfileData.phone }}</p>
-            <p><strong>Location:</strong> {{ userProfileData.location }}</p>
+        <section id="basic" class="p-6 bg-white ">
+            <div
+                class="w-full flex justify-between items-center p-4  shadow-sm shadow-blue-400 rounded-t-xl">
+                <h3
+                    class="text-xl font-bold text-black ">Basic
+                    Information</h3>
+                <fa-icon [icon]="iconEdit"
+                    class="text-lg font-medium text-gray-500 "></fa-icon>
+            </div>
+            <div
+                class="shadow-lg shadow-blue-200 p-5 space-y-2 rounded-b-xl bg-white ring-1 ring-gray-300 ">
+                <p><strong>Name:</strong> {{ userProfileData.name }}</p>
+                <p><strong>Email:</strong> {{ userProfileData.email }}</p>
+                <p><strong>Role:</strong> {{ userProfileData.role }}</p>
+                <p><strong>Department:</strong> {{ userProfileData.department
+                    }}</p>
+                <p><strong>Phone:</strong> {{ userProfileData.phone }}</p>
+                <p><strong>Location:</strong> {{ userProfileData.location }}</p>
+            </div>
         </section>
 
         <!-- Projects -->
-        <section id="projects" class="p-6 bg-white rounded shadow">
-            <h3 class="text-2xl font-bold mb-4">Projects</h3>
+        <section id="projects" class="p-6 bg-white ">
             <div
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
+                class="w-full flex justify-between items-center p-4  shadow-sm shadow-blue-400 rounded-t-xl">
+                <h3
+                    class="text-xl font-bold text-black ">Projects</h3>
+
+            </div>
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 shadow-lg shadow-blue-200 p-5 space-y-2 rounded-b-xl bg-white ring-1 ring-gray-300">
                 <app-project-card
                     *ngFor="let project of userProfileData.projects; let i=index"
                     [project]="project" [index]="i"
@@ -47,38 +99,49 @@
         </section>
 
         <!-- Performance -->
-        <section id="performance" class="p-6 bg-white rounded shadow">
-            <h3 class="text-2xl font-bold mb-4">Performance</h3>
-            <p class="mb-2">
-                <strong>Score:</strong> {{ userProfileData.performanceScore }}%
-            </p>
-            <div class="w-full bg-gray-200 rounded-full h-5">
-                <div
-                    class="bg-green-500 h-5 rounded-full transition-all duration-500 flex justify-center items-center"
-                    [style.width.%]="userProfileData.performanceScore"> {{userProfileData.performanceScore}}%</div>
+        <section id="performance" class="p-6 bg-white ">
+            <div
+                class="w-full flex justify-between items-center p-4 shadow-sm shadow-blue-400 rounded-t-xl">
+                <h3
+                    class="text-xl font-bold text-black ">Performance</h3>
             </div>
 
-            <p class="flex items-center gap-2">
-                <strong>Rating:</strong> {{ userProfileData.rating }}
-                <ng-container *ngFor="let star of ratingStars">
-                    <fa-icon
-                        [icon]="
-                        star === 'full'
-                            ? solidStar
-                            : star === 'half'
-                            ? halfStar
-                            : solidStar
-                        "
-                        [ngClass]="{
-                        'text-yellow-400': star !== 'empty',
-                        'text-gray-300': star === 'empty'
-                        }"></fa-icon>
-                </ng-container>
+            <div
+                class="shadow-lg shadow-blue-200 p-5 space-y-2 rounded-b-xl bg-white ring-1 ring-gray-300 ">
 
-            </p>
+                <p class="mb-2 w-full flex justify-between ">
+                    <strong>Performance Score</strong> {{
+                    userProfileData.performanceScore }}%
+                </p>
+                <div class="w-full bg-gray-200 rounded-full h-5">
+                    <div
+                        class="bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_100%)] h-5 rounded-full transition-all duration-500 flex justify-center items-center"
+                        [style.width.%]="userProfileData.performanceScore">
+                    </div>
+                </div>
 
-            <p><strong>Total Hours:</strong> {{
-                userProfileData.totalTimeSpentHours }}</p>
+                <p class="flex items-center gap-2">
+                    <strong>Rating:</strong>
+                    <ng-container *ngFor="let star of ratingStars">
+                        <fa-icon
+                            [icon]="
+                         star === 'full'
+                             ? solidStar
+                             : star === 'half'
+                             ? halfStar
+                             : solidStar
+                         "
+                            [ngClass]="{
+                         'text-yellow-400': star !== 'empty',
+                         'text-gray-300': star === 'empty'
+                         }"></fa-icon>
+                    </ng-container>
+
+                </p>
+
+                <p><strong>Total Hours:</strong> {{
+                    userProfileData.totalTimeSpentHours }}</p>
+            </div>
         </section>
     </main>
 </div>

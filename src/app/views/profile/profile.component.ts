@@ -3,6 +3,16 @@ import { AuthService } from "../../service/auth/auth.service";
 import { Project, User } from "../../interfaces/user";
 import { ProjectCardComponent } from "../../component/childs/project-card/project-card.component";
 import { CommonModule } from "@angular/common";
+import {
+  faUser,
+  faUserGear,
+  faMapLocation,
+  faMailBulk,
+  faMobilePhone,
+  faEdit,
+  faCircleDot
+} from "@fortawesome/free-solid-svg-icons";
+import { filter } from "rxjs";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import {
   faStar as solidStar,
@@ -24,6 +34,14 @@ export class ProfileComponent {
 
   solidStar = solidStar;
   halfStar = faStarHalfAlt;
+
+  iconUser = faUser;
+  iconUserRole = faUserGear;
+  iconMail = faMailBulk;
+  iconPhone = faMobilePhone;
+  iconLocation = faMapLocation;
+  iconEdit = faEdit;
+  iconCircle = faCircleDot;
 
    ratingStars: StarType[] = [];
 
