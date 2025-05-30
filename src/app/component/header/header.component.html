@@ -16,9 +16,9 @@
                     class="bg-cover w-[30px] h-[30px]  rounded-full ring-4 ring-blue-500"
                     (click)="show = !show" />
                 <div
-                    class="absolute top-8 right-0 w-[250px] h-auto shadow-lg shadow-gray-500 block z-30 rounded-2xl  "
+                    class="absolute top-9 py-3 right-0 w-[250px] h-auto shadow-lg bg-white shadow-gray-500 block z-40 rounded-2xl border-t-4 border-t-blue-300 border-b-4 border-b-blue-500    "
                     *ngIf="show">
-                    <div class="block w-full h-full  bg-red-400 rounded-2xl overflow-hidden">
+                    <div class="block w-full h-full  overflow-hidden ">
                         <h2 class="text-xl font-bold tracking-wide py-3 px-4">
                             {{userProfileData.name}}
                             <p
@@ -27,29 +27,29 @@
                             </p>
                         </h2>
                         <ul
-                            class="block w-full h-full  border-t-1  border-b-gray-400 border-t-gray-400 rounded-b-3xl ">
+                            class="block w-full h-full  border-t-1 border-t-gray-400  ">
                             <li
-                                class="w-full h-auto p-1 bg-gray-100 flex justify-start items-center hover:bg-gray-300 cursor-pointer gap-2 border-b-1 border-gray-300">
+                                class="w-full h-auto p-1 bg-white flex justify-start items-center hover:bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_50%,_#d6d7da8a_100%)] cursor-pointer gap-2 border-b-1 border-gray-400">
                                 <fa-icon [icon]="iconProfile"
-                                    class="text-2xl text-blue-400 p-3"></fa-icon>
+                                    class="text-2xl text-[#324ad3] p-3"></fa-icon>
                                 <a routerLink="/dashboard/profile"
-                                    class="text-lg font-medium tracking-wide text-black hover:text-white">Profile</a>
+                                    class="text-lg font-medium italic tracking-wide text-black ">Profile</a>
                             </li>
                             <li
-                                class="w-full h-auto p-1 bg-gray-100 flex justify-start items-center hover:bg-gray-300 cursor-pointer gap-2 border-b-1 border-gray-300">
+                                class="w-full h-auto p-1 bg-white flex justify-start items-center hover:bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_50%,_#d6d7da8a_100%)] cursor-pointer gap-2 border-b-1 border-gray-400">
                                 <fa-icon [icon]="iconResetPassword"
-                                    class="text-2xl text-blue-400 p-3"></fa-icon>
+                                    class="text-2xl text-[#324ad3] p-3"></fa-icon>
                                 <a routerLink="/dashboard/profile"
-                                    class="text-lg font-medium tracking-wide text-black hover:text-white">Reset
+                                    class="text-lg font-medium italic tracking-wide text-black ">Reset
                                     Password</a>
                             </li>
                             <li
-                                class="w-full h-auto p-1 bg-gray-100 flex justify-start items-center hover:bg-gray-300 cursor-pointer gap-2 border-b-1 border-gray-300">
+                                class="w-full h-auto p-1 bg-white flex justify-start items-center hover:bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_50%,_#d6d7da8a_100%)] cursor-pointer gap-2 ">
                                 <fa-icon [icon]="iconLogout"
-                                    class="text-2xl text-blue-400 p-3"></fa-icon>
+                                    class="text-2xl text-[#324ad3] p-3"></fa-icon>
 
                                 <p
-                                    class="text-lg font-medium tracking-wide text-black hover:text-white"
+                                    class="text-lg font-medium italic tracking-wide text-black "
                                     (click)="logoutUser()">
                                     LOGOUT
                                 </p>
