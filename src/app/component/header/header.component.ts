@@ -2,8 +2,10 @@ import { CommonModule } from "@angular/common";
 import {
   Component,
   ElementRef,
+  EventEmitter,
   HostListener,
   OnInit,
+  Output,
   ViewChild,
 } from "@angular/core";
 import { NavigationEnd, Router, RouterLink } from "@angular/router";
@@ -40,6 +42,7 @@ export class HeaderComponent {
 
   @ViewChild("trigger") trigger!: ElementRef;
 
+  @Output() onClose = new EventEmitter<void>();
 
   constructor(private router: Router, private authService: AuthService) {
     //use service current user
@@ -52,6 +55,11 @@ export class HeaderComponent {
         this.pathSegments = url.split("/").filter(Boolean);
         this.pathWithSlashes = this.pathSegments.join(" / ");
       });
+  }
+
+  closeNavigattion(){
+    console.log("clibk")
+    this.onClose.emit();
   }
 
   logoutUser() {

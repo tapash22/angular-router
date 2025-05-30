@@ -1,9 +1,9 @@
 <div
-    class=" bg-white w-full h-20 shadow-xs shadow-gray-700 flex justify-center items-center absolute top-0">
+    class=" bg-white w-full h-20 shadow-xs shadow-gray-700 flex justify-center items-center absolute top-0 z-50">
     <div class="w-full h-full p-2 m-0 flex justify-start align-middle">
         <div class="w-6/12 h-full flex justify-start items-center gap-3 px-2">
             <fa-icon [icon]="iconHome"
-                class="text-3xl text-gray-400 p-2 "></fa-icon>
+                class="text-3xl text-gray-400 p-2 " (click)="closeNavigattion()"></fa-icon>
             <h1 class="text-xl font-bold">{{pathWithSlashes}}</h1>
         </div>
 

@@ -1,15 +1,26 @@
+<div class="dashboard flex w-screen h-screen bg-gray-50 overflow-hidden">
+  <!-- Sidebar -->
+  <div class="navigation h-full bg-white shadow-xl transition-all duration-300 ease-in-out flex flex-col"
+       [ngClass]="{
+         'w-[320px]': !showSidebar,
+         'w-[80px]': showSidebar
+       }">
+       
+    <div class="flex-1 overflow-y-hidden">
+      <app-navigation [collapsed]="!showSidebar"></app-navigation>
+    </div>
+  </div>
 
-<div
-    class="dashboard w-screen h-screen p-0 m-0 flex justify-center items-center">
-    <div *ngIf="showSidebar"
-        class="navigation w-1/6  h-full shadow-2xl shadow-red-800 flex items-center">
-        <app-navigation></app-navigation>
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col h-full relative "
+       [style.width]="'calc(100% - ' + (showSidebar ? '80px' : '320px') + ')'">
+       
+    <app-header (onClose)="toggleSidebar()"></app-header>
+    
+    <div class="flex-1 overflow-hidden mt-20">
+      <div class="h-full w-full overflow-auto">
+        <router-outlet></router-outlet>
+      </div>
     </div>
-    <div
-        class="w-5/6 h-screen  bg-white block justify-start items-start overflow-x-hidden relative ">
-        <app-header></app-header>
-        <div class="mt-20 overflow-x-hidden px-5">
-            <router-outlet />
-        </div>
-    </div>
+  </div>
 </div>

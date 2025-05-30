@@ -31,12 +31,16 @@ export class DashboardComponent implements OnInit {
           currentRoute = currentRoute.firstChild;
         }
         const hideSidebar = currentRoute?.snapshot.data["hideSidebar"];
-        this.showSidebar = !hideSidebar;
+        // this.showSidebar = !hideSidebar;
       });
   }
 
   ngOnInit(): void {
     this.usersData = this.authService.getAllUsers();
   
+  }
+
+    toggleSidebar() {
+    this.showSidebar = !this.showSidebar;
   }
 }
