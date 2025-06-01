@@ -15,10 +15,10 @@
   <div class="flex-1 flex flex-col h-full relative "
        [style.width]="'calc(100% - ' + (showSidebar ? '80px' : '320px') + ')'">
        
-    <app-header (onClose)="toggleSidebar()"></app-header>
+    <app-header [showSidebar]="showSidebar" (onClose)="toggleSidebar()"></app-header>
     
-    <div class="flex-1 overflow-hidden mt-20">
-      <div class="h-full w-full overflow-auto">
+    <div class="flex-1 overflow-hidden mt-8">
+      <div class="h-full w-full overflow-auto p-10">
         <router-outlet></router-outlet>
       </div>
     </div>

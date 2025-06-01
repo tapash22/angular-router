@@ -4,6 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  Input,
   OnInit,
   Output,
   ViewChild,
@@ -13,10 +14,11 @@ import { AuthService } from "../../service/auth/auth.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import {
   faBell,
-  faHome,
+  faBars,
   faUser,
   faArrowRightToBracket,
   faKey,
+  faClose
 } from "@fortawesome/free-solid-svg-icons";
 import { filter } from "rxjs";
 import { User } from "../../interfaces/user";
@@ -29,7 +31,8 @@ import { User } from "../../interfaces/user";
 })
 export class HeaderComponent {
   iconBell = faBell;
-  iconHome = faHome;
+  iconBars = faBars;
+  iconClose = faClose;
   iconProfile = faUser;
   iconLogout = faArrowRightToBracket;
   iconResetPassword = faKey;
@@ -40,6 +43,7 @@ export class HeaderComponent {
   pathSegments: string[] = [];
   pathWithSlashes: string = "";
 
+  @Input() showSidebar!: boolean 
   @ViewChild("trigger") trigger!: ElementRef;
 
   @Output() onClose = new EventEmitter<void>();

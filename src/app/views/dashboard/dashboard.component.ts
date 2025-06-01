@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../../service/auth/auth.service";
 import { User } from "../../interfaces/user";
 import { CommonModule } from "@angular/common";
-import { LayoutComponent } from "../../layout/layout/layout.component";
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from "@angular/router";
 import { filter } from "rxjs";
 import { HeaderComponent } from "../../component/header/header.component";

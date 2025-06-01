@@ -1,10 +1,11 @@
 
 
-<div class="flex h-[90vh] overflow-hidden">
+<div class="flex h-[86vh] overflow-hidden mt-4">
     <!-- Sidebar -->
     <aside
-        class="w-64 bg-white text-black my-1 space-y-4 shadow-sm shadow-gray-400">
-        <div class="w-full block h-auto py-2 px-2">
+        class="w-64 h-full bg-white  text-black  space-y-4 shadow-sm shadow-gray-400 ">
+        <div
+            class="w-full block h-auto p-4 border-l-8 border-l-blue-300 rounded-xl">
             <h2
                 class="text-lg font-medium space-x-2 flex justify-start items-center ">
                 <fa-icon [icon]="iconUser"
@@ -41,7 +42,7 @@
                     class="text-lg text-gray-500 p-1"></fa-icon>{{
                 userProfileData.location }}</p>
         </div>
-        <ul class="border-t-2 border-gray-200 p-0 space-y-2">
+        <ul class="border-t-2 border-gray-200 p-0 ">
             <li
                 *ngFor="let item of menuItems"
                 (click)="scrollToSection(item.id)"
@@ -49,99 +50,67 @@
         'border-l-4 border-l-blue-300 bg-gray-100  ': activeSection === item.id,
         'hover:bg-gray-200 ': activeSection !== item.id
       }"
-                class="cursor-pointer p-2 text-lg font-medium tracking-wide ">
+                class="cursor-pointer p-4 text-lg font-medium tracking-wide ">
                 {{ item.label }}
             </li>
         </ul>
     </aside>
 
     <!-- Content Area -->
-    <main class="flex-1 p-6 overflow-y-auto custom-scrollbar">
+    <main class="flex-1 overflow-y-auto custom-scrollbar">
         <!-- Basic Info -->
-        <section id="basic" class="p-6 bg-white ">
-            <div
-                class="w-full flex justify-between items-center p-4  shadow-sm shadow-blue-400 rounded-t-xl">
-                <h3
-                    class="text-xl font-bold text-black ">Basic
-                    Information</h3>
-                <fa-icon [icon]="iconEdit"
-                    class="text-lg font-medium text-gray-500 "></fa-icon>
-            </div>
-            <div
-                class="shadow-lg shadow-blue-200 p-5 space-y-2 rounded-b-xl bg-white ring-1 ring-gray-300 ">
-                <p><strong>Name:</strong> {{ userProfileData.name }}</p>
-                <p><strong>Email:</strong> {{ userProfileData.email }}</p>
-                <p><strong>Role:</strong> {{ userProfileData.role }}</p>
-                <p><strong>Department:</strong> {{ userProfileData.department
-                    }}</p>
-                <p><strong>Phone:</strong> {{ userProfileData.phone }}</p>
-                <p><strong>Location:</strong> {{ userProfileData.location }}</p>
-            </div>
-        </section>
+        <app-section-card [title]="'Basic Information'" [icon]="iconEdit">
+            <p><strong>Name:</strong> {{ userProfileData.name }}</p>
+            <p><strong>Email:</strong> {{ userProfileData.email }}</p>
+            <p><strong>Role:</strong> {{ userProfileData.role }}</p>
+            <p><strong>Department:</strong> {{ userProfileData.department }}</p>
+            <p><strong>Phone:</strong> {{ userProfileData.phone }}</p>
+            <p><strong>Location:</strong> {{ userProfileData.location }}</p>
+        </app-section-card>
 
-        <!-- Projects -->
-        <section id="projects" class="p-6 bg-white ">
+        <app-section-card [title]="'Projects'">
             <div
-                class="w-full flex justify-between items-center p-4  shadow-sm shadow-blue-400 rounded-t-xl">
-                <h3
-                    class="text-xl font-bold text-black ">Projects</h3>
-
-            </div>
-            <div
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 shadow-lg shadow-blue-200 p-5 space-y-2 rounded-b-xl bg-white ring-1 ring-gray-300">
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
                 <app-project-card
-                    *ngFor="let project of userProfileData.projects; let i=index"
-                    [project]="project" [index]="i"
-                    [selected]="selectedIndex === i "
-                    (selectProject)="handleProject($event)"></app-project-card>
+                    *ngFor="let project of userProfileData.projects; let i = index"
+                    [project]="project"
+                    [index]="i"
+                    [selected]="selectedIndex === i"
+                    (selectProject)="handleProject($event)">
+                </app-project-card>
             </div>
+        </app-section-card>
 
-        </section>
-
-        <!-- Performance -->
-        <section id="performance" class="p-6 bg-white ">
-            <div
-                class="w-full flex justify-between items-center p-4 shadow-sm shadow-blue-400 rounded-t-xl">
-                <h3
-                    class="text-xl font-bold text-black ">Performance</h3>
-            </div>
-
-            <div
-                class="shadow-lg shadow-blue-200 p-5 space-y-2 rounded-b-xl bg-white ring-1 ring-gray-300 ">
-
-                <p class="mb-2 w-full flex justify-between ">
-                    <strong>Performance Score</strong> {{
-                    userProfileData.performanceScore }}%
-                </p>
-                <div class="w-full bg-gray-200 rounded-full h-5">
-                    <div
-                        class="bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_100%)] h-5 rounded-full transition-all duration-500 flex justify-center items-center"
-                        [style.width.%]="userProfileData.performanceScore">
-                    </div>
+        <app-section-card [title]="'Performance'">
+            <p class="mb-2 w-full flex justify-between">
+                <strong>Performance Score:</strong> {{
+                userProfileData.performanceScore }}%
+            </p>
+            <div class="w-full bg-gray-200 rounded-full h-5">
+                <div
+                    class="bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_100%)] h-5 rounded-full transition-all duration-500 flex justify-center items-center"
+                    [style.width.%]="userProfileData.performanceScore">
                 </div>
-
-                <p class="flex items-center gap-2">
-                    <strong>Rating:</strong>
-                    <ng-container *ngFor="let star of ratingStars">
-                        <fa-icon
-                            [icon]="
-                         star === 'full'
-                             ? solidStar
-                             : star === 'half'
-                             ? halfStar
-                             : solidStar
-                         "
-                            [ngClass]="{
-                         'text-yellow-400': star !== 'empty',
-                         'text-gray-300': star === 'empty'
-                         }"></fa-icon>
-                    </ng-container>
-
-                </p>
-
-                <p><strong>Total Hours:</strong> {{
-                    userProfileData.totalTimeSpentHours }}</p>
             </div>
-        </section>
+            <p class="flex items-center gap-2">
+                <strong>Rating:</strong>
+                <ng-container *ngFor="let star of ratingStars">
+                    <fa-icon
+                        [icon]="
+          star === 'full'
+            ? solidStar
+            : star === 'half'
+            ? halfStar
+            : solidStar
+        "
+                        [ngClass]="{
+          'text-yellow-400': star !== 'empty',
+          'text-gray-300': star === 'empty'
+        }"></fa-icon>
+                </ng-container>
+            </p>
+            <p><strong>Total Hours:</strong> {{
+                userProfileData.totalTimeSpentHours }}</p>
+        </app-section-card>
     </main>
 </div>

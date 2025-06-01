@@ -18,12 +18,13 @@ import {
   faStar as solidStar,
   faStarHalfAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { SectionCardComponent } from "../../component/childs/section-card/section-card.component";
 
 type StarType = 'full' | 'half' | 'empty';
 
 @Component({
   selector: "app-profile",
-  imports: [ProjectCardComponent, CommonModule,FontAwesomeModule],
+  imports: [ProjectCardComponent, CommonModule,FontAwesomeModule,SectionCardComponent],
   templateUrl: "./profile.component.html",
   styleUrl: "./profile.component.css",
 })
