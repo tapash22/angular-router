@@ -121,18 +121,23 @@ ngOnInit() {
   }
 
   updateUser() {
-    const updatedFields = this.profileForm.value;
-    const success = this.authService.updateUserProfile(updatedFields);
+  const updatedFields = {
+    ...this.profileForm.value,
+    name: this.userProfileData.name, // include disabled field
+  };
 
-    if (success) {
-      this.userProfileData = this.authService.getCurrentUser()!;
-      console.log("✅ Profile updated successfully!", this.userProfileData);
-    } else {
-      console.error("❌ Failed to update profile.");
-    }
+  const success = this.authService.updateUserProfile(updatedFields);
 
-    this.showDialog = false;
+  if (success) {
+    this.userProfileData = this.authService.getCurrentUser()!;
+    console.log("✅ Profile updated successfully!", this.userProfileData);
+  } else {
+    console.error("❌ Failed to update profile.");
   }
+
+  this.showDialog = false;
+}
+
 
   closeDialog() {
     this.showDialog = false;

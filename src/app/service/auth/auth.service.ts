@@ -63,29 +63,32 @@ export class AuthService {
 
   //update user profile
 updateUserProfile(updatedData: Partial<User>): boolean {
-  // Sync in-memory users with localStorage
   this.users = JSON.parse(localStorage.getItem('users') || '[]');
 
   const currentUser = this.getCurrentUser();
-  if (!currentUser) return false;
+  if (!currentUser) {
+    console.error('❌ No current user found');
+    return false;
+  }
 
   const index = this.users.findIndex(u => u.id === currentUser.id);
-  if (index === -1) return false;
+  if (index === -1) {
+    console.error('❌ User not found in users list', currentUser.id, this.users);
+    return false;
+  }
 
   this.users[index] = {
     ...this.users[index],
     ...updatedData,
   };
 
-  // Save both in-memory and localStorage users
   localStorage.setItem('users', JSON.stringify(this.users));
   localStorage.setItem('currentUser', JSON.stringify(this.users[index]));
-
-  // Optional: update in-memory currentUser
   this.currentUser = this.users[index];
 
   return true;
 }
+
 
 
 
