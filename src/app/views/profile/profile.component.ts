@@ -10,7 +10,7 @@ import {
   faMailBulk,
   faMobilePhone,
   faEdit,
-  faCircleDot
+  faCircleDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { filter } from "rxjs";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -19,19 +19,34 @@ import {
   faStarHalfAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { SectionCardComponent } from "../../component/childs/section-card/section-card.component";
+import { DynamicDialogComponent } from "../../component/dialog/dynamic-dialog/dynamic-dialog.component";
+import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
-type StarType = 'full' | 'half' | 'empty';
+type StarType = "full" | "half" | "empty";
 
 @Component({
   selector: "app-profile",
-  imports: [ProjectCardComponent, CommonModule,FontAwesomeModule,SectionCardComponent],
+  imports: [
+    ProjectCardComponent,
+    CommonModule,
+    FontAwesomeModule,
+    SectionCardComponent,
+    DynamicDialogComponent,
+    ReactiveFormsModule,
+  ],
   templateUrl: "./profile.component.html",
   styleUrl: "./profile.component.css",
 })
 export class ProfileComponent {
   userProfileData!: User;
+
+  profileForm!: FormGroup;
+
   selectedIndex: number | null = null;
   activeSection: string = "basic";
+  showDialog: boolean = false;
+  color: string = "bg-green-600";
+  submitBtnTitle: string = "submitBtnTitle";
 
   solidStar = solidStar;
   halfStar = faStarHalfAlt;
@@ -44,7 +59,7 @@ export class ProfileComponent {
   iconEdit = faEdit;
   iconCircle = faCircleDot;
 
-   ratingStars: StarType[] = [];
+  ratingStars: StarType[] |  null = [];
 
   menuItems: any[] = [
     { id: "basic", label: "Basic Info" },
@@ -60,25 +75,66 @@ export class ProfileComponent {
     }
   }
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private fb: FormBuilder) {
     this.userProfileData = this.authService.getCurrentUser()!;
-    this.generateStars(this.userProfileData.rating !)
+    this.generateStars(this.userProfileData.rating!);
   }
 
-  
-  private generateStars(rating: number): void {
+ngOnInit() {
+  // ✅ Load the current user from localStorage via AuthService
+  this.userProfileData = this.authService.getCurrentUser()!;
+
+  // ✅ Initialize the form using that data
+  this.profileForm = this.fb.group({
+    name: [{ value: this.userProfileData.name, disabled: true }],
+    email: [this.userProfileData.email],
+    phone: [this.userProfileData.phone],
+    location: [this.userProfileData.location],
+  });
+}
+
+
+  private generateStars(rating: number | null | undefined): void {
+
+      if (rating == null || isNaN(rating)) {
+    this.ratingStars = Array<StarType>(5).fill("empty");
+    return;
+  }
     const full = Math.floor(rating);
     const half = rating % 1 >= 0.5 ? 1 : 0;
     const empty = 5 - full - half;
 
     this.ratingStars = [
-      ...Array<StarType>(full).fill('full'),
-      ...Array<StarType>(half).fill('half'),
-      ...Array<StarType>(empty).fill('empty'),
+      ...Array<StarType>(full).fill("full"),
+      ...Array<StarType>(half).fill("half"),
+      ...Array<StarType>(empty).fill("empty"),
     ];
   }
 
   handleProject(event: { index: number; project: Project }) {
     this.selectedIndex = event.index;
+  }
+
+  editUser() {
+    this.showDialog = true;
+    console.log("open");
+  }
+
+  updateUser() {
+    const updatedFields = this.profileForm.value;
+    const success = this.authService.updateUserProfile(updatedFields);
+
+    if (success) {
+      this.userProfileData = this.authService.getCurrentUser()!;
+      console.log("✅ Profile updated successfully!", this.userProfileData);
+    } else {
+      console.error("❌ Failed to update profile.");
+    }
+
+    this.showDialog = false;
+  }
+
+  closeDialog() {
+    this.showDialog = false;
   }
 }

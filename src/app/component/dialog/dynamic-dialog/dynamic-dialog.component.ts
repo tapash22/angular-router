@@ -13,6 +13,7 @@ export class DynamicDialogComponent {
   @Input() show = false;
   @Input() disableClose = false;
   @Input() showFooter = true;
+  @Input() submitBtnTitle!: string;
   @Output() onClose = new EventEmitter<void>();
 
   get dialogWidth(): string {

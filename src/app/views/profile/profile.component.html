@@ -20,7 +20,7 @@
             </h2>
             <p
                 class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide text-black">
-                <fa-icon [icon]="iconUserRole"
+                <fa-icon [icon]="iconUserRole" (click)="editUser()"
                     class="text-lg text-gray-500 p-1"></fa-icon>
                 {{ userProfileData.role }}
             </p>
@@ -59,7 +59,7 @@
     <!-- Content Area -->
     <main class="flex-1 overflow-y-auto custom-scrollbar">
         <!-- Basic Info -->
-        <app-section-card [title]="'Basic Information'" [icon]="iconEdit">
+        <app-section-card [title]="'Basic Information'" [icon]="iconEdit" (openDialog)="editUser()">
             <p><strong>Name:</strong> {{ userProfileData.name }}</p>
             <p><strong>Email:</strong> {{ userProfileData.email }}</p>
             <p><strong>Role:</strong> {{ userProfileData.role }}</p>
@@ -113,4 +113,55 @@
                 userProfileData.totalTimeSpentHours }}</p>
         </app-section-card>
     </main>
+
+    <app-dynamic-dialog *ngIf="showDialog" title="Edit User " size="lg"
+        [show]="showDialog" [showFooter]="true" (onClose)="closeDialog()" [submitBtnTitle]="'Update'" >
+        <div>
+            <form [formGroup]="profileForm">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium">User Name
+                        </label>
+                        <input type="text"
+                            formControlName="name" 
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 opacity-15" />
+                    </div>
+                    <div>
+                        <label class="block font-medium">Email</label>
+                        <input type="text"
+                            formControlName="email"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div>
+                        <label class="block font-medium">Phone</label>
+                        <input type="text"
+                            formControlName="phone"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+                    <div>
+                        <label class="block font-medium">Location</label>
+                        <input type="text"
+                            formControlName="location"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                    </div>
+
+                </div>
+                <!-- <div [formGroup]="form" form-body>
+                </div> -->
+                <!-- Projected form fields go here -->
+                <!-- <ng-content select="[form-body]"></ng-content> -->
+            </form>
+        </div>
+        <div class="w-full" footer-controls>
+            <div class=" flex justify-end">
+                <button
+                    (click)="updateUser()"
+                    [class]="color + ' text-black text-sm tracking-wide font-medium px-5 py-2 rounded hover:opacity-90'">
+                    {{ submitBtnTitle }}
+                    <!-- [disabled]="disableIfInvalid && form.invalid" -->
+                </button>
+            </div>
+        </div>
+    </app-dynamic-dialog>
 </div>

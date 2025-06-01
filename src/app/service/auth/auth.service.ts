@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { User,RegistrationPayload, Project } from "../../interfaces/user";
+import { User, RegistrationPayload, Project } from "../../interfaces/user";
 import { Router } from "@angular/router";
 import { MOCK_USERS } from "../../localStore/user-data";
 
@@ -7,13 +7,16 @@ import { MOCK_USERS } from "../../localStore/user-data";
   providedIn: "root",
 })
 export class AuthService {
-  private router = inject(Router) //import router
+  private router = inject(Router); //import router
 
-  private users: User[] = MOCK_USERS //import user array
+  private users: User[] = MOCK_USERS; //import user array
 
   private currentUser: User | null = null;
 
-  constructor() {}
+  constructor() {
+  const storedUsers = localStorage.getItem('users');
+  this.users = storedUsers ? JSON.parse(storedUsers) : [];
+}
 
   //login method
   login(email: string, password: string): boolean {
@@ -29,70 +32,95 @@ export class AuthService {
     return false;
   }
 
-//logout method
+  //logout method
 
-  logout():void{
-    this.currentUser = null
-    localStorage.removeItem('currentUser')
-    this.navigateByUrl('/auth/login')
+  logout(): void {
+    this.currentUser = null;
+    localStorage.removeItem("currentUser");
+    this.navigateByUrl("/auth/login");
   }
 
-//registration method
+  //registration method
   register(newUser: RegistrationPayload): boolean {
-  const exists = this.users.some((u) => u.email === newUser.email);
+    const exists = this.users.some((u) => u.email === newUser.email);
 
-  if (exists) {
-    return false; // Email already in use
+    if (exists) {
+      return false; // Email already in use
+    }
+
+    const userToSave: User = {
+      id: this.users.length ? this.users.length + 1 : 1, // unique ID
+      name: newUser.name,
+      email: newUser.email,
+      password: newUser.password,
+      role: "user", // default role
+    };
+
+    this.users.push(userToSave);
+    localStorage.setItem("users", JSON.stringify(this.users));
+    return true;
   }
 
-  const userToSave: User = {
-    id: this.users.length ? this.users.length+1 : 1,  // unique ID
-    name: newUser.name,
-    email: newUser.email,
-    password: newUser.password,
-    role: 'user',  // default role
+  //update user profile
+updateUserProfile(updatedData: Partial<User>): boolean {
+  // Sync in-memory users with localStorage
+  this.users = JSON.parse(localStorage.getItem('users') || '[]');
+
+  const currentUser = this.getCurrentUser();
+  if (!currentUser) return false;
+
+  const index = this.users.findIndex(u => u.id === currentUser.id);
+  if (index === -1) return false;
+
+  this.users[index] = {
+    ...this.users[index],
+    ...updatedData,
   };
 
-  this.users.push(userToSave);
-  localStorage.setItem('user', JSON.stringify(this.users));
+  // Save both in-memory and localStorage users
+  localStorage.setItem('users', JSON.stringify(this.users));
+  localStorage.setItem('currentUser', JSON.stringify(this.users[index]));
+
+  // Optional: update in-memory currentUser
+  this.currentUser = this.users[index];
+
   return true;
 }
 
 
-//current user information
 
-  getCurrentUser():User | null{
+  //current user information
 
-    if(!this.currentUser){
-      const userData = localStorage.getItem("currentUser")
-  
-      if(userData){
+  getCurrentUser(): User | null {
+    if (!this.currentUser) {
+      const userData = localStorage.getItem("currentUser");
+
+      if (userData) {
         this.currentUser = JSON.parse(userData) as User;
       }
     }
-    return this.currentUser
+    return this.currentUser;
   }
 
-  getAllUsers():User[] | [] {
-   return this.users;
+  getAllUsers(): User[] | [] {
+    return this.users;
   }
 
-
-  isAuthenticated(): boolean{
-    return !!this.getCurrentUser()
+  isAuthenticated(): boolean {
+    return !!this.getCurrentUser();
   }
 
   //role check
-  hasRole(role: 'admin' |'manager'|'officer'|'user'): boolean{
-    return this.getCurrentUser()?.role === role
+  hasRole(role: "admin" | "manager" | "officer" | "user"): boolean {
+    return this.getCurrentUser()?.role === role;
   }
 
   //router nagivation
-  navigateByUrl(url:string):void{
-    this.router.navigateByUrl(url,{replaceUrl:true})
+  navigateByUrl(url: string): void {
+    this.router.navigateByUrl(url, { replaceUrl: true });
   }
 
-    updateOrAddProject(project: Project, index?: number): void {
+  updateOrAddProject(project: Project, index?: number): void {
     const currentUser = this.getCurrentUser();
     if (!currentUser) return;
 
@@ -112,6 +140,6 @@ export class AuthService {
     }
 
     this.currentUser = currentUser;
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
   }
 }
