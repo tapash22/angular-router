@@ -32,5 +32,63 @@
 	margin: 5px;
 }
 
+/* styles.css or styles.scss */
+/* styles.css or styles.scss */
+.toast-center-screen {
+  position: fixed !important;
+  bottom: 30px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 9999 !important;
+  border-radius: 10px;
+  padding: 12px 20px;
+  max-width: 80vw;
+  width: auto;
+  white-space: normal;
+  word-break: break-word;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  animation: bounceUp 0.5s ease;
+  background-color: #f8d7da;
+  color: #721c24;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
 
+/* Message Text */
+.toast-center-screen .toast-message {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: block;
+}
 
+/* Bounce from bottom */
+@keyframes bounceUp {
+  0% {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  60% {
+    transform: translate(-50%, -10%);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Progress Bar */
+.toast-center-screen .toast-progress {
+  height: 4px;
+  background: linear-gradient(90deg, #28a745, #218838);
+  animation: progressAnim linear forwards;
+}
+
+@keyframes progressAnim {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}

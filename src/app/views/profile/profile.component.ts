@@ -21,6 +21,8 @@ import {
 import { SectionCardComponent } from "../../component/childs/section-card/section-card.component";
 import { DynamicDialogComponent } from "../../component/dialog/dynamic-dialog/dynamic-dialog.component";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+// import toaster and use this
+import { ToasterService } from "../../service/toaster.service";
 
 type StarType = "full" | "half" | "empty";
 
@@ -59,7 +61,7 @@ export class ProfileComponent {
   iconEdit = faEdit;
   iconCircle = faCircleDot;
 
-  ratingStars: StarType[] |  null = [];
+  ratingStars: StarType[] | null = [];
 
   menuItems: any[] = [
     { id: "basic", label: "Basic Info" },
@@ -75,31 +77,33 @@ export class ProfileComponent {
     }
   }
 
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private toaster: ToasterService
+  ) {
     this.userProfileData = this.authService.getCurrentUser()!;
     this.generateStars(this.userProfileData.rating!);
   }
 
-ngOnInit() {
-  // ✅ Load the current user from localStorage via AuthService
-  this.userProfileData = this.authService.getCurrentUser()!;
+  ngOnInit() {
+    // ✅ Load the current user from localStorage via AuthService
+    this.userProfileData = this.authService.getCurrentUser()!;
 
-  // ✅ Initialize the form using that data
-  this.profileForm = this.fb.group({
-    name: [{ value: this.userProfileData.name, disabled: true }],
-    email: [this.userProfileData.email],
-    phone: [this.userProfileData.phone],
-    location: [this.userProfileData.location],
-  });
-}
-
+    // ✅ Initialize the form using that data
+    this.profileForm = this.fb.group({
+      name: [{ value: this.userProfileData.name, disabled: true }],
+      email: [this.userProfileData.email],
+      phone: [this.userProfileData.phone],
+      location: [this.userProfileData.location],
+    });
+  }
 
   private generateStars(rating: number | null | undefined): void {
-
-      if (rating == null || isNaN(rating)) {
-    this.ratingStars = Array<StarType>(5).fill("empty");
-    return;
-  }
+    if (rating == null || isNaN(rating)) {
+      this.ratingStars = Array<StarType>(5).fill("empty");
+      return;
+    }
     const full = Math.floor(rating);
     const half = rating % 1 >= 0.5 ? 1 : 0;
     const empty = 5 - full - half;
@@ -117,27 +121,24 @@ ngOnInit() {
 
   editUser() {
     this.showDialog = true;
-    console.log("open");
   }
 
   updateUser() {
-  const updatedFields = {
-    ...this.profileForm.value,
-    name: this.userProfileData.name, // include disabled field
-  };
+    const updatedFields = this.profileForm.getRawValue();
 
-  const success = this.authService.updateUserProfile(updatedFields);
+    const success = this.authService.updateUserProfile(updatedFields);
+    console.log("show",success)
 
-  if (success) {
-    this.userProfileData = this.authService.getCurrentUser()!;
-    console.log("✅ Profile updated successfully!", this.userProfileData);
-  } else {
-    console.error("❌ Failed to update profile.");
+    if (success) {
+      this.userProfileData = this.authService.getCurrentUser()!;
+
+      this.toaster.showToast('your porfile data updated successfully!', 'success');
+    } else {
+      this.toaster.showToast("Failed to update profile.", "error");
+    }
+
+    this.showDialog = false;
   }
-
-  this.showDialog = false;
-}
-
 
   closeDialog() {
     this.showDialog = false;

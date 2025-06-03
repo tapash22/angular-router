@@ -14,14 +14,23 @@ export class AuthService {
   private currentUser: User | null = null;
 
   constructor() {
-  const storedUsers = localStorage.getItem('users');
-  this.users = storedUsers ? JSON.parse(storedUsers) : [];
-}
+    const storedUsers = localStorage.getItem("users");
+
+    if (storedUsers) {
+      this.users = JSON.parse(storedUsers);
+    } else {
+      // Save MOCK_USERS to localStorage on first load
+      this.users = MOCK_USERS;
+      localStorage.setItem("users", JSON.stringify(this.users));
+    }
+  }
 
   //login method
   login(email: string, password: string): boolean {
+    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedPassword = password.trim();
     const user = this.users.find(
-      (u) => u.email === email && u.password === password
+      (u) => u.email === normalizedEmail && u.password === normalizedPassword
     );
 
     if (user) {
@@ -37,6 +46,8 @@ export class AuthService {
   logout(): void {
     this.currentUser = null;
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("users");
     this.navigateByUrl("/auth/login");
   }
 
@@ -62,35 +73,32 @@ export class AuthService {
   }
 
   //update user profile
-updateUserProfile(updatedData: Partial<User>): boolean {
-  this.users = JSON.parse(localStorage.getItem('users') || '[]');
+  updateUserProfile(updatedData: Partial<User>): boolean {
+    const currentUser = this.getCurrentUser();
+    if (!currentUser) return false;
+    // Sync in-memory users with localStorage
+    this.users = JSON.parse(localStorage.getItem("users") || "[]");
 
-  const currentUser = this.getCurrentUser();
-  if (!currentUser) {
-    console.error('❌ No current user found');
-    return false;
+    // const currentUser = this.getCurrentUser();
+    if (!currentUser) return false;
+
+    const index = this.users.findIndex((u) => u.id === currentUser.id);
+    if (index === -1) return false;
+
+    this.users[index] = {
+      ...this.users[index],
+      ...updatedData,
+    };
+
+    // Save both in-memory and localStorage users
+    localStorage.setItem("users", JSON.stringify(this.users));
+    localStorage.setItem("currentUser", JSON.stringify(this.users[index]));
+
+    // Optional: update in-memory currentUser
+    this.currentUser = this.users[index];
+
+    return true;
   }
-
-  const index = this.users.findIndex(u => u.id === currentUser.id);
-  if (index === -1) {
-    console.error('❌ User not found in users list', currentUser.id, this.users);
-    return false;
-  }
-
-  this.users[index] = {
-    ...this.users[index],
-    ...updatedData,
-  };
-
-  localStorage.setItem('users', JSON.stringify(this.users));
-  localStorage.setItem('currentUser', JSON.stringify(this.users[index]));
-  this.currentUser = this.users[index];
-
-  return true;
-}
-
-
-
 
   //current user information
 

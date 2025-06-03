@@ -4,10 +4,15 @@ import { AuthService } from "../../service/auth/auth.service";
 import { CommonModule } from "@angular/common";
 import { LoginPayload, User, RegistrationPayload } from "../../interfaces/user";
 import { RouterLink } from "@angular/router";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import {
+  faEye,
+  faEyeSlash
+} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-login",
-  imports: [FormsModule, CommonModule,RouterLink],
+  imports: [FormsModule, CommonModule,RouterLink,FontAwesomeModule],
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.css",
 })
@@ -16,6 +21,10 @@ export class LoginComponent implements OnInit {
     email: "",
     password: "",
   };
+showPassword: boolean = false;
+
+  iconEye = faEye;
+  iconEyeClose= faEyeSlash
 
   errorMessage: string | null = null;
 
@@ -35,6 +44,8 @@ export class LoginComponent implements OnInit {
   loginUser() {
     this.errorMessage = null;
     const { email, password } = this.loginData;
+    console.log(this.loginData);
+
 
     if (!email || !password) {
       this.errorMessage = "Both email and password are required.";
@@ -45,6 +56,7 @@ export class LoginComponent implements OnInit {
 
   setTimeout(() => {
     const isLoggedIn = this.authService.login(email,password); // Pass as object
+console.log("true or false",isLoggedIn);
 
     this.isLoading = false;
 

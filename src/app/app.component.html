@@ -1,1 +1,5 @@
- <app-layout></app-layout>
+<app-toaster
+    *ngIf="toastMessage"
+    [message]="toastMessage"
+    [type]="toastType"></app-toaster>
+<app-layout></app-layout>

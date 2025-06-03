@@ -1,0 +1,60 @@
+.toast-center-screen {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 10px 16px;  /* no extra bottom padding */
+  border-radius: 8px;
+  background-color: rgb(60, 60, 60);
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 16px;
+  max-width: 90vw;
+  max-height: 120px;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease-out;
+  box-sizing: border-box;
+  text-align: center;
+
+  position: relative;  /* needed for absolute positioning of progress bar */
+}
+
+/* Progress bar positioned absolutely at bottom, full width */
+.toast-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(to right, #4caf50, #81c784);
+  border-bottom-left-radius: 8px;  /* match container border radius */
+  border-bottom-right-radius: 8px;
+  animation: shrink 12s linear forwards;
+  margin: 0; /* no margin */
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes shrink {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}

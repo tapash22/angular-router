@@ -4,7 +4,7 @@ export const MOCK_USERS: User[] = [
   {
     id: 1,
     name: "Tapash Paul",
-    email: "tapash.paul@techcorp.com",
+    email: "tapash.paul@gmail.com",
     password: "Tapas1@3",
     role: "admin",
     department: "IT",

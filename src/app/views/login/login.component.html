@@ -32,24 +32,28 @@
                         valid email.</div>
                 </div>
             </div>
-
-            <!-- Password Field -->
-            <div class="mb-4">
+            <div class="mb-4 relative">
                 <label for="password"
                     class="block mb-1 text-sm font-medium text-gray-700">Password</label>
+
                 <input
-                    type="password"
+                    [type]="showPassword ? 'text' : 'password'"
                     name="password"
                     id="password"
                     placeholder="Password"
-                    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    class="w-full p-3 pr-10 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
                     required
                     minlength="4"
                     [(ngModel)]="loginData.password"
                     #passwordModel="ngModel" />
-                <!-- Password Validation Error Messages -->
-                <div
-                    class="text-red-500 text-sm mt-1"
+
+                <!-- Toggle Icon Inside Input -->
+                <fa-icon [icon]="showPassword ? iconEye :iconEyeClose  "
+                    class="absolute right-3 top-12 transform -translate-y-1/2 text-2xl text-gray-400 focus:outline-none"
+                    (click)="showPassword = !showPassword"></fa-icon>
+
+                <!-- Validation Message -->
+                <div class="text-red-500 text-sm mt-1"
                     *ngIf="passwordModel.invalid && (passwordModel.dirty || passwordModel.touched)">
                     <div *ngIf="passwordModel.errors?.['required']">Password is
                         required.</div>
@@ -74,9 +78,11 @@
                         class="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
                 </button>
             </div>
-            
+
         </form>
-        <a routerLink="/auth/registration" class="w-full flex justify-center py-0">Don't have an account? Register</a>
+        <a routerLink="/auth/registration"
+            class="w-full flex justify-center py-0">Don't have an account?
+            Register</a>
         <!-- FORM END -->
     </div>
 </div>
