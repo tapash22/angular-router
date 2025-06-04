@@ -2,12 +2,13 @@ import { Routes } from "@angular/router";
 import { activatedGuard } from "./auth/activated.guard";
 import { guestGuard } from "./auth/guest.guard";
 import { roleGuard } from "./auth/role.guard";
+import { roleRedirectGuard } from "./auth/role-redirect.guard";
 
 export const routes: Routes = [
   {
     path: "",
-    redirectTo: "dashboard",
     pathMatch: "full",
+    redirectTo:"/dashboard"
   },
   {
     path: "dashboard",
@@ -15,18 +16,27 @@ export const routes: Routes = [
       import("./views/dashboard/dashboard.component").then(
         (m) => m.DashboardComponent
       ),
-      canActivate: [activatedGuard],
-      data: { hideSidebar: true },
+    canActivate: [activatedGuard],
+    data: { hideSidebar: true },
     children: [
+     {
+      path: '',
+      pathMatch: 'full',
+      canActivate: [roleRedirectGuard],
+      loadComponent: () =>
+        import('./views/dummy/dummy.component').then(
+          (m) => m.DummyComponent
+        ),
+    },
       {
         path: "admin",
-        canActivate:[roleGuard],
+        canActivate: [roleGuard],
         loadComponent: () =>
           import("./views/admin/admin.component").then((m) => m.AdminComponent),
       },
       {
         path: "manager",
-        canActivate:[roleGuard],
+        canActivate: [roleGuard],
         loadComponent: () =>
           import("./views/manager/manager.component").then(
             (m) => m.ManagerComponent
@@ -34,7 +44,7 @@ export const routes: Routes = [
       },
       {
         path: "officer",
-        canActivate:[roleGuard],
+        canActivate: [roleGuard],
         loadComponent: () =>
           import("./views/officer/officer.component").then(
             (m) => m.OfficerComponent
@@ -60,10 +70,12 @@ export const routes: Routes = [
           import("./views/work/work.component").then((m) => m.WorkComponent),
       },
       {
-        path:'profile',
-        loadComponent: ()=>
-          import("./views/profile/profile.component").then((m)=> m.ProfileComponent)
-      }
+        path: "profile",
+        loadComponent: () =>
+          import("./views/profile/profile.component").then(
+            (m) => m.ProfileComponent
+          ),
+      },
     ],
   },
   {
@@ -71,7 +83,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import("./views/auth/auth.component").then((m) => m.AuthComponent),
     data: { hideSidebar: true },
-    canActivate: [guestGuard], 
+    canActivate: [guestGuard],
     children: [
       {
         path: "login",

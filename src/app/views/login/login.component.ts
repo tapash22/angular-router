@@ -5,14 +5,11 @@ import { CommonModule } from "@angular/common";
 import { LoginPayload, User, RegistrationPayload } from "../../interfaces/user";
 import { RouterLink } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import {
-  faEye,
-  faEyeSlash
-} from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-login",
-  imports: [FormsModule, CommonModule,RouterLink,FontAwesomeModule],
+  imports: [FormsModule, CommonModule, RouterLink, FontAwesomeModule],
   templateUrl: "./login.component.html",
   styleUrl: "./login.component.css",
 })
@@ -21,10 +18,10 @@ export class LoginComponent implements OnInit {
     email: "",
     password: "",
   };
-showPassword: boolean = false;
+  showPassword: boolean = false;
 
   iconEye = faEye;
-  iconEyeClose= faEyeSlash
+  iconEyeClose = faEyeSlash;
 
   errorMessage: string | null = null;
 
@@ -46,7 +43,6 @@ showPassword: boolean = false;
     const { email, password } = this.loginData;
     console.log(this.loginData);
 
-
     if (!email || !password) {
       this.errorMessage = "Both email and password are required.";
       return;
@@ -54,25 +50,25 @@ showPassword: boolean = false;
 
     this.isLoading = true;
 
-  setTimeout(() => {
-    const isLoggedIn = this.authService.login(email,password); // Pass as object
-console.log("true or false",isLoggedIn);
+    setTimeout(() => {
+      const isLoggedIn = this.authService.login(email, password); // Pass as object
 
-    this.isLoading = false;
+      this.isLoading = false;
 
-    if (isLoggedIn) {
-      const userJson = localStorage.getItem('currentUser');
-      const currentUser: User = userJson ? JSON.parse(userJson) : null;
+      if (isLoggedIn) {
+        const userJson = localStorage.getItem("currentUser");
+        const currentUser: User = userJson ? JSON.parse(userJson) : null;
 
-      if (currentUser?.role) {
-        let pathDirection = currentUser.role === 'user' ? 'employee' : currentUser.role
-        this.authService.navigateByUrl(`/dashboard/${pathDirection}`);
+        if (currentUser?.role) {
+          let pathDirection =
+            currentUser.role === "user" ? "employee" : currentUser.role;
+          this.authService.navigateByUrl(`/dashboard/${pathDirection}`);
+        } else {
+          this.errorMessage = "User role not found.";
+        }
       } else {
-        this.errorMessage = "User role not found.";
+        this.errorMessage = "Invalid email or password.";
       }
-    } else {
-      this.errorMessage = "Invalid email or password.";
-    }
-  }, 500);
+    }, 500);
   }
 }

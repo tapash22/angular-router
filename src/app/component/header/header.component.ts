@@ -69,6 +69,7 @@ export class HeaderComponent {
   logoutUser() {
     // Call the logout method to clear the data
     this.authService.logout();
+    console.log(this.authService.getCurrentUser())
   }
 
   @HostListener("document:click", ["$event"])
