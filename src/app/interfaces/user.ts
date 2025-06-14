@@ -46,7 +46,7 @@ export interface Project {
     time_spent_hours: number; // ✅ Time spent by the individual user
     performance_score: number; // ✅ User's performance in this project (0–100 or 0–10 scale)
   }[];
-  projectStatus: "start" | "in-progress" | "completed";
+  projectStatus: "start" | "in-progress" | "completed" |"pause";
 }
 
 export interface WrokingPerformance {

@@ -20,7 +20,7 @@
             </h2>
             <p
                 class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide text-black">
-                <fa-icon [icon]="iconUserRole" (click)="editUser()"
+                <fa-icon [icon]="iconUserRole" (click)="editUserInfo()"
                     class="text-lg text-gray-500 p-1"></fa-icon>
                 {{ userProfileData.role }}
             </p>
@@ -58,8 +58,10 @@
 
     <!-- Content Area -->
     <main class="flex-1 overflow-y-auto custom-scrollbar">
+
         <!-- Basic Info -->
-        <app-section-card id="basic" [title]="'Basic Information'" [icon]="iconEdit" (openDialog)="editUser()">
+        <app-section-card id="basic" [title]="'Basic Information'"
+            [icon]="iconEdit" (openDialog)="editUserInfo()">
             <p><strong>Name:</strong> {{ userProfileData.name }}</p>
             <p><strong>Email:</strong> {{ userProfileData.email }}</p>
             <p><strong>Role:</strong> {{ userProfileData.role }}</p>
@@ -67,20 +69,25 @@
             <p><strong>Phone:</strong> {{ userProfileData.phone }}</p>
             <p><strong>Location:</strong> {{ userProfileData.location }}</p>
         </app-section-card>
+        <!--Basic Info end-->
 
+        <!-- project details -->
         <app-section-card id="projects" [title]="'Projects'">
             <div
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 <app-project-card
                     *ngFor="let project of userProfileData.projects; let i = index"
                     [project]="project"
                     [index]="i"
                     [selected]="selectedIndex === i"
+                    [icon]="iconEdit"
                     (selectProject)="handleProject($event)">
                 </app-project-card>
             </div>
         </app-section-card>
+        <!-- project details end -->
 
+        <!-- performance details-->
         <app-section-card id="performance" [title]="'Performance'">
             <p class="mb-2 w-full flex justify-between">
                 <strong>Performance Score:</strong> {{
@@ -112,10 +119,13 @@
             <p><strong>Total Hours:</strong> {{
                 userProfileData.totalTimeSpentHours }}</p>
         </app-section-card>
+        <!-- performance details end-->
     </main>
 
-    <app-dynamic-dialog *ngIf="showDialog" title="Edit User " size="lg"
-        [show]="showDialog" [showFooter]="true" (onClose)="closeDialog()" [submitBtnTitle]="'Update'" >
+    <!-- Basic Info update dialog(for this need one child handle this code ) -->
+    <app-dynamic-dialog *ngIf="userInfoDialog" title="Edit User " size="lg"
+        [show]="userInfoDialog" [showFooter]="true" (onClose)="closeDialog()"
+        [submitBtnTitle]="'Update'">
         <div>
             <form [formGroup]="profileForm">
 
@@ -124,7 +134,7 @@
                         <label class="block font-medium">User Name
                         </label>
                         <input type="text"
-                            formControlName="name" 
+                            formControlName="name"
                             class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 opacity-15" />
                     </div>
                     <div>
@@ -164,4 +174,16 @@
             </div>
         </div>
     </app-dynamic-dialog>
+    <!-- Basic Info update dialog end -->
+
+    <!-- update project performance_score each project with dialog  -->
+    <app-dynamic-dialog *ngIf="projectScoreDialog" title="Project Performance " size="sm"
+        [show]="projectScoreDialog" [showFooter]="true" (onClose)="closeDialog()"
+        [submitBtnTitle]="'Submit'">
+        <div>
+
+        </div>
+</app-dynamic-dialog>
+    <!-- update project performance_score each project with dialog end  -->
+
 </div>

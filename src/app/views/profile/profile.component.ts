@@ -43,10 +43,13 @@ export class ProfileComponent {
   userProfileData!: User;
 
   profileForm!: FormGroup;
+  projectScore!: FormGroup;
+
 
   selectedIndex: number | null = null;
   activeSection: string = "basic";
-  showDialog: boolean = false;
+  userInfoDialog: boolean = false;
+  projectScoreDialog: boolean = false;
   color: string = "bg-green-600";
   submitBtnTitle: string = "submitBtnTitle";
 
@@ -90,13 +93,20 @@ export class ProfileComponent {
     // ✅ Load the current user from localStorage via AuthService
     this.userProfileData = this.authService.getCurrentUser()!;
 
-    // ✅ Initialize the form using that data
+    // ✅ Initialize the user basic info
     this.profileForm = this.fb.group({
       name: [{ value: this.userProfileData.name, disabled: true }],
       email: [this.userProfileData.email],
       phone: [this.userProfileData.phone],
       location: [this.userProfileData.location],
     });
+
+    // ✅ Initialize the user basic info
+    // this.projectScore = this.fb.group({
+    //   email: [this.userProfileData.projects.],
+    //   phone: [this.userProfileData.phone],
+    //   location: [this.userProfileData.location],
+    // });
   }
 
   private generateStars(rating: number | null | undefined): void {
@@ -119,28 +129,35 @@ export class ProfileComponent {
     this.selectedIndex = event.index;
   }
 
-  editUser() {
-    this.showDialog = true;
+  editUserInfo() {
+    this.userInfoDialog = true;
+  }
+  editSingleProjectPerformScore() {
+    this.projectScoreDialog = true;
   }
 
   updateUser() {
     const updatedFields = this.profileForm.getRawValue();
 
     const success = this.authService.updateUserProfile(updatedFields);
-    console.log("show",success)
+    console.log("show", success);
 
     if (success) {
       this.userProfileData = this.authService.getCurrentUser()!;
 
-      this.toaster.showToast('Your porfile data updated successfully!', 'success');
+      this.toaster.showToast(
+        "Your porfile data updated successfully!",
+        "success"
+      );
     } else {
       this.toaster.showToast("Failed to update profile.", "error");
     }
 
-    this.showDialog = false;
+    this.userInfoDialog = false;
   }
 
   closeDialog() {
-    this.showDialog = false;
+    if (this.userInfoDialog === true) this.userInfoDialog = false;
+    if (this.projectScoreDialog === true) this.projectScoreDialog = false;
   }
 }

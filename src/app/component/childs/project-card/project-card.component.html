@@ -1,28 +1,50 @@
-        <div
-            class="block shadow-sm shadow-gray-500 bg-gray-100 rounded-2xl w-full h-full p-4 my-2" [ngClass]="selected ? 'border-2 border-gray-600': ''" (click)="handleSelectProject()"
-            >
-            <h2
-                class="text-xl font-semibold text-black flex justify-between items-center  py-1">
-                <!-- {{project.project_title}}  -->
-                <p
-                    class="p-2 rounded-lg bg-gray-400 text-center text-sm font-medium text-white  ">
-                    {{project.projectStatus }}
-                </p>
+<!-- [ngClass]="selected ? 'border-2 border-gray-600': ''" -->
+<div
+    class="block shadow-sm shadow-gray-500 bg-gray-100 rounded-2xl w-full h-full p-4 my-2"
+    [ngClass]="{
+    'border-2 border-gray-600': selected,
+    'opacity-35 border-2 border-red-300 cursor-not-allowed pointer-events-none': projectCardDisabled || isDisabled
+  }"
+    (click)="handleSelectProject()">
+    <div class="flex justify-between items-center relative">
+        <div class="block">
+            <h2 class="text-xl font-semibold text-black py-1">
+                {{ project.project_title }}
             </h2>
-            <p class="text-lg font-normal py-1 ">
-                {{project.project_subtitle}}
-            </p>
-            <div
-                class="w-full h-auto flex justify-start items-center gap-2 py-2"
-                *ngIf="project.project_requirement.length">
+            <!-- Status Badge -->
+            <div class="w-full flex items-center justify-start">
+
                 <p
-                    class="p-2 rounded-xl bg-white text-center text-sm font-medium "
-                    *ngFor="let chip of project.project_requirement ">
-                    {{chip}}
+                    class="px-3 py-1 rounded-sm text-center text-sm font-medium text-black w-auto ring-1 "
+                    [ngClass]="statusClassMap[project.projectStatus] || 'bg-gray-400'">
+                    {{ project.projectStatus | titlecase }}
                 </p>
             </div>
-            <p class="text-lg font-normal text-black py-1">
-                User Engaged: {{project.working_resource.length}}
-            </p>
 
         </div>
+        <!-- Edit Button -->
+        <fa-icon
+            *ngIf="icon && !isDisabled"
+            [icon]="icon"
+            class="text-blue-700 text-lg cursor-pointer rounded-md  hover:text-blue-500 transition-colors duration-200 drop-shadow-[0_2px_6px_rgba(59,130,246,0.6)]"
+            (click)="handleEditProject($event)">
+        </fa-icon>
+
+    </div>
+    <p class="text-lg font-normal py-1 ">
+        {{project.project_subtitle}}
+    </p>
+    <div
+        class="w-full h-auto flex justify-start items-center gap-2 py-2"
+        *ngIf="project.project_requirement.length">
+        <p
+            class="p-2 rounded-xl bg-white text-center text-sm font-medium "
+            *ngFor="let chip of project.project_requirement ">
+            {{chip}}
+        </p>
+    </div>
+    <p class="text-lg font-normal text-black py-1">
+        User Engaged: {{project.working_resource.length}}
+    </p>
+
+</div>

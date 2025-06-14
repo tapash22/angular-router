@@ -50,7 +50,7 @@ export const MOCK_USERS: User[] = [
             performance_score: 88,
           },
         ],
-        projectStatus: "start",
+        projectStatus: "pause",
       },
       {
         id: 2,
