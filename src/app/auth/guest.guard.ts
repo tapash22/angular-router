@@ -10,7 +10,7 @@ export const guestGuard: CanActivateFn = (route, state) => {
     return true;
   } else {
     // Redirect to dashboard if already logged in
-    return router.createUrlTree(["/dashboard"]);
+    return router.createUrlTree(["/auth/login"]);
   }
   // return true;
 };

@@ -132,7 +132,7 @@ export class ProfileComponent {
     if (success) {
       this.userProfileData = this.authService.getCurrentUser()!;
 
-      this.toaster.showToast('your porfile data updated successfully!', 'success');
+      this.toaster.showToast('Your porfile data updated successfully!', 'success');
     } else {
       this.toaster.showToast("Failed to update profile.", "error");
     }

@@ -59,7 +59,7 @@
     <!-- Content Area -->
     <main class="flex-1 overflow-y-auto custom-scrollbar">
         <!-- Basic Info -->
-        <app-section-card [title]="'Basic Information'" [icon]="iconEdit" (openDialog)="editUser()">
+        <app-section-card id="basic" [title]="'Basic Information'" [icon]="iconEdit" (openDialog)="editUser()">
             <p><strong>Name:</strong> {{ userProfileData.name }}</p>
             <p><strong>Email:</strong> {{ userProfileData.email }}</p>
             <p><strong>Role:</strong> {{ userProfileData.role }}</p>
@@ -68,7 +68,7 @@
             <p><strong>Location:</strong> {{ userProfileData.location }}</p>
         </app-section-card>
 
-        <app-section-card [title]="'Projects'">
+        <app-section-card id="projects" [title]="'Projects'">
             <div
                 class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
                 <app-project-card
@@ -81,7 +81,7 @@
             </div>
         </app-section-card>
 
-        <app-section-card [title]="'Performance'">
+        <app-section-card id="performance" [title]="'Performance'">
             <p class="mb-2 w-full flex justify-between">
                 <strong>Performance Score:</strong> {{
                 userProfileData.performanceScore }}%
