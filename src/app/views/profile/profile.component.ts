@@ -23,6 +23,7 @@ import { DynamicDialogComponent } from "../../component/dialog/dynamic-dialog/dy
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 // import toaster and use this
 import { ToasterService } from "../../service/toaster.service";
+import { FormArray, FormControl } from "@angular/forms";
 
 type StarType = "full" | "half" | "empty";
 
@@ -45,11 +46,17 @@ export class ProfileComponent {
   profileForm!: FormGroup;
   projectScore!: FormGroup;
 
-
   selectedIndex: number | null = null;
   activeSection: string = "basic";
   userInfoDialog: boolean = false;
+
+  // project dialog show
   projectScoreDialog: boolean = false;
+  // selected project
+  selectedProject: Project | null = null;
+  // selected project index
+  selectedResourceIndex: number | null = null;
+
   color: string = "bg-green-600";
   submitBtnTitle: string = "submitBtnTitle";
 
@@ -101,14 +108,16 @@ export class ProfileComponent {
       location: [this.userProfileData.location],
     });
 
-    // ✅ Initialize the user basic info
-    // this.projectScore = this.fb.group({
-    //   email: [this.userProfileData.projects.],
-    //   phone: [this.userProfileData.phone],
-    //   location: [this.userProfileData.location],
-    // });
+    this.projectScore = this.fb.group({
+      working_resource_scores: this.fb.array([]),
+    });
   }
 
+  get workingResourceScores(): FormArray {
+    return this.projectScore.get("working_resource_scores") as FormArray;
+  }
+
+  //use star calculation
   private generateStars(rating: number | null | undefined): void {
     if (rating == null || isNaN(rating)) {
       this.ratingStars = Array<StarType>(5).fill("empty");
@@ -124,18 +133,41 @@ export class ProfileComponent {
       ...Array<StarType>(empty).fill("empty"),
     ];
   }
-
+  //projecct active with added style
   handleProject(event: { index: number; project: Project }) {
     this.selectedIndex = event.index;
   }
 
+  //open user info dialog
   editUserInfo() {
     this.userInfoDialog = true;
   }
-  editSingleProjectPerformScore() {
+
+  //open project score dialog
+  openPerformanceScoreDialog(project: Project) {
+    this.selectedProject = project;
+
+    const workingResources = project.working_resource;
+
+    const formArray = this.projectScore.get(
+      "working_resource_scores"
+    ) as FormArray;
+    formArray.clear();
+
+    workingResources.forEach((resource) => {
+      formArray.push(
+        this.fb.group({
+          id: [resource.id],
+          name: [resource.name], // optional, if you want to show name in form
+          performance_score: [resource.performance_score],
+        })
+      );
+    });
+
     this.projectScoreDialog = true;
   }
 
+  //update user basic info
   updateUser() {
     const updatedFields = this.profileForm.getRawValue();
 
@@ -156,6 +188,47 @@ export class ProfileComponent {
     this.userInfoDialog = false;
   }
 
+  //update project resource score
+  submitProjectScoreUpdate() {
+    if (!this.projectScore.valid || !this.selectedProject) {
+      this.toaster.showToast("Invalid data or no project selected", "error");
+      return;
+    }
+
+    const scores = this.projectScore.value.working_resource_scores;
+
+    let allSuccess = true;
+
+    for (let i = 0; i < scores.length; i++) {
+      const resource = scores[i];
+      const success = this.authService.updateUserProjectResourceScore(
+        this.selectedProject.id,
+        resource.id,
+        +resource.performance_score
+      );
+
+      if (!success) allSuccess = false;
+    }
+
+    if (allSuccess) {
+      this.userProfileData = this.authService.getCurrentUser()!;
+      this.toaster.showToast(
+        "Performance scores updated successfully!",
+        "success"
+      );
+      
+      console.log(this.userProfileData)
+    } else {
+      this.toaster.showToast(
+        "Failed to update some performance scores.",
+        "error"
+      );
+    }
+
+    this.projectScoreDialog = false;
+  }
+
+  //close dilaog
   closeDialog() {
     if (this.userInfoDialog === true) this.userInfoDialog = false;
     if (this.projectScoreDialog === true) this.projectScoreDialog = false;

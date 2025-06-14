@@ -100,6 +100,52 @@ export class AuthService {
     return true;
   }
 
+  // Update a specific resource's performance score inside a specific project
+  updateUserProjectResourceScore(
+    projectId: number,
+    resourceId: number,
+    updatedScore: number
+  ): boolean {
+    const currentUser = this.getCurrentUser();
+    if (!currentUser) return false;
+
+    this.users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    const userIndex = this.users.findIndex((u) => u.id === currentUser.id);
+    if (userIndex === -1) return false;
+
+    const user = this.users[userIndex];
+
+    // ✅ Safely check if projects exist
+    if (!user.projects || !Array.isArray(user.projects)) return false;
+
+    const projectIndex = user.projects.findIndex((p) => p.id === projectId);
+    if (projectIndex === -1) return false;
+
+    const project = user.projects[projectIndex];
+
+    const resourceIndex = project.working_resource.findIndex(
+      (r) => r.id === resourceId
+    );
+    if (resourceIndex === -1) return false;
+
+    // ✅ Update performance score
+    project.working_resource[resourceIndex].performance_score = updatedScore;
+
+    // ✅ Update the user's project list
+    user.projects[projectIndex] = project;
+
+    // ✅ Update the user
+    this.users[userIndex] = user;
+
+    // ✅ Save back to localStorage and memory
+    localStorage.setItem("users", JSON.stringify(this.users));
+    localStorage.setItem("currentUser", JSON.stringify(this.users[userIndex]));
+    this.currentUser = this.users[userIndex];
+
+    return true;
+  }
+
   //current user information
 
   getCurrentUser(): User | null {

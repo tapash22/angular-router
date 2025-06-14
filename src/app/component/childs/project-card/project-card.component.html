@@ -46,5 +46,10 @@
     <p class="text-lg font-normal text-black py-1">
         User Engaged: {{project.working_resource.length}}
     </p>
+    <p *ngFor="let i of project.working_resource" >
+      <span>
+{{i.performance_score}}
+      </span>  
+    </p>
 
 </div>

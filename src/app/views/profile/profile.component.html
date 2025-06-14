@@ -81,8 +81,9 @@
                     [index]="i"
                     [selected]="selectedIndex === i"
                     [icon]="iconEdit"
-                    (selectProject)="handleProject($event)">
-                </app-project-card>
+                    [projectCardDisabled]="false"
+                    (selectProject)="handleProject($event)"
+                    (editProject)="openPerformanceScoreDialog($event)" />
             </div>
         </app-section-card>
         <!-- project details end -->
@@ -177,13 +178,48 @@
     <!-- Basic Info update dialog end -->
 
     <!-- update project performance_score each project with dialog  -->
-    <app-dynamic-dialog *ngIf="projectScoreDialog" title="Project Performance " size="sm"
-        [show]="projectScoreDialog" [showFooter]="true" (onClose)="closeDialog()"
+    <app-dynamic-dialog *ngIf="projectScoreDialog"
+        title="Update Project Performance Score "
+        size="sm"
+        [show]="projectScoreDialog" [showFooter]="true"
+        (onClose)="closeDialog()"
         [submitBtnTitle]="'Submit'">
         <div>
+            <form [formGroup]="projectScore"
+                >
+                <div formArrayName="working_resource_scores">
+                    <div
+                        *ngFor="let ctrl of workingResourceScores.controls; let i = index"
+                        [formGroupName]="i">
+                        <label class="block font-medium">{{ ctrl.get('name')?.value }}</label>
+                        <input
+                        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            type="number"
+                            formControlName="performance_score"
+                            min="0"
+                            max="100" />
+                        <div
+                            *ngIf="ctrl.get('performance_score')?.invalid && ctrl.get('performance_score')?.touched"
+                            class="error">
+                            Score must be between 0 and 100
+                        </div>
+                    </div>
+                </div>
+            </form>
 
         </div>
-</app-dynamic-dialog>
+        <!-- form footer -->
+        <div class="w-full" footer-controls>
+            <div class=" flex justify-end">
+                <button
+                    (click)="submitProjectScoreUpdate()"
+                    [class]="color + ' text-black text-sm tracking-wide font-medium px-5 py-2 rounded hover:opacity-90'">
+                    {{ submitBtnTitle }}
+                </button>
+            </div>
+        </div>
+        <!-- form footer end -->
+    </app-dynamic-dialog>
     <!-- update project performance_score each project with dialog end  -->
 
 </div>
