@@ -20,10 +20,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { SectionCardComponent } from "../../component/childs/section-card/section-card.component";
 import { DynamicDialogComponent } from "../../component/dialog/dynamic-dialog/dynamic-dialog.component";
-import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  FormArray,
+  Validators,
+} from "@angular/forms";
 // import toaster and use this
 import { ToasterService } from "../../service/toaster.service";
-import { FormArray, FormControl } from "@angular/forms";
 
 type StarType = "full" | "half" | "empty";
 
@@ -158,8 +163,8 @@ export class ProfileComponent {
       formArray.push(
         this.fb.group({
           id: [resource.id],
-          name: [resource.name], // optional, if you want to show name in form
-          performance_score: [resource.performance_score],
+          name: [resource.name], 
+          performance_score: [resource.performance_score,[Validators.required,Validators.min(0),Validators.max(10)]],
         })
       );
     });
@@ -216,8 +221,8 @@ export class ProfileComponent {
         "Performance scores updated successfully!",
         "success"
       );
-      
-      console.log(this.userProfileData)
+
+      console.log(this.userProfileData);
     } else {
       this.toaster.showToast(
         "Failed to update some performance scores.",

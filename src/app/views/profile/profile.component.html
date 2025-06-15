@@ -125,8 +125,7 @@
 
     <!-- Basic Info update dialog(for this need one child handle this code ) -->
     <app-dynamic-dialog *ngIf="userInfoDialog" title="Edit User " size="lg"
-        [show]="userInfoDialog" [showFooter]="true" (onClose)="closeDialog()"
-        [submitBtnTitle]="'Update'">
+        [show]="userInfoDialog" [showFooter]="true" (onClose)="closeDialog()">
         <div>
             <form [formGroup]="profileForm">
 
@@ -169,7 +168,7 @@
                 <button
                     (click)="updateUser()"
                     [class]="color + ' text-black text-sm tracking-wide font-medium px-5 py-2 rounded hover:opacity-90'">
-                    {{ submitBtnTitle }}
+                    Update
                     <!-- [disabled]="disableIfInvalid && form.invalid" -->
                 </button>
             </div>
@@ -182,27 +181,46 @@
         title="Update Project Performance Score "
         size="sm"
         [show]="projectScoreDialog" [showFooter]="true"
-        (onClose)="closeDialog()"
-        [submitBtnTitle]="'Submit'">
+        (onClose)="closeDialog()">
         <div>
-            <form [formGroup]="projectScore"
-                >
+            <form [formGroup]="projectScore">
                 <div formArrayName="working_resource_scores">
                     <div
                         *ngFor="let ctrl of workingResourceScores.controls; let i = index"
-                        [formGroupName]="i">
-                        <label class="block font-medium">{{ ctrl.get('name')?.value }}</label>
+                        [formGroupName]="i" class="py-1">
+                        <label class="block font-medium py-1">{{
+                            ctrl.get('name')?.value }}</label>
                         <input
-                        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
                             type="number"
                             formControlName="performance_score"
                             min="0"
-                            max="100" />
+                            max="10" />
+
+                        <!-- validation error -->
                         <div
-                            *ngIf="ctrl.get('performance_score')?.invalid && ctrl.get('performance_score')?.touched"
-                            class="error">
-                            Score must be between 0 and 100
+                            *ngIf="ctrl.get('performance_score')?.touched && ctrl.get('performance_score')?.invalid"
+                            class="text-red-500 text-sm mt-1">
+                            <div
+                                *ngIf="ctrl.get('performance_score')?.errors?.['required']">
+                                Score is required
+                            </div>
+                            <div
+                                *ngIf="ctrl.get('performance_score')?.errors?.['min']">
+                                Minimum allowed score is
+                                {{
+                                ctrl.get('performance_score')?.errors?.['min'].min
+                                }}
+                            </div>
+                            <div
+                                *ngIf="ctrl.get('performance_score')?.errors?.['max']">
+                                Maximum allowed score is
+                                {{
+                                ctrl.get('performance_score')?.errors?.['max'].max
+                                }}
+                            </div>
                         </div>
+                        <!-- validation error end -->
                     </div>
                 </div>
             </form>
@@ -212,9 +230,14 @@
         <div class="w-full" footer-controls>
             <div class=" flex justify-end">
                 <button
+                    [disabled]="projectScore.invalid"
                     (click)="submitProjectScoreUpdate()"
-                    [class]="color + ' text-black text-sm tracking-wide font-medium px-5 py-2 rounded hover:opacity-90'">
-                    {{ submitBtnTitle }}
+                    class="bg-green-500 text-black text-sm tracking-wide font-medium px-5 py-2 rounded hover:opacity-90"
+                    [ngClass]="{
+                    'opacity-100': !projectScore.invalid,
+                    'opacity-50 cursor-not-allowed ': projectScore.invalid
+                    }">
+                    Submit
                 </button>
             </div>
         </div>

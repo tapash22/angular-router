@@ -147,7 +147,6 @@ export class AuthService {
   }
 
   //current user information
-
   getCurrentUser(): User | null {
     if (!this.currentUser) {
       const userData = localStorage.getItem("currentUser");
