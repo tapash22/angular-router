@@ -1,21 +1,23 @@
 <div
     class="navigation  w-auto h-screen  shadow-sm shadow-blue-900 ">
     <div
-        class="w-auto flex justify-center items-center p-4 bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_50%,_#d6d7da8a_100%)]  ">
+        class="w-auto h-20 flex justify-center items-center p-4 bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_50%,_#d6d7da8a_100%)] shadow-sm   ">
         <!-- <fa-icon [icon]="iconEdit"
                     class="text-lg font-medium text-gray-500 "></fa-icon> -->
         <h3
-            class="text-xl font-bold text-black uppercase tracking-wide italic">da</h3>
+            class="text-xl font-bold text-white uppercase tracking-wide italic">{{!collapsed ? 'MG': 'Management'}}</h3>
     </div>
     <ul
         class="block w-auto  h-full  pa-3 space-y-2 border-blue-200 my-2 ">
+        
         <li *ngFor="let item of menuItems"
             class="flex justify-start align-middle w-auto hover:bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#F5F5F5_50%,_#d6d7da8a_100%)]
            transition-all duration-300 py-4 px-5 cursor-pointer "
             [routerLink]="item.link" routerLinkActive="active">
-            <span class="px-2">
-                {{item.id}}
-            </span>
+            <fa-icon
+                [icon]="item.icon"
+                class="text-blue-300 text-xl px-4  ">
+            </fa-icon>
             <span *ngIf="collapsed" class="text-lg font-medium">
                 {{ item.name |titlecase }}
             </span>

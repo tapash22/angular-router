@@ -8,7 +8,7 @@ export const routes: Routes = [
   {
     path: "",
     pathMatch: "full",
-    redirectTo:"/dashboard"
+    redirectTo: "/dashboard",
   },
   {
     path: "dashboard",
@@ -19,15 +19,13 @@ export const routes: Routes = [
     canActivate: [activatedGuard],
     data: { hideSidebar: true },
     children: [
-     {
-      path: '',
-      pathMatch: 'full',
-      canActivate: [roleRedirectGuard],
-      loadComponent: () =>
-        import('./views/dummy/dummy.component').then(
-          (m) => m.DummyComponent
-        ),
-    },
+      {
+        path: "",
+        pathMatch: "full",
+        canActivate: [roleRedirectGuard],
+        loadComponent: () =>
+          import("./views/dummy/dummy.component").then((m) => m.DummyComponent),
+      },
       {
         path: "admin",
         canActivate: [roleGuard],

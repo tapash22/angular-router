@@ -47,19 +47,22 @@
         User Engaged: {{project.working_resource.length}}
     </p>
     <div
+     [ngClass]="!isDisabled ? 'block' : 'hidden'"
         class="p-4 ring-4 ring-white rounded-xl grid grid-cols-2 gap-3 w-full h-auto">
         <div class="bg-white p-3 "
             *ngFor="let resource of project.working_resource">
 
-            <h2 class="text-lg font-medium tracking-wide py-1">
+            <h2 class="text-sm flex justify-center w-full font-medium tracking-wide py-1">
                 {{resource.name}}
             </h2>
             <div class="w-full h-auto "
                 [ngClass]="resource.performance_score > 10 ? 'block' : 'hidden'">
+
+                <!-- with tooltip -->
                 <div
-                    class="w-full bg-transparent rounded-full h-3 my-2 ring-2 ring-gray-300 flex items-center group">
+                    class="w-full bg-gray-300 rounded-full h-3 my-2  ring-gray-300 flex items-center group">
                     <div
-                        class="bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_100%)] h-2 rounded-full transition-all duration-500 flex justify-center items-center relative"
+                        class="bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_100%)] h-3 rounded-full transition-all duration-500 flex justify-center items-center relative"
                         [style.width.%]="resource.performance_score">
                         <!-- <span
                             class="absolute z-30 opacity-0 group-hover:opacity-100 group-hover:z-30 transition-opacity duration-300 text-xl text-black">
@@ -72,7 +75,8 @@
 
                     </div>
                 </div>
-
+                <!-- with tooltip end-->
+                <!-- without tooltip -->
                 <div
                     class="w-full bg-transparent rounded-full h-3 my-2 ring-2 ring-gray-400 flex items-center group">
                     <div
@@ -84,6 +88,7 @@
                         </span>
                     </div>
                 </div>
+                <!-- without tooltip end -->
 
             </div>
 
