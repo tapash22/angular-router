@@ -14,6 +14,7 @@ export class ProjectCardComponent {
   @Input() index!: number;
   @Input() selected: boolean = false;
   @Input() projectCardDisabled: boolean = false;
+  @Input() showUserDetails:boolean = false;
   @Input() icon?: any;
 
   @Output() selectProject = new EventEmitter<{
@@ -25,10 +26,10 @@ export class ProjectCardComponent {
 
   // Corrected status-class mapping
   statusClassMap: Record<string, string> = {
-    start: "bg-blue-300 ring-blue-500",
-    "in-progress": "bg-yellow-300 ring-yellow-500",
-    completed: "bg-green-300 ring-green-500",
-    pause: "bg-gray-300 ring-gray-500", // Disabled color
+    start: "bg-blue-100 ring-blue-500",
+    "in-progress": "bg-yellow-100 ring-yellow-500",
+    completed: "bg-green-100 ring-green-500",
+    pause: "bg-gray-100 ring-gray-500", 
   };
 
   // Optionally calculate disabled state internally based on projectStatus
