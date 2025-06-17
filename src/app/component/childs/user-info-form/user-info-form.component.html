@@ -1,0 +1,43 @@
+<form [formGroup]="profileForm">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label class="block font-medium">User Name</label>
+            <input
+                type="text"
+                formControlName="name"
+                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        </div>
+        <div>
+            <label class="block font-medium">Email</label>
+            <input
+                type="text"
+                formControlName="email"
+                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        </div>
+        <div>
+            <label class="block font-medium">Phone</label>
+            <input
+                type="text"
+                formControlName="phone"
+                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        </div>
+        <div>
+            <label class="block font-medium">Location</label>
+            <input
+                type="text"
+                formControlName="location"
+                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        </div>
+    </div>
+</form>
+
+<!-- Footer -->
+<div class="w-full p-2" footer-controls>
+    <div class="flex justify-end">
+        <button
+            (click)="onUpdate()"
+            class="bg-blue-500 text-black text-sm tracking-wide font-medium px-5 py-2 rounded hover:opacity-90">
+            Update
+        </button>
+    </div>
+</div>

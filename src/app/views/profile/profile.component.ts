@@ -19,7 +19,6 @@ import {
   faStarHalfAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { SectionCardComponent } from "../../component/childs/section-card/section-card.component";
-import { DynamicDialogComponent } from "../../component/dialog/dynamic-dialog/dynamic-dialog.component";
 import {
   FormBuilder,
   FormGroup,
@@ -29,6 +28,9 @@ import {
 } from "@angular/forms";
 // import toaster and use this
 import { ToasterService } from "../../service/toaster.service";
+import { ProjectScoreFormComponent } from "../../component/childs/project-score-form/project-score-form.component";
+import { DynamicDialogComponent } from "../../component/dialog/dynamic-dialog/dynamic-dialog.component";
+import { UserInfoFormComponent } from "../../component/childs/user-info-form/user-info-form.component";
 
 type StarType = "full" | "half" | "empty";
 
@@ -40,7 +42,9 @@ type StarType = "full" | "half" | "empty";
     FontAwesomeModule,
     SectionCardComponent,
     DynamicDialogComponent,
+    ProjectScoreFormComponent,
     ReactiveFormsModule,
+    UserInfoFormComponent,
   ],
   templateUrl: "./profile.component.html",
   styleUrl: "./profile.component.css",
@@ -163,8 +167,11 @@ export class ProfileComponent {
       formArray.push(
         this.fb.group({
           id: [resource.id],
-          name: [resource.name], 
-          performance_score: [resource.performance_score,[Validators.required,Validators.min(0),Validators.max(10)]],
+          name: [resource.name],
+          performance_score: [
+            resource.performance_score,
+            [Validators.required, Validators.min(0), Validators.max(100)],
+          ],
         })
       );
     });

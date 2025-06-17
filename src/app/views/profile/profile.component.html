@@ -128,52 +128,11 @@
     <app-dynamic-dialog *ngIf="userInfoDialog" title="Edit User " size="lg"
         [show]="userInfoDialog" [showFooter]="true" (onClose)="closeDialog()">
         <div>
-            <form [formGroup]="profileForm">
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block font-medium">User Name
-                        </label>
-                        <input type="text"
-                            formControlName="name"
-                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 opacity-15" />
-                    </div>
-                    <div>
-                        <label class="block font-medium">Email</label>
-                        <input type="text"
-                            formControlName="email"
-                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    </div>
-                    <div>
-                        <label class="block font-medium">Phone</label>
-                        <input type="text"
-                            formControlName="phone"
-                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    </div>
-                    <div>
-                        <label class="block font-medium">Location</label>
-                        <input type="text"
-                            formControlName="location"
-                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    </div>
-
-                </div>
-                <!-- <div [formGroup]="form" form-body>
-                </div> -->
-                <!-- Projected form fields go here -->
-                <!-- <ng-content select="[form-body]"></ng-content> -->
-            </form>
+            <app-user-info-form
+                [profileForm]="profileForm"
+                (update)="updateUser()" />
         </div>
-        <div class="w-full" footer-controls>
-            <div class=" flex justify-end">
-                <button
-                    (click)="updateUser()"
-                    [class]="color + ' text-black text-sm tracking-wide font-medium px-5 py-2 rounded hover:opacity-90'">
-                    Update
-                    <!-- [disabled]="disableIfInvalid && form.invalid" -->
-                </button>
-            </div>
-        </div>
+
     </app-dynamic-dialog>
     <!-- Basic Info update dialog end -->
 
@@ -184,66 +143,10 @@
         [show]="projectScoreDialog" [showFooter]="true"
         (onClose)="closeDialog()">
         <div>
-            <form [formGroup]="projectScore">
-                <div formArrayName="working_resource_scores">
-                    <div
-                        *ngFor="let ctrl of workingResourceScores.controls; let i = index"
-                        [formGroupName]="i" class="py-1">
-                        <label class="block font-medium py-1">{{
-                            ctrl.get('name')?.value }}</label>
-                        <input
-                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            type="number"
-                            formControlName="performance_score"
-                            min="0"
-                            max="10" />
-
-                        <!-- validation error -->
-                        <div
-                            *ngIf="ctrl.get('performance_score')?.touched && ctrl.get('performance_score')?.invalid"
-                            class="text-red-500 text-sm mt-1">
-                            <div
-                                *ngIf="ctrl.get('performance_score')?.errors?.['required']">
-                                Score is required
-                            </div>
-                            <div
-                                *ngIf="ctrl.get('performance_score')?.errors?.['min']">
-                                Minimum allowed score is
-                                {{
-                                ctrl.get('performance_score')?.errors?.['min'].min
-                                }}
-                            </div>
-                            <div
-                                *ngIf="ctrl.get('performance_score')?.errors?.['max']">
-                                Maximum allowed score is
-                                {{
-                                ctrl.get('performance_score')?.errors?.['max'].max
-                                }}
-                            </div>
-                        </div>
-                        <!-- validation error end -->
-                    </div>
-                </div>
-            </form>
-
+            <app-project-score-form
+                [projectScore]="projectScore"
+                (formSubmitted)="submitProjectScoreUpdate()" />
         </div>
-        <!-- form footer -->
-        <div class="w-full" footer-controls>
-            <div class=" flex justify-end">
-                <button
-                    [disabled]="projectScore.invalid"
-                    (click)="submitProjectScoreUpdate()"
-                    class="bg-green-500 text-black text-sm tracking-wide font-medium px-5 py-2 rounded hover:opacity-90"
-                    [ngClass]="{
-                    'opacity-100': !projectScore.invalid,
-                    'opacity-50 cursor-not-allowed ': projectScore.invalid
-                    }">
-                    Submit
-                </button>
-            </div>
-        </div>
-        <!-- form footer end -->
     </app-dynamic-dialog>
     <!-- update project performance_score each project with dialog end  -->
-
 </div>
