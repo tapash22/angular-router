@@ -42,7 +42,6 @@ export class AuthService {
   }
 
   //logout method
-
   logout(): void {
     this.currentUser = null;
     localStorage.removeItem("currentUser");
@@ -158,10 +157,12 @@ export class AuthService {
     return this.currentUser;
   }
 
+  //all user list
   getAllUsers(): User[] | [] {
     return this.users;
   }
 
+  //check auth
   isAuthenticated(): boolean {
     return !!this.getCurrentUser();
   }
@@ -171,11 +172,26 @@ export class AuthService {
     return this.getCurrentUser()?.role === role;
   }
 
-  //router nagivation
-  navigateByUrl(url: string): void {
-    this.router.navigateByUrl(url, { replaceUrl: true });
+  //update password
+  updatePassword(newPassword: string): boolean {
+    const currentUser = this.getCurrentUser();
+    if (!currentUser) return false;
+
+    // Update the password in the user list
+    const userIndex = this.users.findIndex((u) => u.id === currentUser.id);
+    if (userIndex === -1) return false;
+
+    this.users[userIndex].password = newPassword;
+
+    // Save back to localStorage
+    localStorage.setItem("users", JSON.stringify(this.users));
+    localStorage.setItem("currentUser", JSON.stringify(this.users[userIndex]));
+    this.currentUser = this.users[userIndex];
+
+    return true;
   }
 
+  // add or update project
   updateOrAddProject(project: Project, index?: number): void {
     const currentUser = this.getCurrentUser();
     if (!currentUser) return;
@@ -197,5 +213,10 @@ export class AuthService {
 
     this.currentUser = currentUser;
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
+  }
+
+  //router nagivation
+  navigateByUrl(url: string): void {
+    this.router.navigateByUrl(url, { replaceUrl: true });
   }
 }

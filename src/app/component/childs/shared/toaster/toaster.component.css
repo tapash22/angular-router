@@ -4,7 +4,7 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
-  padding: 16px 16px;  /* no extra bottom padding */
+  padding: 16px 16px;
   border-radius: 8px;
   background-color: rgb(60, 60, 60);
   box-shadow: 0 6px 16px rgba(255, 255, 255, 0.25);
@@ -21,7 +21,7 @@
   box-sizing: border-box;
   text-align: center;
 
-  position: relative;  /* needed for absolute positioning of progress bar */
+  position: relative;
 }
 
 /* Progress bar positioned absolutely at bottom, full width */
@@ -32,13 +32,14 @@
   height: 4px;
   width: 100%;
   background: linear-gradient(to right, #4caf50, #81c784);
-  border-bottom-left-radius: 8px;  /* match container border radius */
+  border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  animation: shrink 12s linear forwards;
-  margin: 0; /* no margin */
+  animation-name: shrink;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  /* animation-duration is set dynamically by Angular */
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;

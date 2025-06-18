@@ -74,6 +74,13 @@ export const routes: Routes = [
             (m) => m.ProfileComponent
           ),
       },
+      {
+        path: "reset-password",
+        loadComponent: () =>
+          import("./views/reset-password/reset-password.component").then(
+            (m) => m.ResetPasswordComponent
+          ),
+      },
     ],
   },
   {

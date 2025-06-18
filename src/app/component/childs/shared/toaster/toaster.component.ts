@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnChanges } from "@angular/core";
+import { ToastType } from "../../../../service/toaster.service";
 
 @Component({
   selector: "app-toaster",
@@ -7,25 +8,20 @@ import { Component, Input, OnInit } from "@angular/core";
   templateUrl: "./toaster.component.html",
   styleUrl: "./toaster.component.css",
 })
-export class ToasterComponent implements OnInit {
-  @Input() message: string = '';
-  @Input() type: 'success' | 'error' | 'info' | 'warning' = 'info';
+export class ToasterComponent implements OnChanges {
+  @Input() message: string = "";
+  @Input() type: ToastType = "info";
+  @Input() duration: number = 1000;
+
   visible = false;
 
-
-  ngOnInit() {
+    ngOnChanges() {
     if (this.message?.trim().replace(/\s/g, '').length > 1) {
       this.visible = true;
-      const charsPerSecond = 100;
-      const minTime = 2000;
-      const maxTime = 20000;
-      const timeout = Math.min(
-        Math.max((this.message.length / charsPerSecond) * 1000, minTime),
-        maxTime
-      );
+
       setTimeout(() => {
         this.visible = false;
-      }, timeout);
+      }, this.duration);
     }
   }
 }
