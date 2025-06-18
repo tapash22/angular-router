@@ -1,11 +1,16 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthService } from "../../service/auth/auth.service";
 import { User } from "../../interfaces/user";
 import { CommonModule } from "@angular/common";
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from "@angular/router";
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterOutlet,
+} from "@angular/router";
 import { filter } from "rxjs";
 import { HeaderComponent } from "../../component/header/header.component";
 import { NavigationComponent } from "../../component/navigation/navigation.component";
+import { UserService } from "../../service/user.service";
 
 @Component({
   selector: "app-dashboard",
@@ -19,9 +24,9 @@ export class DashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private userService: UserService
   ) {
-           this.router.events
+    this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
         let currentRoute = this.activatedRoute.firstChild;
@@ -35,11 +40,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.usersData = this.authService.getAllUsers();
-  
+    this.usersData = this.userService.getAllUsers();
   }
 
-    toggleSidebar() {
+  toggleSidebar() {
     this.showSidebar = !this.showSidebar;
   }
 }

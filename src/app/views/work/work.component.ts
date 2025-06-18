@@ -10,10 +10,11 @@ import {
   FormArray,
   Validators,
 } from "@angular/forms";
-import { AuthService } from "../../service/auth/auth.service";
 import { DynamicDialogComponent } from "../../component/dialog/dynamic-dialog/dynamic-dialog.component";
 import { DynamicFormComponent } from "../../component/form/dynamic-form/dynamic-form.component";
 import { FieldSchema } from "../../interfaces/form-field-schema";
+import { UserService } from "../../service/user.service";
+import { ProjectService } from "../../service/project.service";
 
 @Component({
   selector: "app-work",
@@ -65,8 +66,8 @@ export class WorkComponent  {
     },
   ];
 
-  // import and use authservice which are declear
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  // import and use userService which are declear
+  constructor(private userService: UserService,private projectService:ProjectService, private fb: FormBuilder) {
     this.form = this.fb.group({
       project_title: ["", Validators.required],
       project_subtitle: [""],
@@ -85,7 +86,7 @@ export class WorkComponent  {
 
   // project list
   get projectList(): Project[] {
-    return this.authService.getCurrentUser()?.projects ?? [];
+    return this.userService.getCurrentUser()?.projects ?? [];
   }
 
   // make field empty for project
@@ -134,7 +135,7 @@ export class WorkComponent  {
   // create or update project
   addProjectResource() {
     console.log(this.project, this.selectedIndex);
-    this.authService.updateOrAddProject(
+    this.projectService.updateOrAddProject(
       this.project,
       this.selectedIndex ?? undefined
     );
@@ -152,24 +153,6 @@ export class WorkComponent  {
   saveData() {
     console.log("click dialog for save data");
   }
-
-  //reactive form
-
-  // ngOnInit(): void {
-  //   this.form = this.fb.group({
-  //     project_title: ["", Validators.required],
-  //     project_subtitle: [""],
-  //     project_project_length: [null, [Validators.required, Validators.min(1)]],
-  //     project_estimated_date: ["", Validators.required],
-  //     project_costing_needed: [null, [Validators.required, Validators.min(0)]],
-  //     project_resource_needed: [null, [Validators.required, Validators.min(0)]],
-  //     projectStatus: ["start", Validators.required],
-  //     project_requirement: this.fb.array([
-  //       this.fb.control("", Validators.required),
-  //     ]),
-  //     working_resource: this.fb.array([this.createWorkingResourceGroup()]),
-  //   });
-  // }
 
   // Getter for requirements array
   get project_requirement(): FormArray {

@@ -8,10 +8,10 @@ import {
   AbstractControl,
   ValidationErrors,
 } from "@angular/forms";
-import { AuthService } from "../../service/auth/auth.service";
 import { ToasterService } from "../../service/toaster.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { UserService } from "../../service/user.service";
 
 @Component({
   selector: "app-reset-password",
@@ -28,7 +28,7 @@ export class ResetPasswordComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private userService: UserService,
     private toaster: ToasterService
   ) {
     this.profileForm = this.fb.group(
@@ -57,14 +57,17 @@ export class ResetPasswordComponent {
 
   onUpdate() {
     if (this.profileForm.valid) {
+      //receive password form inpuut filed with check validation
       const newPassword = this.profileForm.get("password")?.value;
 
-      const success = this.authService.updatePassword(newPassword);
+      //call auth service for reset password
+      const success = this.userService.resetPassword(newPassword);
 
       if (success) {
         this.toaster.showToast("Reset password successfully!", "success");
+        //reset form
         this.profileForm.reset();
-        console.log(this.authService.getCurrentUser());
+        console.log(this.userService.getCurrentUser());
       } else {
         this.toaster.showToast("Failed to Reset Password.", "error");
       }

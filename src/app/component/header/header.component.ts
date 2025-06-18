@@ -22,6 +22,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { filter } from "rxjs";
 import { User } from "../../interfaces/user";
+import { UserService } from "../../service/user.service";
 
 @Component({
   selector: "app-header",
@@ -48,9 +49,9 @@ export class HeaderComponent {
 
   @Output() onClose = new EventEmitter<void>();
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(private router: Router,private authService:AuthService, private userService: UserService) {
     //use service current user
-    this.userProfileData = authService.getCurrentUser()!;
+    this.userProfileData = userService.getCurrentUser()!;
     // Listen for route changes
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -69,7 +70,6 @@ export class HeaderComponent {
   logoutUser() {
     // Call the logout method to clear the data
     this.authService.logout();
-    console.log(this.authService.getCurrentUser())
   }
 
   @HostListener("document:click", ["$event"])

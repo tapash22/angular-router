@@ -5,7 +5,7 @@ import { OverviewChartComponent } from "../../component/chart/overview-chart/ove
 import { Project, User } from "../../interfaces/user";
 import { ChartType, ChartData, ChartConfiguration } from "chart.js";
 import { MOCK_USERS } from "../../localStore/user-data";
-import { AuthService } from "../../service/auth/auth.service";
+import { UserService } from "../../service/user.service";
 
 @Component({
   selector: "app-employee",
@@ -44,13 +44,13 @@ export class EmployeeComponent implements OnInit {
     },
   };
 
-  constructor(private authService: AuthService) {}
+  constructor(private userService: UserService) {}
 
   projectList:Project [] | null = this.userList.flatMap(user => user.projects ?? [])
 
 
   ngOnInit(): void {
-    this.userDetails = this.authService.getCurrentUser()!;
+    this.userDetails = this.userService.getCurrentUser()!;
   }
   handleProject(event: { index: number; project: Project }) {
     this.selectedIndex = event.index;

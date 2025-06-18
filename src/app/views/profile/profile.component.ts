@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { AuthService } from "../../service/auth/auth.service";
 import { Project, User } from "../../interfaces/user";
 import { ProjectCardComponent } from "../../component/childs/project-card/project-card.component";
 import { CommonModule } from "@angular/common";
@@ -31,6 +30,8 @@ import { ToasterService } from "../../service/toaster.service";
 import { ProjectScoreFormComponent } from "../../component/childs/project-score-form/project-score-form.component";
 import { DynamicDialogComponent } from "../../component/dialog/dynamic-dialog/dynamic-dialog.component";
 import { UserInfoFormComponent } from "../../component/childs/user-info-form/user-info-form.component";
+import { UserService } from "../../service/user.service";
+import { ProjectService } from "../../service/project.service";
 
 type StarType = "full" | "half" | "empty";
 
@@ -97,17 +98,18 @@ export class ProfileComponent {
   }
 
   constructor(
-    private authService: AuthService,
+    private userService: UserService,
+    private projectService: ProjectService,
     private fb: FormBuilder,
     private toaster: ToasterService
   ) {
-    this.userProfileData = this.authService.getCurrentUser()!;
+    this.userProfileData = this.userService.getCurrentUser()!;
     this.generateStars(this.userProfileData.rating!);
   }
 
   ngOnInit() {
-    // ✅ Load the current user from localStorage via AuthService
-    this.userProfileData = this.authService.getCurrentUser()!;
+    // ✅ Load the current user from localStorage via userService
+    this.userProfileData = this.userService.getCurrentUser()!;
 
     // ✅ Initialize the user basic info
     this.profileForm = this.fb.group({
@@ -183,16 +185,17 @@ export class ProfileComponent {
   updateUser() {
     const updatedFields = this.profileForm.getRawValue();
 
-    const success = this.authService.updateUserProfile(updatedFields);
+    const success = this.userService.updateUserProfile(updatedFields);
     console.log("show", success);
 
     if (success) {
-      this.userProfileData = this.authService.getCurrentUser()!;
+      this.userProfileData = this.userService.getCurrentUser()!;
 
       this.toaster.showToast(
         "Your porfile data updated successfully!",
         "success"
       );
+      console.log(this.userService.getCurrentUser())
     } else {
       this.toaster.showToast("Failed to update profile.", "error");
     }
@@ -213,7 +216,7 @@ export class ProfileComponent {
 
     for (let i = 0; i < scores.length; i++) {
       const resource = scores[i];
-      const success = this.authService.updateUserProjectResourceScore(
+      const success = this.projectService.updateUserProjectResourceScore(
         this.selectedProject.id,
         resource.id,
         +resource.performance_score
@@ -223,7 +226,7 @@ export class ProfileComponent {
     }
 
     if (allSuccess) {
-      this.userProfileData = this.authService.getCurrentUser()!;
+      this.userProfileData = this.userService.getCurrentUser()!;
       this.toaster.showToast(
         "Performance scores updated successfully!",
         "success"
