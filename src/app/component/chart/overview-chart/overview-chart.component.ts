@@ -5,14 +5,7 @@ import { BaseChartDirective    } from 'ng2-charts'
 @Component({
   selector: 'app-overview-chart',
  imports: [BaseChartDirective], // ✅ No NgChartsModule
-  template: `
-    <canvas
-      baseChart
-      [type]="type"
-      [data]="data"
-      [options]="options">
-    </canvas>
-  `,
+  templateUrl:'./overview-chart.component.html',
   styleUrl: './overview-chart.component.css'
 })
 export class OverviewChartComponent {
