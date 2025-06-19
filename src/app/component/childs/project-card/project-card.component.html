@@ -1,98 +1,120 @@
-<!-- [ngClass]="selected ? 'border-2 border-gray-600': ''" -->
-<div
-    class="block shadow-sm shadow-gray-500 bg-gray-100 rounded-2xl w-full h-full p-4 my-2"
-    [ngClass]="{
+<div class="relative">
+    <div
+        class="block shadow-sm shadow-gray-500 bg-gray-100 rounded-2xl w-full h-full p-4 my-2"
+        [ngClass]="{
     'border-2 border-gray-600': selected,
     'opacity-35 border-2 border-red-300 cursor-not-allowed pointer-events-none': projectCardDisabled || isDisabled
   }"
-    (click)="handleSelectProject()">
-    <div class="flex justify-between items-center relative">
-        <div class="block">
-            <h2 class="text-xl font-semibold text-black py-1">
-                {{ project.project_title }}
-            </h2>
-            <!-- Status Badge -->
-            <div class="w-full flex items-center justify-start">
+        (click)="handleSelectProject()">
+        <div class="flex justify-between items-center relative">
+            <div class="block">
+                <h2 class="text-xl font-semibold text-black py-1">
+                    {{ project.project_title }}
+                </h2>
+                <!-- Status Badge -->
+                <div class="w-full flex items-center justify-start">
 
-                <p
-                    class="px-3 py-1 rounded-sm text-center text-sm font-medium text-black w-auto ring-1 "
-                    [ngClass]="statusClassMap[project.projectStatus] || 'bg-gray-400'">
-                    {{ project.projectStatus | titlecase }}
-                </p>
+                    <p
+                        class="px-3 py-1 rounded-sm text-center text-sm font-medium text-black w-auto ring-1 "
+                        [ngClass]="statusClassMap[project.projectStatus] || 'bg-gray-400'">
+                        {{ project.projectStatus | titlecase }}
+                    </p>
+                </div>
+
             </div>
-
+            <!-- Edit Button -->
+            <ng-container>
+                <fa-icon
+                    [icon]="(icon && !isDisabled) ? icon : iconBarChart"
+                    class="text-blue-700 text-lg cursor-pointer rounded-md hover:text-blue-500 transition-colors duration-200 drop-shadow-[0_2px_6px_rgba(59,130,246,0.6)]"
+                    (click)="(icon && !isDisabled) ? handleEditProject($event) : openProjectChart()">
+                </fa-icon>
+            </ng-container>
         </div>
-        <!-- Edit Button -->
-        <fa-icon
-            *ngIf="icon && !isDisabled"
-            [icon]="icon"
-            class="text-blue-700 text-lg cursor-pointer rounded-md  hover:text-blue-500 transition-colors duration-200 drop-shadow-[0_2px_6px_rgba(59,130,246,0.6)]"
-            (click)="handleEditProject($event)">
-        </fa-icon>
-
-    </div>
-    <p class="text-lg font-normal py-1 ">
-        {{project.project_subtitle}}
-    </p>
-    <div
-        class="w-full h-auto flex justify-start items-center gap-2 py-2"
-        *ngIf="project.project_requirement.length">
-        <p
-            class="p-2 rounded-xl bg-white text-center text-sm font-medium "
-            *ngFor="let chip of project.project_requirement ">
-            {{chip}}
+        <p class="text-lg font-normal py-1 ">
+            {{project.project_subtitle}}
         </p>
-    </div>
-    <p class="text-lg font-normal text-black py-1 my-2">
-        User Engaged: {{project.working_resource.length}}
-    </p>
-    <div
-     [ngClass]="!isDisabled ? 'block' : 'hidden'"
-        class="p-4 ring-4 ring-white rounded-xl grid grid-cols-2 gap-3 w-full h-auto">
-        <div class="bg-white p-3 "
-            *ngFor="let resource of project.working_resource">
 
-            <h2 class="text-sm flex justify-center w-full font-medium tracking-wide py-1">
-                {{resource.name}}
-            </h2>
-            <div class="w-full h-auto "
-                [ngClass]="resource.performance_score > 10 ? 'block' : 'hidden'">
+        <!-- status -->
+        <div
+            class="w-full h-auto flex justify-start items-center gap-2 py-2"
+            *ngIf="project.project_requirement.length">
+            <p
+                class="p-2 rounded-xl bg-white text-center text-sm font-medium "
+                *ngFor="let chip of project.project_requirement ">
+                {{chip}}
+            </p>
+            <p class="text-lg font-normal text-black py-1 my-2">
+                User Engaged: {{project.working_resource.length}}
+            </p>
+        </div>
+        <!-- status end -->
 
-                <!-- with tooltip -->
-                <div
-                    class="w-full bg-gray-300 rounded-full h-3 my-2  ring-gray-300 flex items-center group">
+        <div
+            [ngClass]="!isDisabled ? 'block' : 'hidden'"
+            class="p-4 ring-4 ring-white rounded-xl grid grid-cols-2 gap-3 w-full h-auto">
+            <div class="bg-white p-3 "
+                *ngFor="let resource of project.working_resource">
+
+                <h2
+                    class="text-sm flex justify-center w-full font-medium tracking-wide py-1">
+                    {{resource.name}}
+                </h2>
+                <div class="w-full h-auto "
+                    [ngClass]="resource.performance_score > 10 ? 'block' : 'hidden'">
+
+                    <!-- with tooltip -->
                     <div
-                        class="bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_100%)] h-3 rounded-full transition-all duration-500 flex justify-center items-center relative"
-                        [style.width.%]="resource.performance_score">
-                        <!-- <span
+                        class="w-full bg-gray-300 rounded-full h-3 my-2  ring-gray-300 flex items-center group">
+                        <div
+                            class="bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_100%)] h-3 rounded-full transition-all duration-500 flex justify-center items-center relative"
+                            [style.width.%]="resource.performance_score">
+                            <!-- <span
                             class="absolute z-30 opacity-0 group-hover:opacity-100 group-hover:z-30 transition-opacity duration-300 text-xl text-black">
                             {{ resource.performance_score }}
                         </span> -->
-                        <span
-                            class="absolute -top-6 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs text-white bg-black px-2 py-1 rounded">
-                            {{ resource.performance_score }}
-                        </span>
+                            <span
+                                class="absolute -top-6 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs text-white bg-black px-2 py-1 rounded">
+                                {{ resource.performance_score }}
+                            </span>
 
+                        </div>
                     </div>
-                </div>
-                <!-- with tooltip end-->
-                <!-- without tooltip -->
-                <div
-                    class="w-full bg-transparent rounded-full h-3 my-2 ring-2 ring-gray-400 flex items-center group">
+                    <!-- with tooltip end-->
+                    <!-- without tooltip -->
                     <div
-                        class="bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_100%)] h-2 rounded-full transition-all duration-500 flex justify-center items-center relative"
-                        [style.width.%]="resource.performance_score">
-                        <span
-                            class="absolute z-30 opacity-0 group-hover:opacity-100 group-hover:z-30 transition-opacity duration-300 text-xl text-black">
-                            {{ resource.performance_score }}
-                        </span>
+                        class="w-full bg-transparent rounded-full h-3 my-2 ring-2 ring-gray-400 flex items-center group">
+                        <div
+                            class="bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_100%)] h-2 rounded-full transition-all duration-500 flex justify-center items-center relative"
+                            [style.width.%]="resource.performance_score">
+                            <span
+                                class="absolute z-30 opacity-0 group-hover:opacity-100 group-hover:z-30 transition-opacity duration-300 text-xl text-black">
+                                {{ resource.performance_score }}
+                            </span>
+                        </div>
                     </div>
+                    <!-- without tooltip end -->
+
                 </div>
-                <!-- without tooltip end -->
 
             </div>
 
         </div>
-
     </div>
+
+    <!-- //using for project chart to show -->
+    <app-dynamic-dialog
+        [title]="'Project Overview'"
+        [size]="'md'"
+        [show]="isDialogVisible"
+        [disableClose]="false"
+        (onClose)="closeDialog()">
+        <div>
+            <app-overview-chart
+                [type]="doughnutChartConfig.type"
+                [data]="doughnutChartConfig.data"
+                [options]="doughnutChartConfig.options">>
+            </app-overview-chart>
+        </div>
+    </app-dynamic-dialog>
 </div>
