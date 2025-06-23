@@ -1,15 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [
-      "./src/**/*.{html,ts}",
-    ],
-    theme: {
-      extend: {
-        colors: {
-          'custom-bg': '#F6F9FC',
-        },
+  content: [
+    "./src/**/*.{html,ts}"
+  ],
+  theme: {
+    extend: {
+      colors: {
+        'custom-bg': '#3b82f6',
       },
     },
-    plugins: [],
-  }
-  
+  },
+  darkMode: 'class', // optional: enables dark mode
+  plugins: [],
+}

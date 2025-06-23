@@ -103,18 +103,22 @@
     </div>
 
     <!-- //using for project chart to show -->
-    <app-dynamic-dialog
-        [title]="'Project Overview'"
-        [size]="'md'"
-        [show]="isDialogVisible"
-        [disableClose]="false"
-        (onClose)="closeDialog()">
-        <div>
-            <app-overview-chart
-                [type]="doughnutChartConfig.type"
-                [data]="doughnutChartConfig.data"
-                [options]="doughnutChartConfig.options">>
-            </app-overview-chart>
-        </div>
-    </app-dynamic-dialog>
+
+    <ng-container *ngIf="isDialogVisible">
+        <app-dynamic-dialog
+            [title]="'Project Overview'"
+            [size]="'md'"
+            [show]="isDialogVisible"
+            [disableClose]="false"
+            (onClose)="closeDialog()">
+            <div >
+                <app-overview-chart
+                    [type]="doughnutChartConfig.type"
+                    [data]="doughnutChartConfig.data"
+                    [options]="doughnutChartConfig.options">
+                </app-overview-chart>
+            </div>
+        </app-dynamic-dialog>
+    </ng-container>
+
 </div>
