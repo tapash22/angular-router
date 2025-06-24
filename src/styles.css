@@ -33,6 +33,33 @@
 	margin: 5px;
 }
 
+/* x-axis */
+
+.custom-scrollbar-x {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  height: auto;
+  white-space: nowrap;
+  background: #F5F5F5;
+}
+
+.custom-scrollbar-x::-webkit-scrollbar {
+  height: 8px; /* <-- height for horizontal scrollbar */
+  background-color: #F5F5F5;
+  margin: 2px;
+}
+
+.custom-scrollbar-x::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+.custom-scrollbar-x::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: transparent;
+}
+ /* x-axis end */
+
 /* styles.css or styles.scss */
 /* styles.css or styles.scss */
 .toast-center-screen {
