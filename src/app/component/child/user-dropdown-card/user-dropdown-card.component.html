@@ -1,0 +1,58 @@
+ <div
+    class="absolute top-16 py-3 right-0 w-[250px] z-50  h-auto rounded-2xl bg-[var(--surface)]  "
+    [ngClass]="{
+        'text-white shadow-[var(--shadow-dark)]': isDarkMode,
+        'text-[var(--black)] shadow-[var(--shadow)]': !isDarkMode
+        }"
+    *ngIf="visible">
+    <div class="block w-full h-full overflow-hidden">
+        <h2 class="text-xl font-bold tracking-wide py-3 px-4 border-b-[1px]"
+            style="border-color: var(--card-border); ">
+            {{userProfileData.name}}
+            <p
+                class="py-2 text-sm font-medium tracking-wide w-full px-1">
+                {{userProfileData.role}}
+            </p>
+        </h2>
+
+        <ul class="block w-full h-full bg-transparent "
+            style="border-color: var(--card-border)">
+            <!-- Profile -->
+            <li
+                class="w-full h-auto p-1 flex justify-start items-center cursor-pointer border-b-[1px]  gap-2 transition-all duration-200"
+                style="border-color: var(--card-border); "
+                (mouseenter)="hoverItem($event)"
+                (mouseleave)="unhoverItem($event)">
+                <fa-icon [icon]="iconProfile"
+                    class="text-2xl p-3"></fa-icon>
+                <a routerLink="/dashboard/profile"
+                    class="text-lg font-medium italic tracking-wide">Profile</a>
+            </li>
+
+            <!-- Reset Password -->
+            <li
+                class="w-full h-auto p-1 flex justify-start items-center cursor-pointer gap-2 border-b-[1px] transition-all duration-200"
+                style="border-color: var(--card-border); "
+                (mouseenter)="hoverItem($event)"
+                (mouseleave)="unhoverItem($event)">
+                <fa-icon [icon]="iconResetPassword"
+                    class="text-2xl p-3"></fa-icon>
+                <a routerLink="/dashboard/reset-password"
+                    class="text-lg font-medium italic tracking-wide">Reset
+                    Password</a>
+            </li>
+
+            <!-- Logout -->
+            <li
+                class="w-full h-auto p-1 flex justify-start items-center cursor-pointer gap-2 transition-all duration-200"
+                (mouseenter)="hoverItem($event)"
+                (mouseleave)="unhoverItem($event)">
+                <fa-icon [icon]="iconLogout"
+                    class="text-2xl p-3"></fa-icon>
+                <p
+                    class="text-lg font-medium italic tracking-wide"
+                    (click)="logoutUser()">LOGOUT</p>
+            </li>
+        </ul>
+    </div>
+</div>

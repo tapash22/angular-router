@@ -6,10 +6,9 @@ import {
   HostListener,
   Input,
   Output,
-  Renderer2,
   ViewChild,
 } from '@angular/core';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../../service/auth/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -19,17 +18,18 @@ import {
   faArrowRightToBracket,
   faKey,
   faClose,
-  faUserTimes
+  faUserTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { filter } from 'rxjs';
 import { User } from '../../interfaces/user';
 import { UserService } from '../../service/user.service';
 import { ThemeToggleComponent } from '../../shared/theme-toggle/theme-toggle.component';
 import { ThemeService } from '../../service/core/theme.service';
+import { UserDropdownCardComponent } from '../child/user-dropdown-card/user-dropdown-card.component';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, FontAwesomeModule, RouterLink, ThemeToggleComponent],
+  imports: [CommonModule, FontAwesomeModule, ThemeToggleComponent, UserDropdownCardComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
@@ -40,9 +40,8 @@ export class HeaderComponent {
   iconProfile = faUser;
   iconLogout = faArrowRightToBracket;
   iconResetPassword = faKey;
-  iconUserClick = faUserTimes
+  iconUserClick = faUserTimes;
 
-  userProfileData!: User;
   show: boolean = false;
   lastSegment: string = '';
   pathSegments: string[] = [];
@@ -57,12 +56,8 @@ export class HeaderComponent {
     private router: Router,
     private authService: AuthService,
     private userService: UserService,
-    private renderer: Renderer2,
-     public themeService: ThemeService 
-
+    public themeService: ThemeService
   ) {
-    //use service current user
-    this.userProfileData = userService.getCurrentUser()!;
     // Listen for route changes
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -82,46 +77,6 @@ export class HeaderComponent {
     // Call the logout method to clear the data
     this.authService.logout();
   }
-
-  // Improved hover methods with Renderer2 for Angular-safe DOM manipulation
-  hoverItem(event: Event): void {
-    const element = event.currentTarget as HTMLElement;
-    const primaryColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--primary')
-      .trim();
-
-    this.renderer.setStyle(
-      element,
-      'background',
-      `linear-gradient(90deg, transparent 0%, ${primaryColor}20 50%, transparent 100%)`
-    );
-  }
-
-  unhoverItem(event: Event): void {
-    const element = event.currentTarget as HTMLElement;
-    const primaryColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--primary')
-      .trim();
-
-    this.renderer.setStyle(
-      element,
-      'background',
-      `linear-gradient(90deg, transparent 0%, ${primaryColor}10 50%, transparent 100%)`
-    );
-  }
-
-  // Alternative method using CSS classes instead of direct style manipulation
-  /*
-  hoverItem(event: Event): void {
-    const element = event.currentTarget as HTMLElement;
-    this.renderer.addClass(element, 'hover-active');
-  }
-
-  unhoverItem(event: Event): void {
-    const element = event.currentTarget as HTMLElement;
-    this.renderer.removeClass(element, 'hover-active');
-  }
-  */
 
   @HostListener('document:click', ['$event'])
   onClickOutside(event: MouseEvent) {

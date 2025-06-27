@@ -30,72 +30,10 @@
                     <fa-icon [icon]="iconUserClick"
                         class="text-xl p-3"></fa-icon>
                 </button>
-
                 <!-- Dropdown Menu -->
-                <div
-                    class="absolute top-9 py-3 right-0 w-[250px] h-auto shadow-lg z-40 rounded-2xl border-t-4 border-b-4"
-                    [ngClass]="{
-                        'bg-[var(--surface-dark)] border-t-[var(--primary-dark)] border-b-[var(--accent-dark)] shadow-[var(--border-dark)]': themeService.isDarkMode(),
-                        'bg-[var(--surface)] border-t-[var(--primary)] border-b-[var(--accent)] shadow-[var(--border)]': !themeService.isDarkMode()
-                    }"
-                    *ngIf="show">
-
-                    <div class="block w-full h-full overflow-hidden">
-                        <h2 class="text-xl font-bold tracking-wide py-3 px-4"
-                            style="color: var(--foreground)">
-                            {{userProfileData.name}}
-                            <p
-                                class="py-2 text-sm font-medium tracking-wide w-full px-1"
-                                style="color: var(--muted)">
-                                {{userProfileData.role}}
-                            </p>
-                        </h2>
-
-                        <ul class="block w-full h-full border-t-[1px]"
-                            style="border-color: var(--border)">
-                            <!-- Profile -->
-                            <li
-                                class="w-full h-auto p-1 flex justify-start items-center cursor-pointer gap-2 border-b-[1px] transition-all duration-200"
-                                style="border-color: var(--border); color: var(--foreground); background: linear-gradient(90deg, transparent 0%, var(--primary)/10% 50%, transparent 100%)"
-                                (mouseenter)="hoverItem($event)"
-                                (mouseleave)="unhoverItem($event)">
-                                <fa-icon [icon]="iconProfile"
-                                    class="text-2xl p-3"
-                                    style="color: var(--primary)"></fa-icon>
-                                <a routerLink="/dashboard/profile"
-                                    class="text-lg font-medium italic tracking-wide">Profile</a>
-                            </li>
-
-                            <!-- Reset Password -->
-                            <li
-                                class="w-full h-auto p-1 flex justify-start items-center cursor-pointer gap-2 border-b-[1px] transition-all duration-200"
-                                style="border-color: var(--border); color: var(--foreground); background: linear-gradient(90deg, transparent 0%, var(--primary)/10% 50%, transparent 100%)"
-                                (mouseenter)="hoverItem($event)"
-                                (mouseleave)="unhoverItem($event)">
-                                <fa-icon [icon]="iconResetPassword"
-                                    class="text-2xl p-3"
-                                    style="color: var(--primary)"></fa-icon>
-                                <a routerLink="/dashboard/reset-password"
-                                    class="text-lg font-medium italic tracking-wide">Reset
-                                    Password</a>
-                            </li>
-
-                            <!-- Logout -->
-                            <li
-                                class="w-full h-auto p-1 flex justify-start items-center cursor-pointer gap-2 transition-all duration-200"
-                                style="color: var(--foreground); background: linear-gradient(90deg, transparent 0%, var(--danger)/10% 50%, transparent 100%)"
-                                (mouseenter)="hoverItem($event)"
-                                (mouseleave)="unhoverItem($event)">
-                                <fa-icon [icon]="iconLogout"
-                                    class="text-2xl p-3"
-                                    style="color: var(--danger)"></fa-icon>
-                                <p
-                                    class="text-lg font-medium italic tracking-wide"
-                                    (click)="logoutUser()">LOGOUT</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <app-user-dropdown-card [(visible)]="show"
+                    [isDarkMode]="themeService.isDarkMode()"
+                    (logout)="logoutUser()" />
             </div>
         </div>
     </div>
