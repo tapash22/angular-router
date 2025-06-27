@@ -45,7 +45,7 @@ type StarType = "full" | "half" | "empty";
     DynamicDialogComponent,
     ProjectScoreFormComponent,
     ReactiveFormsModule,
-    UserInfoFormComponent,
+    UserInfoFormComponent
   ],
   templateUrl: "./profile.component.html",
   styleUrl: "./profile.component.css",

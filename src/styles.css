@@ -1,36 +1,222 @@
-/* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+@theme {
+  /* default using */
+  --color-background: #f8fafc;
+  /* Snow White */
+  --color-surface: #ffffff;
+  /* Pure White */
+  --color-foreground: #0f172a;
+  /* Midnight Navy */
+  --color-primary: #4f46e5;
+  /* Digital Lavender (Pantone 2025) */
+  --color-secondary: #10b981;
+  /* Verdant Green */
+  --color-accent: #ec4899;
+  /* Cyber Fuchsia */
+  --color-success: #22c55e;
+  /* Emerald Growth */
+  --color-warning: #f59e0b;
+  /* Golden Hour */
+  --color-danger: #ef4444;
+  /* Coral Alert */
+  --color-info: #3b82f6;
+  /* Trust Blue */
+  --color-muted: #64748b;
+  /* Stone Gray */
+  /* shadow */
+  --shadow: 0 0 8px 2px rgba(100, 116, 139, 0.3);
+
+
+  /* Dark using */
+  --color-background-dark: #020617;
+  /* Cosmic Black */
+  --color-surface-dark: #1e293b;
+  /* Twilight Blue */
+  --color-foreground-dark: #e2e8f0;
+  /* Starlight White */
+  --color-primary-dark: #818cf8;
+  /* Holographic Lilac */
+  --color-secondary-dark: #34d399;
+  /* Bio-Luminous */
+  --color-accent-dark: #f472b6;
+  /* Neon Pink */
+  --color-success-dark: #86efac;
+  /* Mint Fresh */
+  --color-warning-dark: #fcd34d;
+  /* Amber Glow */
+  --color-danger-dark: #fca5a5;
+  /* Soft Coral */
+  --color-info-dark: #93c5fd;
+  /* Sky Pulse */
+  --color-muted-dark: #94a3b8;
+  /* Moon Dust */
+  /* shadow */
+  --shadow-dark: 0 0 8px 2px rgba(148, 163, 184, 0.5);
+
+
+}
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============ Base Theme Variables ============ */
+:root {
+  /* Core Colors */
+  --background: var(--color-background);
+  --surface: var(--color-surface);
+  --foreground: var(--color-foreground);
+  --muted: var(--color-muted);
+
+  /* Semantic Colors */
+  --primary: var(--color-primary);
+  --secondary: var(--color-secondary);
+  --accent: var(--color-accent);
+  --success: var(--color-success);
+  --warning: var(--color-warning);
+  --danger: var(--color-danger);
+  --info: var(--color-info);
+
+  /* Component Specific light mode */
+  /* =================================================== */
+
+  /* card */
+  --card-bg: var(--surface);
+  --card-border: rgba(100, 116, 139, 0.12);
+  /* input */
+  --input-bg: var(--surface);
+  --input-border: rgba(100, 116, 139, 0.24);
+  /* Shadows */
+  --shadow-default: var(--shadow);
+  --shadow-card: var(--shadow);
+  --shadow-button: 0 0 4px 1px rgba(100, 116, 139, 0.2);
+
+
+}
+
+.dark {
+  --background: var(--color-background-dark);
+  --surface: var(--color-surface-dark);
+  --foreground: var(--color-foreground-dark);
+  --muted: var(--color-muted-dark);
+
+  --primary: var(--color-primary-dark);
+  --secondary: var(--color-secondary-dark);
+  --accent: var(--color-accent-dark);
+  --success: var(--color-success-dark);
+  --warning: var(--color-warning-dark);
+  --danger: var(--color-danger-dark);
+  --info: var(--color-info-dark);
+
+  /* Component Specific dark mode */
+  /* =================================================== */
+
+  /* card */
+  --card-bg: var(--surface);
+  --card-border: rgba(148, 163, 184, 0.12);
+  /* input */
+  --input-bg: var(--surface);
+  --input-border: rgba(148, 163, 184, 0.24);
+  /* Shadows */
+  --shadow-default: var(--shadow-dark);
+  --shadow-card: var(--shadow-dark);
+  --shadow-button: 0 0 6px 2px rgba(148, 163, 184, 0.4);
+
+
+}
+
+/* ============ Base Styles ============ */
+body {
+  @apply bg-[var(--background)] text-[var(--foreground)] transition-colors duration-200;
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+/* ============ Component Classes ============ */
+.card {
+  @apply rounded-xl p-6 shadow-sm;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+}
+
+.btn-primary {
+  @apply px-4 py-2 rounded-lg font-medium transition-all;
+  background-color: var(--primary);
+  color: white;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--primary) 90%, black);
+    transform: translateY(-1px);
+  }
+}
+
+.chart-container {
+  @apply rounded-lg p-4;
+  background-color: var(--surface);
+  border: 1px solid var(--card-border);
+}
+
+/* ============ Utility Extensions ============ */
+.text-muted {
+  color: var(--muted);
+}
+
+.bg-surface {
+  background-color: var(--surface);
+}
+
+.border-muted {
+  border-color: var(--muted);
+}
+
+/* ============ Animation Keyframes ============ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ============ Dark Mode Switch Transition ============ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
 
 
 /* Scrollbar styles */
 .custom-scrollbar::-webkit-scrollbar {
-	width: 8px;
-	background-color: #F5F5F5;
+  width: 8px;
+  background-color: #F5F5F5;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #5959ff5e;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: #5959ff5e;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: #b9b4e0f3;
-	/* background: #6a77b994; */
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #b9b4e0f3;
+  /* background: #6a77b994; */
 }
 
 .custom-scrollbar {
-	width: 20px;
-	background: #F5F5F5;
-	overflow-y: scroll;
-	margin: 5px;
+  width: 20px;
+  background: #F5F5F5;
+  overflow-y: scroll;
+  margin: 5px;
 }
 
 /* x-axis */
@@ -44,7 +230,8 @@
 }
 
 .custom-scrollbar-x::-webkit-scrollbar {
-  height: 8px; /* <-- height for horizontal scrollbar */
+  height: 8px;
+  /* <-- height for horizontal scrollbar */
   background-color: #F5F5F5;
   margin: 2px;
 }
@@ -58,7 +245,8 @@
   border-radius: 10px;
   background-color: transparent;
 }
- /* x-axis end */
+
+/* x-axis end */
 
 /* styles.css or styles.scss */
 /* styles.css or styles.scss */
@@ -96,10 +284,12 @@
     transform: translate(-50%, 100%);
     opacity: 0;
   }
+
   60% {
     transform: translate(-50%, -10%);
     opacity: 1;
   }
+
   100% {
     transform: translate(-50%, 0);
   }
@@ -116,6 +306,7 @@
   0% {
     width: 100%;
   }
+
   100% {
     width: 0%;
   }
