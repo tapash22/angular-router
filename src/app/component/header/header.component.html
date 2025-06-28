@@ -1,16 +1,15 @@
 <div
-    class="w-full h-20 shadow-[var(--border)] flex justify-center items-center absolute top-0 z-50 bg-[var(--surface)]">
+    class="w-full h-20 shadow-[var(--border)] flex justify-center items-center absolute top-0 z-50 bg-[var(--surface)] text-[var(--foreground)]">
     <div class="w-full h-full p-2 m-0 flex justify-start align-middle">
         <!-- Left Section -->
         <div class="w-6/12 h-full flex justify-start items-center gap-3 px-2">
             <fa-icon
                 [icon]="showSidebar ? iconBars : iconClose"
-                class="text-3xl p-2 transition-all duration-300 hover:scale-110"
-                style="color: var(--primary)"
+                class="text-3xl p-2 "
                 (click)="closeNavigattion()">
             </fa-icon>
             <h1 class="text-xl font-bold"
-                style="color: var(--foreground)">{{pathWithSlashes}}</h1>
+                >{{pathWithSlashes}}</h1>
         </div>
 
         <!-- Right Section -->

@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ThemeService } from '../../../service/core/theme.service';
 
 @Component({
-  selector: "app-section-card",
+  selector: 'app-section-card',
   imports: [CommonModule, FontAwesomeModule],
-  templateUrl: "./section-card.component.html",
-  styleUrl: "./section-card.component.css",
+  templateUrl: './section-card.component.html',
+  styleUrl: './section-card.component.css',
 })
 export class SectionCardComponent {
   @Input() title!: string;
@@ -17,4 +18,6 @@ export class SectionCardComponent {
   editForm() {
     this.openDialog.emit();
   }
+
+  constructor(public themeService: ThemeService) {}
 }

@@ -18,10 +18,9 @@ import {
   faArrowRightToBracket,
   faKey,
   faClose,
-  faUserTimes,
+  faUserShield
 } from '@fortawesome/free-solid-svg-icons';
 import { filter } from 'rxjs';
-import { User } from '../../interfaces/user';
 import { UserService } from '../../service/user.service';
 import { ThemeToggleComponent } from '../../shared/theme-toggle/theme-toggle.component';
 import { ThemeService } from '../../service/core/theme.service';
@@ -40,7 +39,7 @@ export class HeaderComponent {
   iconProfile = faUser;
   iconLogout = faArrowRightToBracket;
   iconResetPassword = faKey;
-  iconUserClick = faUserTimes;
+  iconUserClick = faUserShield;
 
   show: boolean = false;
   lastSegment: string = '';

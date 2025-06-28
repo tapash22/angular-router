@@ -229,13 +229,11 @@ body {
   overflow-y: hidden;
   height: auto;
   white-space: nowrap;
-  background: #F5F5F5;
 }
 
 .custom-scrollbar-x::-webkit-scrollbar {
   height: 8px;
   /* <-- height for horizontal scrollbar */
-  background-color: #F5F5F5;
   margin: 2px;
 }
 

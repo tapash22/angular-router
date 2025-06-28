@@ -1,45 +1,45 @@
 
 
-<div class="flex h-[86vh] overflow-hidden mt-4">
+<div class="flex h-[86vh] overflow-hidden mt-4 bg-[var(--surface)] text-[var(--foreground)]">
     <!-- Sidebar -->
     <aside
-        class="w-64 h-full bg-white  text-black  space-y-4 shadow-sm shadow-gray-400 ">
+        class="w-64 h-full bg-[var(--surface)]  space-y-4 shadow-sm shadow-gray-400 ">
         <div
-            class="w-full block h-auto p-4 border-l-8 border-l-blue-300 rounded-xl">
+            class="w-full block h-auto p-4 border-l-8  rounded-xl">
             <h2
                 class="text-lg font-medium space-x-2 flex justify-start items-center ">
                 <fa-icon [icon]="iconUser"
-                    class="text-xl text-gray-500 p-1"></fa-icon>
+                    class="text-xl  p-1"></fa-icon>
                 {{userProfileData.name}}
                 <fa-icon [icon]="iconCircle"
-                    class="text-lg text-gray-500 p-1"
+                    class="text-lg  p-1"
                     [ngClass]="{
            'text-green-500': userProfileData.status === 'active',
            'text-red-500': userProfileData.status !== 'active'
          }"></fa-icon>
             </h2>
             <p
-                class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide text-black">
+                class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide ">
                 <fa-icon [icon]="iconUserRole" (click)="editUserInfo()"
-                    class="text-lg text-gray-500 p-1"></fa-icon>
+                    class="text-lg  p-1"></fa-icon>
                 {{ userProfileData.role }}
             </p>
             <p
-                class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide text-black">
+                class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide ">
                 <fa-icon [icon]="iconMail"
-                    class="text-lg text-gray-500 p-1"></fa-icon>
+                    class="text-lg p-1"></fa-icon>
                 {{ userProfileData.email }}
             </p>
             <p
-                class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide text-black">
+                class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide ">
                 <fa-icon [icon]="iconPhone"
-                    class="text-lg text-gray-500 p-1"></fa-icon>
+                    class="text-lg p-1"></fa-icon>
                 {{ userProfileData.phone }}
             </p>
             <p
-                class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide text-black">
+                class="space-x-2 flex justify-start items-center text-sm font-medium tracking-wide ">
                 <fa-icon [icon]="iconLocation"
-                    class="text-lg text-gray-500 p-1"></fa-icon>{{
+                    class="text-lg p-1"></fa-icon>{{
                 userProfileData.location }}</p>
         </div>
         <ul class="border-t-2 border-gray-200 p-0 ">
@@ -47,7 +47,7 @@
                 *ngFor="let item of menuItems"
                 (click)="scrollToSection(item.id)"
                 [ngClass]="{
-        'border-l-4 border-l-blue-300 bg-gray-100  ': activeSection === item.id,
+        'border-l-4 border-l-blue-300   ': activeSection === item.id,
         'hover:bg-gray-200 ': activeSection !== item.id
       }"
                 class="cursor-pointer p-4 text-lg font-medium tracking-wide ">
@@ -112,10 +112,7 @@
             ? halfStar
             : solidStar
         "
-                        [ngClass]="{
-          'text-yellow-400': star !== 'empty',
-          'text-gray-300': star === 'empty'
-        }"></fa-icon>
+                    ></fa-icon>
                 </ng-container>
             </p>
             <p><strong>Total Hours:</strong> {{

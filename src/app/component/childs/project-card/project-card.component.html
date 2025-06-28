@@ -1,6 +1,6 @@
 <div class="relative animate-fade-in">
     <div
-        class="card my-2 p-4 w-full h-full rounded-2xl"
+        class="card my-2 p-4 w-full h-full rounded-2xl bg-[var(--surface)] text-[var(--foreground)]"
         [ngClass]="{
           'border-2': selected || (projectCardDisabled || isDisabled),
           'border-[var(--border)]': selected,
@@ -9,18 +9,17 @@
         (click)="handleSelectProject()">
         
         <!-- Title Section -->
-        <div class="flex justify-between items-center relative">
+        <div class="flex justify-between items-start relative">
             <div class="block">
-                <h2 class="text-xl font-semibold py-1 text-[var(--foreground)]">
+                <h2 class="text-xl font-semibold py-1 ">
                     {{ project.project_title }}
                 </h2>
                 
                 <!-- Status Badge -->
-                <div class="w-full flex items-center justify-start">
+                <div class="w-full flex items-center justify-start py-2">
                     <p
-                        class="px-3 py-1 rounded-sm text-center text-sm font-medium w-auto ring-1 ring-[var(--border)]"
-                        [ngClass]="statusClassMap[project.projectStatus] || 'bg-[var(--muted)]/20'"
-                        style="color: var(--foreground)">
+                        class="px-3 py-1 rounded-lg text-center text-sm font-medium w-auto shadow-[var(--shadow)]"
+                        >
                         {{ project.projectStatus | titlecase }}
                     </p>
                 </div>
@@ -31,24 +30,23 @@
                 <fa-icon
                     [icon]="(icon && !isDisabled) ? icon : iconBarChart"
                     class="text-lg cursor-pointer rounded-md transition-all duration-200 hover:scale-110"
-                    style="color: var(--primary)"
+                    style="color: var(--foreground)"
                     (click)="(icon && !isDisabled) ? handleEditProject($event) : openProjectChart()">
                 </fa-icon>
             </ng-container>
         </div>
         
         <!-- Subtitle -->
-        <p class="text-lg font-normal py-3 text-[var(--foreground)]">
+        <p class="text-lg font-normal py-3 ">
             {{project.project_subtitle}}
         </p>
 
         <!-- Requirements Chips -->
         <div
-            class="w-full flex items-center gap-2 h-24 overflow-x-auto overflow-y-hidden px-2 custom-scrollbar-x"
+            class="w-full flex items-center gap-2 h-24 overflow-x-auto overflow-y-hidden px-2 py-2 custom-scrollbar-x "
             *ngIf="project.project_requirement.length">
             <p
-                class="flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium px-4 py-2 shadow bg-[var(--surface)]"
-                style="color: var(--foreground)"
+                class="flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium px-3 py-2  shadow-[var(--shadow)]"
                 *ngFor="let chip of project.project_requirement">
                 {{ chip }}
             </p>
