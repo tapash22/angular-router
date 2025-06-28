@@ -18,17 +18,23 @@ import {
   faArrowRightToBracket,
   faKey,
   faClose,
-  faUserShield
+  faUserShield,
 } from '@fortawesome/free-solid-svg-icons';
 import { filter } from 'rxjs';
-import { UserService } from '../../service/user.service';
 import { ThemeToggleComponent } from '../../shared/theme-toggle/theme-toggle.component';
 import { ThemeService } from '../../service/core/theme.service';
 import { UserDropdownCardComponent } from '../child/user-dropdown-card/user-dropdown-card.component';
+import { DynamicButtonComponent } from '../../childs/dynamic-button/dynamic-button.component';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, FontAwesomeModule, ThemeToggleComponent, UserDropdownCardComponent],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    ThemeToggleComponent,
+    UserDropdownCardComponent,
+    DynamicButtonComponent,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
@@ -47,14 +53,15 @@ export class HeaderComponent {
   pathWithSlashes: string = '';
 
   @Input() showSidebar!: boolean;
-  @ViewChild('trigger') trigger!: ElementRef;
+  // @ViewChild('trigger') trigger!: ElementRef;
+  // @ViewChild('btn', { static: true }) private buttonRef!: ElementRef<HTMLButtonElement>;
+  @ViewChild('trigger') triggerButton!: DynamicButtonComponent;
 
   @Output() onClose = new EventEmitter<void>();
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private userService: UserService,
     public themeService: ThemeService
   ) {
     // Listen for route changes
@@ -67,20 +74,23 @@ export class HeaderComponent {
       });
   }
 
+  showUserMenu() {
+    this.show = !this.show;
+  }
+
   closeNavigattion() {
-    console.log('clibk');
     this.onClose.emit();
   }
 
   logoutUser() {
-    // Call the logout method to clear the data
     this.authService.logout();
   }
 
   @HostListener('document:click', ['$event'])
-  onClickOutside(event: MouseEvent) {
-    const clickedInside = this.trigger?.nativeElement.contains(event.target);
-    if (!clickedInside) {
+  onClickOutside(event: MouseEvent): void {
+    const buttonEl = this.triggerButton?.getNativeElement();
+    if (buttonEl && !buttonEl.contains(event.target as Node)) {
+      // Click was outside
       this.show = false;
     }
   }

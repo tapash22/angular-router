@@ -12,10 +12,11 @@ import { ToasterService } from "../../service/toaster.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { UserService } from "../../service/user.service";
+import { DynamicButtonComponent } from "../../childs/dynamic-button/dynamic-button.component";
 
 @Component({
   selector: "app-reset-password",
-  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule],
+  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule,DynamicButtonComponent],
   templateUrl: "./reset-password.component.html",
   styleUrl: "./reset-password.component.css",
 })

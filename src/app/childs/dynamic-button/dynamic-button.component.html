@@ -1,0 +1,11 @@
+<button
+    #btn
+    class='flex items-center justify-center transition-colors duration-300]'
+    [ngClass]="[roundedClass, buttonSizeClass,textColor,backgroundColor,boxShadow]"
+    (click)="handleClick()">
+    <fa-icon *ngIf="icon; else buttonText" [icon]="icon"
+        class="text-xl p-3"></fa-icon>
+    <ng-template #buttonText>
+        <span class="text-sm tracking-wide rounded-lg font-medium">Click</span>
+    </ng-template>
+</button>
