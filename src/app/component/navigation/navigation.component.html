@@ -8,16 +8,22 @@
     <ul
         class="block w-auto  h-full  pa-3 space-y-2 my-0 shadow-[var(--shadow-button)] ">
         
-        <li *ngFor="let item of menuItems"
+        <!-- <li *ngFor="let item of menuItems"
             class="flex justify-start align-middle w-auto hover:bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#F5F5F5_50%,_#d6d7da8a_100%)]
            transition-all duration-300 py-4 px-5 cursor-pointer "
+        </li> -->
+          <li *ngFor="let item of menuItems"
+              [ngClass]="[
+                    'flex justify-start align-middle w-auto tracking-wide transition-all duration-300 py-4 px-5 cursor-pointer',
+                    activeLink.includes(item.link) ? 'bg-[var(--sidebar-active-bg)] border-l-2 border-r-1 border-gray-300 rounded-lg' : 'hover:bg-[var(--sidebar-hover-bg)]'
+                ]"
             [routerLink]="item.link" routerLinkActive="active">
             <fa-icon
                 [icon]="item.icon"
                 class=" text-xl px-4  ">
             </fa-icon>
             <span *ngIf="collapsed" class="text-lg font-medium">
-                {{ item.name |titlecase }}
+                {{ item.name |titlecase }} 
             </span>
         </li>
     </ul>

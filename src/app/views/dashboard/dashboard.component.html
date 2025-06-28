@@ -2,7 +2,7 @@
   <!-- Sidebar -->
   <div class="navigation h-full shadow-xl transition-all duration-300 ease-in-out flex flex-col"
        [ngClass]="{
-         'w-[320px]': !showSidebar,
+         'w-[250px]': !showSidebar,
          'w-[80px]': showSidebar
        }">
        
@@ -13,7 +13,7 @@
 
   <!-- Main Content -->
   <div class="flex-1 flex flex-col h-full relative "
-       [style.width]="'calc(100% - ' + (showSidebar ? '80px' : '320px') + ')'">
+       [style.width]="'calc(100% - ' + (showSidebar ? '80px' : '250px') + ')'">
        
     <app-header [showSidebar]="showSidebar" (onClose)="toggleSidebar()"></app-header>
     
