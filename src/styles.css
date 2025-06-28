@@ -9,7 +9,7 @@
   --color-foreground: #0f172a;
   /* Midnight Navy */
   --color-primary: #4f46e5;
-  --color-black:#000000;
+  --color-black: #000000;
   /* Digital Lavender (Pantone 2025) */
   --color-secondary: #10b981;
   /* Verdant Green */
@@ -27,6 +27,8 @@
   /* Stone Gray */
   /* shadow */
   --shadow: 0 0 8px 2px rgba(100, 116, 139, 0.3);
+  --list: rgba(185, 175, 175, 0.568);
+  --list-possitive: #ddd8d8a1;
 
 
   /* Dark using */
@@ -55,7 +57,8 @@
   /* shadow */
   --shadow-dark: 0 0 8px 2px rgba(148, 163, 184, 0.5);
 
-
+  --list-dark: #5b82c0;
+  --list-possitive-dark: #3177e980;
 }
 
 @tailwind base;
@@ -71,7 +74,7 @@
   --muted: var(--color-muted);
 
   /* Semantic Colors */
-  --black:var(--color-black);
+  --black: var(--color-black);
   --primary: var(--color-primary);
   --secondary: var(--color-secondary);
   --accent: var(--color-accent);
@@ -95,7 +98,8 @@
   --shadow-card: var(--shadow);
   --shadow-button: 0 0 4px 1px rgba(100, 116, 139, 0.2);
 
-
+  --list-bg: var(--list);
+  --list-possitive-bg: var(--list-possitive);
 }
 
 .dark {
@@ -126,6 +130,9 @@
   --shadow-card: var(--shadow-dark);
   --shadow-button: 0 0 6px 2px rgba(148, 163, 184, 0.4);
 
+
+  --list-bg: var(--list-dark);
+  --list-possitive-bg: var(--list-possitive-dark);
 
 }
 
@@ -199,7 +206,7 @@ body {
 /* Scrollbar styles */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
-  background-color: #F5F5F5;
+  background: rgba(255, 255, 255, 0.452);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
@@ -211,13 +218,13 @@ body {
 .custom-scrollbar::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  background-color: #b9b4e0f3;
+  background-color: rgba(230, 227, 227, 0.452);;
   /* background: #6a77b994; */
 }
 
 .custom-scrollbar {
-  width: 20px;
-  background: #F5F5F5;
+  width: 5px;
+  /* background: #F5F5F5; */
   overflow-y: scroll;
   margin: 5px;
 }
@@ -266,7 +273,7 @@ body {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   animation: bounceUp 0.5s ease;
   background-color: #f8d7da;
-  color: #721c24;
+  color: #5b82c0;
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
 }
