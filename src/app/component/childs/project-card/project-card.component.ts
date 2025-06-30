@@ -97,7 +97,7 @@ this.doughnutChartConfig = {
         borderRadius: 10,
         borderWidth: 2,
         borderColor: '#fff',
-        radius: '25%',      // 💡 Smaller outer radius
+        radius: '45%',      // 💡 Smaller outer radius
         cutout: '50%',      // 💡 Larger inner cutout
       },
       {
@@ -107,8 +107,8 @@ this.doughnutChartConfig = {
         borderRadius: 10,
         borderWidth: 2,
         borderColor: '#fff',
-        radius: '40%',      // 💡 Next outer ring
-        cutout: '50%',
+        radius: '65%',      // 💡 Next outer ring
+        cutout: '66%',
       },
       {
         label: 'Cost (k)',
@@ -117,8 +117,8 @@ this.doughnutChartConfig = {
         borderRadius: 10,
         borderWidth: 2,
         borderColor: '#fff',
-        radius: '55%',      // 💡 Outermost ring
-        cutout: '65%',      // 💡 Leaves gap between rings
+        radius: '85%',      // 💡 Outermost ring
+        cutout: '75%',      // 💡 Leaves gap between rings
       },
     ],
   },

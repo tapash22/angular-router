@@ -1,8 +1,8 @@
 <div
   *ngIf="show"
-  class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center  z-50 ">
+  class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center z-50">
   <div [ngClass]="dialogWidth"
-    class="rounded-2xl shadow-[var(--shadow)] flex flex-col max-h-[90vh] overflow-hidden">
+    class="rounded-2xl shadow-[var(--shadow)] flex flex-col min-h-[10vh] max-h-[90vh] overflow-hidden ">
     <!-- Header -->
     <div
       class="sticky top-0  flex items-center justify-between px-5 py-4 border-b-2 rounded-t-2xl">
@@ -21,11 +21,10 @@
     </div>
 
     <!-- Body -->
-    <div class="overflow-y-auto overflow-x-hidden px-5 py-2 max-h-[60vh]"
-      [ngClass]="{ 'mb-2': !showFooter }">
+    <div class="overflow-y-auto overflow-x-hidden px-5 max-h-[80vh]"
+      [ngClass]="{ 'mb-2': showFooter }">
       <ng-content></ng-content>
     </div>
-
     <!-- Footer -->
     <div
       *ngIf="showFooter"
