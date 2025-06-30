@@ -1,0 +1,11 @@
+ <div class="block w-full h-auto py-3">
+    <p class="text-lg font-normal  ">
+        {{project.project_subtitle}}
+    </p>
+    <app-dynamic-chip
+        [chipList]="project.project_requirement"></app-dynamic-chip>
+    <p class="text-lg font-normal text-[var(--foreground)]">
+        User Engaged: {{project.working_resource.length}}
+    </p>
+      <ng-content></ng-content>
+</div>

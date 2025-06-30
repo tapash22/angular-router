@@ -8,85 +8,15 @@
         }"
         (click)="handleSelectProject()">
 
-        <!-- Title Section -->
-        <div class="flex justify-between items-start relative">
-            <div class="block">
-                <h2 class="text-xl font-semibold py-1 ">
-                    {{ project.project_title }}
-                </h2>
-
-                <!-- Status Badge -->
-                <div class="w-full flex items-center justify-start py-2">
-                    <p
-                        class="px-3 py-1 rounded-lg text-center text-sm font-medium w-auto shadow-[var(--shadow)]">
-                        {{ project.projectStatus | titlecase }}
-                    </p>
-                </div>
-            </div>
-
-            <!-- Action Button -->
-            <ng-container>
-                <fa-icon
-                    [icon]="(icon && !isDisabled) ? icon : iconBarChart"
-                    class="text-lg cursor-pointer rounded-md transition-all duration-200 hover:scale-110"
-                    style="color: var(--foreground)"
-                    (click)="(icon && !isDisabled) ? handleEditProject($event) : openProjectChart()">
-                </fa-icon>
-            </ng-container>
-        </div>
-
-        <!-- Subtitle -->
-        <p class="text-lg font-normal py-3 ">
-            {{project.project_subtitle}}
-        </p>
-
+        <!-- header Section -->
+        <app-project-card-header [project]="project" [icon]="icon"
+            [isDisabled]="isDisabled" (clickToEdit)="handleEditProject($event)"
+            (clickToOpen)="openProjectChart()"></app-project-card-header>
         <!-- Requirements Chips -->
-        <div
-            class="w-full flex items-center gap-2 h-24 overflow-x-auto overflow-y-hidden px-2 py-2 custom-scrollbar-x "
-            *ngIf="project.project_requirement.length">
-            <p
-                class="flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium px-3 py-2  shadow-[var(--shadow)]"
-                *ngFor="let chip of project.project_requirement">
-                {{ chip }}
-            </p>
-        </div>
-
-        <!-- User Engagement -->
-        <div class="w-full h-auto block items-center gap-2 py-2">
-            <p class="text-lg font-normal text-[var(--foreground)]">
-                User Engaged: {{project.working_resource.length}}
-            </p>
-        </div>
-
+        <app-project-card-body [project]="project"></app-project-card-body>
         <!-- Resources Section -->
-        <div class="chart-container w-auto h-32">
-            <div class="grid grid-cols-2 gap-3">
-                <div class="p-3 shadow bg-[var(--surface)]"
-                    *ngFor="let resource of project.working_resource">
-                    <h2
-                        class="text-sm flex justify-center w-full font-medium tracking-wide py-1 text-[var(--foreground)]">
-                        {{resource.name}}
-                    </h2>
-                    <div class="w-full h-auto"
-                        [ngClass]="resource.performance_score > 10 ? 'block' : 'hidden'">
-                        <!-- Progress bar with tooltip -->
-                        <div
-                            class="w-full rounded-full h-3 my-2 flex items-center group bg-[var(--border)]">
-                            <div
-                                class="h-3 rounded-full transition-all duration-500 flex justify-center items-center relative"
-                                [style.width.%]="resource.performance_score"
-                                style="background: var(--primary)">
-                                <span
-                                    class="absolute -top-6 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs px-2 py-1 rounded"
-                                    style="color: var(--foreground); background-color: var(--surface)">
-                                    {{ resource.performance_score }}%
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <app-project-work-resource
+            [projectResources]="project.working_resource"></app-project-work-resource>
     </div>
 
     <!-- Dialog Container -->

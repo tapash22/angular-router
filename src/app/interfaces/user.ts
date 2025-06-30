@@ -30,6 +30,16 @@ export type WorkingResource = Pick<User, "id" | "name" | "email"> & {
   performance_score?: number;
 };
 
+export interface ProjecctResource{
+     id: number;
+    name: string;
+    email: string;
+    time_spent_hours: number; // ✅ Time spent by the individual user
+    performance_score: number; 
+}
+
+export type ProjecctResources = ProjecctResource[];
+
 export interface Project {
   id: number;
   project_title: string;
@@ -39,13 +49,7 @@ export interface Project {
   project_costing_needed: number;
   project_resource_needed: number;
   project_requirement: string[];
-  working_resource: {
-    id: number;
-    name: string;
-    email: string;
-    time_spent_hours: number; // ✅ Time spent by the individual user
-    performance_score: number; // ✅ User's performance in this project (0–100 or 0–10 scale)
-  }[];
+  working_resource:ProjecctResources;
   projectStatus: "start" | "in-progress" | "completed" |"pause";
 }
 

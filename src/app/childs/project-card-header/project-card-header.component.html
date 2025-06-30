@@ -1,0 +1,25 @@
+ <div class="flex justify-between items-start relative">
+    <div class="block">
+        <h2 class="text-xl font-semibold py-1 ">
+            {{ project.project_title }}
+        </h2>
+
+        <!-- Status Badge -->
+        <div class="w-full flex items-center justify-start py-2">
+            <p
+                class="px-3 py-1 rounded-lg text-center text-sm font-medium w-auto shadow-[var(--shadow)]">
+                {{ project.projectStatus | titlecase }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Action Button -->
+    <ng-container>
+        <fa-icon
+            [icon]="(icon && !isDisabled) ? icon : iconBarChart"
+            class="text-lg cursor-pointer rounded-md transition-all duration-200 hover:scale-110"
+            style="color: var(--foreground)"
+            (click)="(icon && !isDisabled) ? handleEditProject($event) : openProjectChart()">
+        </fa-icon>
+    </ng-container>
+</div>
