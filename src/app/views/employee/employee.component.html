@@ -1,9 +1,19 @@
 <div class="block w-full h-full bg-transparent">
-    <div class="w-full h-auto py-4 flex justify-center items-center gap-4">
-        <div class="w-1/2 h-auto p-2">
+    <div class="w-full h-auto py-4 flex justify-center items-start gap-4">
+        <div class="w-1/2 h-auto p-2 block">
             <app-overview-chart [type]="chartType"
                 [data]="chartData"
                 [options]="chartOptions"></app-overview-chart>
+            <div class="w-full h-auto block py-5">
+                <div *ngIf="userDetails; else noUser">
+                    <p><strong>Name:</strong> {{ userDetails.name }}</p>
+                    <p><strong>Email:</strong> {{ userDetails.email }}</p>
+                    <p><strong>Role:</strong> {{ userDetails.role }}</p>
+                </div>
+                <ng-template #noUser>
+                    <p>No user is currently logged in.</p>
+                </ng-template>
+            </div>
         </div>
         <div class="w-1/2 h-auto p-2 grid grid-cols-2 gap-2">
             <app-project-card *ngFor="let project of projectList; let i=index"
@@ -12,14 +22,5 @@
                 (selectProject)="handleProject($event)"></app-project-card>
         </div>
     </div>
-    <div class="w-full h-auto block">
-        <div *ngIf="userDetails; else noUser">
-            <p><strong>Name:</strong> {{ userDetails.name }}</p>
-            <p><strong>Email:</strong> {{ userDetails.email }}</p>
-            <p><strong>Role:</strong> {{ userDetails.role }}</p>
-        </div>
-        <ng-template #noUser>
-            <p>No user is currently logged in.</p>
-        </ng-template>
-    </div>
+
 </div>
