@@ -10,14 +10,9 @@ import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class ProjectScoreFormComponent {
   @Input() projectScore!: FormGroup;
-  @Output() formSubmitted = new EventEmitter<void>();
 
   get workingResourceScores(): FormArray {
     return this.projectScore.get('working_resource_scores') as FormArray;
-  }
-
-  onSubmit() {
-    this.formSubmitted.emit();
   }
 
 }

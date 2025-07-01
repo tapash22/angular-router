@@ -61,7 +61,6 @@
 
     <!-- Content Area -->
     <main class="flex-1 overflow-y-auto custom-scrollbar">
-
         <!-- Basic Info -->
         <app-section-card id="basic" [title]="'Basic Information'"
             [icon]="iconEdit" (openDialog)="editUserInfo()">
@@ -73,7 +72,6 @@
             <p><strong>Location:</strong> {{ userProfileData.location }}</p>
         </app-section-card>
         <!--Basic Info end-->
-
         <!-- project details -->
         <app-section-card id="projects" [title]="'Projects'">
             <div
@@ -91,7 +89,6 @@
             </div>
         </app-section-card>
         <!-- project details end -->
-
         <!-- performance details-->
         <app-section-card id="performance" [title]="'Performance'">
             <p class="mb-2 w-full flex justify-between">
@@ -128,10 +125,18 @@
         [show]="userInfoDialog" [showFooter]="true" (onClose)="closeDialog()">
         <div>
             <app-user-info-form
-                [profileForm]="profileForm"
-                (update)="updateUser()" />
+                [profileForm]="profileForm" />
         </div>
-
+        <div class="w-full" footer-controls>
+            <div class="flex justify-end">
+                <app-dynamic-button
+                    [mode]="'submit'"
+                    [size]="'sm'" [shadow]="'button'"
+                    [buttonRounded]="'lg'"
+                    [buttonText]="'Update'"
+                    (buttonClick)="updateUser()"></app-dynamic-button>
+            </div>
+        </div>
     </app-dynamic-dialog>
     <!-- Basic Info update dialog end -->
 
@@ -143,8 +148,17 @@
         (onClose)="closeDialog()">
         <div>
             <app-project-score-form
-                [projectScore]="projectScore"
-                (formSubmitted)="submitProjectScoreUpdate()" />
+                [projectScore]="projectScore" />
+        </div>
+        <div footer-controls class="w-full">
+            <div class="flex justify-end">
+                <app-dynamic-button
+                    [mode]="'submit'"
+                    [size]="'sm'" [shadow]="'button'"
+                    [buttonRounded]="'lg'"
+                    [buttonText]="'Submit'"
+                    (buttonClick)="submitProjectScoreUpdate()"></app-dynamic-button>
+            </div>
         </div>
     </app-dynamic-dialog>
     <!-- update project performance_score each project with dialog end  -->

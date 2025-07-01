@@ -33,6 +33,7 @@ import { UserInfoFormComponent } from '../../component/childs/user-info-form/use
 import { UserService } from '../../service/user.service';
 import { ProjectService } from '../../service/project.service';
 import { ThemeService } from '../../service/core/theme.service';
+import { DynamicButtonComponent } from '../../childs/dynamic-button/dynamic-button.component';
 
 type StarType = 'full' | 'half' | 'empty';
 
@@ -47,6 +48,7 @@ type StarType = 'full' | 'half' | 'empty';
     ProjectScoreFormComponent,
     ReactiveFormsModule,
     UserInfoFormComponent,
+    DynamicButtonComponent
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
@@ -213,6 +215,8 @@ export class ProfileComponent {
     }
 
     const scores = this.projectScore.value.working_resource_scores;
+
+      console.log(scores);
 
     let allSuccess = true;
 
