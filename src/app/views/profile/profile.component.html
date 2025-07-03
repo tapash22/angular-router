@@ -91,29 +91,10 @@
         <!-- project details end -->
         <!-- performance details-->
         <app-section-card id="performance" [title]="'Performance'">
-            <p class="mb-2 w-full flex justify-between">
-                <strong>Performance Score:</strong> {{
-                userProfileData.performanceScore }}%
-            </p>
-            <div class="w-full bg-gray-200 rounded-full h-5">
-                <div
-                    class="bg-[linear-gradient(90deg,_#d6d7da8e_0%,_#2643d194_100%)] h-5 rounded-full transition-all duration-500 flex justify-center items-center"
-                    [style.width.%]="userProfileData.performanceScore">
-                </div>
-            </div>
-            <p class="flex items-center gap-2">
-                <strong>Rating:</strong>
-                <ng-container *ngFor="let star of ratingStars">
-                    <fa-icon
-                        [icon]="
-          star === 'full'
-            ? solidStar
-            : star === 'half'
-            ? halfStar
-            : solidStar
-        "></fa-icon>
-                </ng-container>
-            </p>
+            <app-dynamic-progress-bar [progressBarTitle]="'Performance Score'" [score]="userProfileData.performanceScore"
+                [striped]="true"></app-dynamic-progress-bar>
+            <app-dynamic-rating-star [titleTag]="'Rating'"
+                [rating]="userProfileData.rating"></app-dynamic-rating-star>
             <p><strong>Total Hours:</strong> {{
                 userProfileData.totalTimeSpentHours }}</p>
         </app-section-card>

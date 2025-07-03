@@ -13,10 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { filter } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {
-  faStar as solidStar,
-  faStarHalfAlt,
-} from '@fortawesome/free-solid-svg-icons';
+
 import { SectionCardComponent } from '../../component/childs/section-card/section-card.component';
 import {
   FormBuilder,
@@ -34,8 +31,9 @@ import { UserService } from '../../service/user.service';
 import { ProjectService } from '../../service/project.service';
 import { ThemeService } from '../../service/core/theme.service';
 import { DynamicButtonComponent } from '../../childs/dynamic-button/dynamic-button.component';
+import { DynamicRatingStarComponent } from '../../childs/dynamic-rating-star/dynamic-rating-star.component';
+import { DynamicProgressBarComponent } from '../../childs/dynamic-progress-bar/dynamic-progress-bar.component';
 
-type StarType = 'full' | 'half' | 'empty';
 
 @Component({
   selector: 'app-profile',
@@ -48,7 +46,9 @@ type StarType = 'full' | 'half' | 'empty';
     ProjectScoreFormComponent,
     ReactiveFormsModule,
     UserInfoFormComponent,
-    DynamicButtonComponent
+    DynamicButtonComponent,
+    DynamicRatingStarComponent,
+    DynamicProgressBarComponent
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
@@ -73,9 +73,6 @@ export class ProfileComponent {
   color: string = 'bg-green-600';
   submitBtnTitle: string = 'submitBtnTitle';
 
-  solidStar = solidStar;
-  halfStar = faStarHalfAlt;
-
   iconUser = faUser;
   iconUserRole = faUserGear;
   iconMail = faMailBulk;
@@ -83,8 +80,6 @@ export class ProfileComponent {
   iconLocation = faMapLocation;
   iconEdit = faEdit;
   iconCircle = faCircleDot;
-
-  ratingStars: StarType[] | null = [];
 
   menuItems: any[] = [
     { id: 'basic', label: 'Basic Info' },
@@ -108,7 +103,6 @@ export class ProfileComponent {
     public themeService: ThemeService
   ) {
     this.userProfileData = this.userService.getCurrentUser()!;
-    this.generateStars(this.userProfileData.rating!);
   }
 
   ngOnInit() {
@@ -132,22 +126,6 @@ export class ProfileComponent {
     return this.projectScore.get('working_resource_scores') as FormArray;
   }
 
-  //use star calculation
-  private generateStars(rating: number | null | undefined): void {
-    if (rating == null || isNaN(rating)) {
-      this.ratingStars = Array<StarType>(5).fill('empty');
-      return;
-    }
-    const full = Math.floor(rating);
-    const half = rating % 1 >= 0.5 ? 1 : 0;
-    const empty = 5 - full - half;
-
-    this.ratingStars = [
-      ...Array<StarType>(full).fill('full'),
-      ...Array<StarType>(half).fill('half'),
-      ...Array<StarType>(empty).fill('empty'),
-    ];
-  }
   //projecct active with added style
   handleProject(event: { index: number; project: Project }) {
     this.selectedIndex = event.index;

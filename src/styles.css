@@ -106,6 +106,13 @@
 
   --list-bg: var(--list);
   --list-possitive-bg: var(--list-possitive);
+
+  /* Match stripes to surface + slightly transparent overlay */
+  --stripe-light-primary: color-mix(in srgb, var(--color-surface) 85%, #000);
+  --stripe-light-secondary: color-mix(in srgb, var(--color-surface) 65%, #000);
+
+    /* Track background */
+  --progress-track: #e5e7eb; 
 }
 
 .dark {
@@ -144,6 +151,12 @@
   --list-bg: var(--list-dark);
   --list-possitive-bg: var(--list-possitive-dark);
 
+  /* Dark-mode stripe overlays using surface-dark */
+  --stripe-dark-primary: color-mix(in srgb, var(--color-surface-dark) 85%, #fff);
+  --stripe-dark-secondary: color-mix(in srgb, var(--color-surface-dark) 65%, #fff);
+
+  /* progress track */
+    --progress-track: #334155; /* Tailwind slate-700 */
 }
 
 /* ============ Base Styles ============ */
@@ -152,6 +165,38 @@ body {
   font-family: 'Inter', system-ui, sans-serif;
   line-height: 1.5;
 }
+
+/* ============== Striped ================ */
+
+.striped {
+  background-image: repeating-linear-gradient(45deg,
+      var(--stripe-light-primary) 0,
+      var(--stripe-light-primary) 8px,
+      var(--stripe-light-secondary) 8px,
+      var(--stripe-light-secondary) 16px);
+  animation: moveStripes 2.5s linear infinite;
+  transition: background-image 0.4s ease-in-out;
+}
+
+.dark .striped {
+  background-image: repeating-linear-gradient(45deg,
+      var(--stripe-dark-primary) 0,
+      var(--stripe-dark-primary) 8px,
+      var(--stripe-dark-secondary) 8px,
+      var(--stripe-dark-secondary) 16px);
+}
+
+@keyframes moveStripes {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 32px 0;
+  }
+}
+
+
 
 /* ============ Component Classes ============ */
 .card {

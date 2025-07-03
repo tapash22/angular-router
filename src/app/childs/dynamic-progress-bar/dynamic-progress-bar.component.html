@@ -1,0 +1,16 @@
+<div class="block w-full h-auto p-3">
+    <p class="p-2 w-full flex justify-between">
+        <strong>{{progressBarTitle}}:</strong>
+        {{ score }}%
+    </p>
+
+    <div
+        class="w-full h-5 rounded-full overflow-hidden"
+        [ngStyle]="{ backgroundColor: 'var(--progress-track)' }">
+        <!-- Progress bar fill -->
+        <div
+            class="h-full rounded-full transition-all duration-700"
+            [style.width.%]="score"
+            [ngClass]="striped ? 'striped' : 'bg-[var(--primary)]'"></div>
+    </div>
+</div>
