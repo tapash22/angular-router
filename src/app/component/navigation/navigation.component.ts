@@ -1,5 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -11,6 +16,7 @@ import {
   faNetworkWired,
 } from '@fortawesome/free-solid-svg-icons';
 import { filter } from 'rxjs';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-navigation',
@@ -19,8 +25,10 @@ import { filter } from 'rxjs';
   styleUrl: './navigation.component.css',
 })
 export class NavigationComponent {
+  // boolean value for expand or close
   @Input() collapsed = false;
 
+  // icon import and after decclear use into component
   iconAdmin = faUserNinja;
   iconManager = faUserShield;
   iconOfficer = faUserSecret;
@@ -28,9 +36,11 @@ export class NavigationComponent {
   iconPerformance = faSignalPerfect;
   iconWork = faNetworkWired;
 
+  // using for which link are active
   activeLink: string = 'admin';
 
-  menuItems: any[] = [
+  // decclear permission wish page for different user depend on role
+  menuItems = [
     { id: 2, name: 'admin', link: 'admin', icon: this.iconAdmin },
     { id: 3, name: 'manager', link: 'manager', icon: this.iconManager },
     { id: 4, name: 'officer', link: 'officer', icon: this.iconOfficer },
@@ -44,7 +54,7 @@ export class NavigationComponent {
     { id: 7, name: 'work', link: 'work', icon: this.iconWork },
   ];
 
-    constructor(private router: Router) {
+  constructor(private router: Router, private userService: UserService) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -52,4 +62,14 @@ export class NavigationComponent {
       });
   }
 
+  // Reuse service logic
+  hasAccess(link: string): boolean {
+    return this.userService.hasAccessTo(link);
+  }
+
+  // pre-filter the items
+  get visibleMenuItems() {
+    return this.menuItems.filter((item) => this.hasAccess(item.link));
+  }
+  
 }
