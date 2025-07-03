@@ -1,3 +1,5 @@
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+
 export type UserRole = "admin" | "manager" | "officer" | "user";
 
 export interface User {
@@ -69,4 +71,21 @@ export interface Performance {
   user_name: string;
   user_email: string;
   working_list: WrokingPerformance[];
+}
+
+export interface DisplayField {
+  [key: string]: string;
+}
+
+export interface DisplayFieldWithIcon {
+  [key: string]: {
+    label: string;
+    icon: IconDefinition;
+  };
+}
+
+export interface UserInfoItem {
+  label: string;
+  value: string | number;
+  icon?: IconDefinition;
 }

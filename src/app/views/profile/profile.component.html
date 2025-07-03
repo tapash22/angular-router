@@ -17,9 +17,11 @@
                     </p>
                 </h2>
             </div>
-            <p
+                   <app-dynamic-section-card-read-field
+                [userInfoList]="userInfoList"></app-dynamic-section-card-read-field>
+            <!-- <p
                 class="space-x-2 flex justify-start items-center text-lg font-medium tracking-wide ">
-                <fa-icon [icon]="iconUserRole" (click)="editUserInfo()"
+                <fa-icon [icon]="iconUserRole" 
                     class="text-lg  p-1"></fa-icon>
                 {{ userProfileData.role }}
             </p>
@@ -39,7 +41,7 @@
                 class="space-x-2 flex justify-start items-center text-lg font-medium tracking-wide ">
                 <fa-icon [icon]="iconLocation"
                     class="text-lg p-1"></fa-icon>{{
-                userProfileData.location }}</p>
+                userProfileData.location }}</p> -->
         </div>
         <ul class="ring-2 ring-gray-300 h-[45vh] rounded-lg ">
             <p
@@ -64,12 +66,8 @@
         <!-- Basic Info -->
         <app-section-card id="basic" [title]="'Basic Information'"
             [icon]="iconEdit" (openDialog)="editUserInfo()">
-            <p><strong>Name:</strong> {{ userProfileData.name }}</p>
-            <p><strong>Email:</strong> {{ userProfileData.email }}</p>
-            <p><strong>Role:</strong> {{ userProfileData.role }}</p>
-            <p><strong>Department:</strong> {{ userProfileData.department }}</p>
-            <p><strong>Phone:</strong> {{ userProfileData.phone }}</p>
-            <p><strong>Location:</strong> {{ userProfileData.location }}</p>
+            <app-dynamic-section-card-read-field
+                [userInfoList]="userInfoList"></app-dynamic-section-card-read-field>
         </app-section-card>
         <!--Basic Info end-->
         <!-- project details -->
@@ -91,12 +89,11 @@
         <!-- project details end -->
         <!-- performance details-->
         <app-section-card id="performance" [title]="'Performance'">
-            <app-dynamic-progress-bar [progressBarTitle]="'Performance Score'" [score]="userProfileData.performanceScore"
+            <app-dynamic-progress-bar [progressBarTitle]="'Performance Score'"
+                [score]="userProfileData.performanceScore"
                 [striped]="true"></app-dynamic-progress-bar>
             <app-dynamic-rating-star [titleTag]="'Rating'"
                 [rating]="userProfileData.rating"></app-dynamic-rating-star>
-            <p><strong>Total Hours:</strong> {{
-                userProfileData.totalTimeSpentHours }}</p>
         </app-section-card>
         <!-- performance details end-->
     </main>

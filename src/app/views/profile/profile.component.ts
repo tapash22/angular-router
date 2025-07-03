@@ -33,7 +33,8 @@ import { ThemeService } from '../../service/core/theme.service';
 import { DynamicButtonComponent } from '../../childs/dynamic-button/dynamic-button.component';
 import { DynamicRatingStarComponent } from '../../childs/dynamic-rating-star/dynamic-rating-star.component';
 import { DynamicProgressBarComponent } from '../../childs/dynamic-progress-bar/dynamic-progress-bar.component';
-
+import { DisplayField,DisplayFieldWithIcon } from '../../interfaces/user';
+import { DynamicSectionCardReadFieldComponent } from '../../childs/dynamic-section-card-read-field/dynamic-section-card-read-field.component';
 
 @Component({
   selector: 'app-profile',
@@ -48,7 +49,8 @@ import { DynamicProgressBarComponent } from '../../childs/dynamic-progress-bar/d
     UserInfoFormComponent,
     DynamicButtonComponent,
     DynamicRatingStarComponent,
-    DynamicProgressBarComponent
+    DynamicProgressBarComponent,
+    DynamicSectionCardReadFieldComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
@@ -95,6 +97,17 @@ export class ProfileComponent {
     }
   }
 
+  // define user data to show
+  displayFields: DisplayField = {
+    name: 'Name',
+    email: 'Email',
+    role: 'Role',
+    department: 'Department',
+    phone: 'Phone',
+    location: 'Location',
+  };
+  
+
   constructor(
     private userService: UserService,
     private projectService: ProjectService,
@@ -124,6 +137,22 @@ export class ProfileComponent {
 
   get workingResourceScores(): FormArray {
     return this.projectScore.get('working_resource_scores') as FormArray;
+  }
+
+  // user object data make new array and use for show
+  get userInfoList(): [string, string | number][] {
+    return Object.entries(this.displayFields)
+      .map(([key, label]) => {
+        const value = this.userProfileData?.[key as keyof User];
+
+        // Only include if the value is string or number
+        if (typeof value === 'string' || typeof value === 'number') {
+          return [label, value];
+        }
+
+        return null;
+      })
+      .filter((item): item is [string, string | number] => item !== null);
   }
 
   //projecct active with added style
@@ -194,7 +223,7 @@ export class ProfileComponent {
 
     const scores = this.projectScore.value.working_resource_scores;
 
-      console.log(scores);
+    console.log(scores);
 
     let allSuccess = true;
 
