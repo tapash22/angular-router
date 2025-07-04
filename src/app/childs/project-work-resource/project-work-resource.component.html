@@ -1,28 +1,18 @@
-     <div class="chart-container w-auto h-32">
-<div class="grid grid-cols-2 gap-3">
-    <div class="p-3 shadow bg-[var(--surface)]"
-        *ngFor="let resource of projectResources">
-        <h2
-            class="text-sm flex justify-center w-full font-medium tracking-wide py-1 text-[var(--foreground)]">
-            {{resource.name}}
-        </h2>
-        <div class="w-full h-auto"
-            [ngClass]="resource.performance_score > 10 ? 'block' : 'hidden'">
-            <!-- Progress bar with tooltip -->
-            <div
-                class="w-full rounded-full h-3 my-2 flex items-center group bg-[var(--card-border)]">
-                <div
-                    class="h-3 rounded-full transition-all duration-500 flex justify-center items-center relative"
-                    [style.width.%]="resource.performance_score"
-                    style="background: var(--primary)">
-                    <span
-                        class="absolute -top-6 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-xs px-2 py-1 rounded"
-                        style="color: var(--foreground); background-color: var(--surface)">
-                        {{ resource.performance_score }}%
-                    </span>
-                </div>
+ <div class="chart-container w-auto h-32">
+    <div class="grid grid-cols-2 gap-3">
+        <div class="rounded-sm p-3 shadow bg-[var(--surface)]"
+            *ngFor="let resource of projectResources">
+            <h2
+                class="text-sm flex justify-start w-full font-medium tracking-wide py-1 text-[var(--foreground)]">
+                {{resource.name}}
+            </h2>
+            <div class="w-full h-auto"
+                [ngClass]="resource.performance_score > 10 ? 'block' : 'hidden'">
+                <!-- Progress bar with tooltip -->
+                <app-dynamic-progress-bar [progressBarTitle]="''"
+                    [score]="resource.performance_score" [height]="'sm'"
+                    [striped]="false"></app-dynamic-progress-bar>
             </div>
         </div>
     </div>
-</div>
 </div>

@@ -5,7 +5,7 @@
         class="w-88 h-full bg-[var(--surface)] p-4 ">
         <app-user-profile-card
             [userInfo]="userInfoListWithIcon"></app-user-profile-card>
-        <ul class="ring-2 ring-gray-300 h-[45vh] rounded-lg ">
+        <ul class="ring-2 ring-gray-300 h-[35vh] rounded-lg ">
             <p
                 class="uppercase italic text-xl font-bold tracking-wide p-5 flex justify-center">
                 Menu
@@ -53,6 +53,7 @@
         <app-section-card id="performance" [title]="'Performance'">
             <app-dynamic-progress-bar [progressBarTitle]="'Performance Score'"
                 [score]="userProfileData.performanceScore"
+                [height]="'lg'"
                 [striped]="true"></app-dynamic-progress-bar>
             <app-dynamic-rating-star [titleTag]="'Rating'"
                 [rating]="userProfileData.rating"></app-dynamic-rating-star>
