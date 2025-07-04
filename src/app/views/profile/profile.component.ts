@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Project, User } from '../../interfaces/user';
+import { Project, User, UserInfoItem } from '../../interfaces/user';
 import { ProjectCardComponent } from '../../component/childs/project-card/project-card.component';
 import { CommonModule } from '@angular/common';
 import {
@@ -10,6 +10,7 @@ import {
   faMobilePhone,
   faEdit,
   faCircleDot,
+  IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { filter } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -33,8 +34,9 @@ import { ThemeService } from '../../service/core/theme.service';
 import { DynamicButtonComponent } from '../../childs/dynamic-button/dynamic-button.component';
 import { DynamicRatingStarComponent } from '../../childs/dynamic-rating-star/dynamic-rating-star.component';
 import { DynamicProgressBarComponent } from '../../childs/dynamic-progress-bar/dynamic-progress-bar.component';
-import { DisplayField,DisplayFieldWithIcon } from '../../interfaces/user';
+import { DisplayField, DisplayFieldWithIcon } from '../../interfaces/user';
 import { DynamicSectionCardReadFieldComponent } from '../../childs/dynamic-section-card-read-field/dynamic-section-card-read-field.component';
+import { UserProfileCardComponent } from '../../childs/user-profile-card/user-profile-card.component';
 
 @Component({
   selector: 'app-profile',
@@ -51,6 +53,7 @@ import { DynamicSectionCardReadFieldComponent } from '../../childs/dynamic-secti
     DynamicRatingStarComponent,
     DynamicProgressBarComponent,
     DynamicSectionCardReadFieldComponent,
+    UserProfileCardComponent
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
@@ -75,11 +78,6 @@ export class ProfileComponent {
   color: string = 'bg-green-600';
   submitBtnTitle: string = 'submitBtnTitle';
 
-  iconUser = faUser;
-  iconUserRole = faUserGear;
-  iconMail = faMailBulk;
-  iconPhone = faMobilePhone;
-  iconLocation = faMapLocation;
   iconEdit = faEdit;
   iconCircle = faCircleDot;
 
@@ -106,7 +104,14 @@ export class ProfileComponent {
     phone: 'Phone',
     location: 'Location',
   };
-  
+
+  displayFieldsWithIcon: DisplayFieldWithIcon = {
+    name: { label: 'Name', icon: faUser },
+    role: { label: 'Role', icon: faUserGear },
+    email: { label: 'Email', icon: faMailBulk },
+    phone: { label: 'Phone', icon: faMobilePhone },
+    location: { label: 'Location', icon: faMapLocation },
+  };
 
   constructor(
     private userService: UserService,
@@ -139,20 +144,38 @@ export class ProfileComponent {
     return this.projectScore.get('working_resource_scores') as FormArray;
   }
 
-  // user object data make new array and use for show
-  get userInfoList(): [string, string | number][] {
-    return Object.entries(this.displayFields)
-      .map(([key, label]) => {
-        const value = this.userProfileData?.[key as keyof User];
+  get userInfoList(): UserInfoItem[] {
+    return this.buildUserInfoList(this.displayFields);
+  }
 
-        // Only include if the value is string or number
-        if (typeof value === 'string' || typeof value === 'number') {
-          return [label, value];
+  get userInfoListWithIcon(): UserInfoItem[] {
+    return this.buildUserInfoList(this.displayFieldsWithIcon);
+  }
+
+  private buildUserInfoList(
+    fields: DisplayField | DisplayFieldWithIcon
+  ): UserInfoItem[] {
+    return Object.entries(fields)
+      .map(([key, value]) => {
+        const userValue = this.userProfileData?.[key as keyof User];
+
+        if (typeof userValue === 'string' || typeof userValue === 'number') {
+          if (typeof value === 'string') {
+            // displayFields case
+            return { label: value, value: userValue };
+          } else {
+            // displayFieldsWithIcon case
+            return {
+              label: value.label,
+              value: userValue,
+              icon: value.icon,
+            };
+          }
         }
 
         return null;
       })
-      .filter((item): item is [string, string | number] => item !== null);
+      .filter((item): item is UserInfoItem => item !== null);
   }
 
   //projecct active with added style

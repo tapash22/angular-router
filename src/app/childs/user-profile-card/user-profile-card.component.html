@@ -1,0 +1,16 @@
+ <div
+    class="w-full block h-auto p-4 my-5 shadow-[var(--shadow-default)] space-y-2 rounded-lg">
+    <div class="border-b-2 p-2 w-full h-auto space-y-4"
+        *ngIf="firstObject as first">
+        <div class="flex justify-center items-center">
+            <fa-icon *ngIf="firstObject.icon" [icon]="firstObject.icon"
+                class="text-7xl"></fa-icon>
+        </div>
+        <h2
+            class="text-xl font-medium flex justify-center items-center ">
+            {{firstObject.value}}
+        </h2>
+    </div>
+    <app-dynamic-section-card-read-field
+        [userInfo]="restObjects"></app-dynamic-section-card-read-field>
+</div>
