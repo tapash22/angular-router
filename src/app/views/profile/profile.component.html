@@ -5,21 +5,18 @@
         class="w-88 h-full bg-[var(--surface)] p-4 ">
         <app-user-profile-card
             [userInfo]="userInfoListWithIcon"></app-user-profile-card>
-        <ul class="ring-2 ring-gray-300 h-[35vh] rounded-lg ">
+
+        <div class="block w-full h-auto ring-2 ring-gray-300 rounded-lg">
             <p
-                class="uppercase italic text-xl font-bold tracking-wide p-5 flex justify-center">
+                class="uppercase italic text-xl font-bold tracking-wide p-5 flex justify-center  border-b-2 border-[var(--card-border)]">
                 Menu
             </p>
-            <li
-                *ngFor="let item of menuItems"
-                (click)="scrollToSection(item.id)"
-                [ngClass]="[
-                    'cursor-pointer p-4 text-lg font-medium tracking-wide transition-colors duration-200 rounded',
-                    activeSection === item.id ? 'bg-[var(--sidebar-active-bg)] border-l-2 border-r-1 border-gray-300 rounded-lg' : 'hover:bg-[var(--sidebar-hover-bg)]'
-                ]">
-                {{ item.label }}
-            </li>
-        </ul>
+            <ul class="h-[30vh] my-2 ">
+                <app-menu-list class="space-y-2 py-2" [visibleMenuItems]="menuItems"
+                    [(activeLink)]="activeSection"
+                    [haveId]="true" [collapsed]="collapsed"></app-menu-list>
+            </ul>
+        </div>
     </aside>
 
     <!-- Content Area -->

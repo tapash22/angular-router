@@ -56,11 +56,11 @@ export class NavigationComponent {
   ];
 
   constructor(private router: Router, private userService: UserService) {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.activeLink = event.urlAfterRedirects.split('?')[0].split('#')[0];
-      });
+    // this.router.events
+    //   .pipe(filter((event) => event instanceof NavigationEnd))
+    //   .subscribe((event: NavigationEnd) => {
+    //     this.activeLink = event.urlAfterRedirects.split('?')[0].split('#')[0];
+    //   });
   }
 
   // Reuse service logic

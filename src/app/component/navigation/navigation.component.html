@@ -1,5 +1,5 @@
 <div
-    class="navigation w-auto h-screen   bg-[var(--surface)]">
+    class="navigation w-auto h-screen bg-[var(--surface)]">
     <div
         class="w-auto h-20 flex justify-center items-center p-4 ">
         <h3
@@ -7,10 +7,10 @@
             ? 'MG': 'Management'}}</h3>
     </div>
     <ul
-        class="block w-auto  h-full  pa-3 space-y-2 my-0 shadow-[var(--shadow-button)] ">
-        <app-menu-list [collapsed]="collapsed"
+        class="block w-auto h-full p-2 my-0 overflow-hidden shadow-[var(--shadow-button)] ">
+        <app-menu-list class="space-y-2" [collapsed]="collapsed"
             [visibleMenuItems]="visibleMenuItems"
-            [activeLink]="activeLink"></app-menu-list>
+            [(activeLink)]="activeLink"></app-menu-list>
 
     </ul>
 </div>

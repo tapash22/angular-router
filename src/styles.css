@@ -111,8 +111,8 @@
   --stripe-light-primary: color-mix(in srgb, var(--color-surface) 85%, #000);
   --stripe-light-secondary: color-mix(in srgb, var(--color-surface) 65%, #000);
 
-    /* Track background */
-  --progress-track: #e5e7eb; 
+  /* Track background */
+  --progress-track: #e5e7eb;
 }
 
 .dark {
@@ -156,7 +156,8 @@
   --stripe-dark-secondary: color-mix(in srgb, var(--color-surface-dark) 65%, #fff);
 
   /* progress track */
-    --progress-track: #334155; /* Tailwind slate-700 */
+  --progress-track: #334155;
+  /* Tailwind slate-700 */
 }
 
 /* ============ Base Styles ============ */
@@ -165,6 +166,69 @@ body {
   font-family: 'Inter', system-ui, sans-serif;
   line-height: 1.5;
 }
+
+/* ======================= Left to right gradient flow animation =============================== */
+
+/* Hover effect with border and flowing background */
+.hover-flow-border {
+  position: relative;
+  overflow: hidden;
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-color: transparent;
+  transition:
+    border-left-width 0.3s ease,
+    background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-flow-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  background: linear-gradient(to right,
+      rgba(79, 70, 229, 0.3),
+      transparent);
+  background-size: 200% 50%;
+  background-position: left;
+  transition: width 0.9s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hover-flow-border:hover {
+    border-color: var(--card-border);
+}
+
+.hover-flow-border:hover::before {
+  width: 100%;
+  animation: flow-bg 0.9s linear forwards;
+}
+
+.hover-flow-border>* {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes flow-bg {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 33% 0%;
+  }
+  75% {
+    background-position: 66% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+
+
 
 /* ============== Striped ================ */
 

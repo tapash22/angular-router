@@ -3,14 +3,12 @@ import { Project, User, UserInfoItem } from '../../interfaces/user';
 import { ProjectCardComponent } from '../../component/childs/project-card/project-card.component';
 import { CommonModule } from '@angular/common';
 import {
-  faUser,
   faUserGear,
   faMapLocation,
   faMailBulk,
   faMobilePhone,
   faEdit,
   faCircleDot,
-  IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { filter } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -37,6 +35,7 @@ import { DynamicProgressBarComponent } from '../../childs/dynamic-progress-bar/d
 import { DisplayField, DisplayFieldWithIcon } from '../../interfaces/user';
 import { DynamicSectionCardReadFieldComponent } from '../../childs/dynamic-section-card-read-field/dynamic-section-card-read-field.component';
 import { UserProfileCardComponent } from '../../childs/user-profile-card/user-profile-card.component';
+import { MenuListComponent } from '../../childs/menu-list/menu-list.component';
 
 @Component({
   selector: 'app-profile',
@@ -53,13 +52,16 @@ import { UserProfileCardComponent } from '../../childs/user-profile-card/user-pr
     DynamicRatingStarComponent,
     DynamicProgressBarComponent,
     DynamicSectionCardReadFieldComponent,
-    UserProfileCardComponent
+    UserProfileCardComponent,
+    MenuListComponent
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
 export class ProfileComponent {
   userProfileData!: User;
+
+  collapsed = true;
 
 //image
   image1 = './images/profile.jpg';
@@ -89,14 +91,6 @@ export class ProfileComponent {
     { id: 'projects', label: 'Projects' },
     { id: 'performance', label: 'Performance' },
   ];
-
-  scrollToSection(id: string) {
-    this.activeSection = id;
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
 
   // define user data to show
   displayFields: DisplayField = {
