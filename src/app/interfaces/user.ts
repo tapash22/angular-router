@@ -80,12 +80,12 @@ export interface DisplayField {
 export interface DisplayFieldWithIcon {
   [key: string]: {
     label: string;
-    icon: IconDefinition;
+    icon: IconDefinition | string;
   };
 }
 
 export interface UserInfoItem {
   label: string;
   value: string | number;
-  icon?: IconDefinition;
+  icon?: IconDefinition | string;
 }

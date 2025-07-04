@@ -61,6 +61,9 @@ import { UserProfileCardComponent } from '../../childs/user-profile-card/user-pr
 export class ProfileComponent {
   userProfileData!: User;
 
+//image
+  image1 = './images/profile.jpg';
+
   profileForm!: FormGroup;
   projectScore!: FormGroup;
 
@@ -106,7 +109,7 @@ export class ProfileComponent {
   };
 
   displayFieldsWithIcon: DisplayFieldWithIcon = {
-    name: { label: 'Name', icon: faUser },
+    name: { label: 'Name', icon: this.image1 },
     role: { label: 'Role', icon: faUserGear },
     email: { label: 'Email', icon: faMailBulk },
     phone: { label: 'Phone', icon: faMobilePhone },
