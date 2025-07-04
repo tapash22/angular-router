@@ -17,10 +17,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { filter } from 'rxjs';
 import { UserService } from '../../service/user.service';
+import { MenuListComponent } from '../../childs/menu-list/menu-list.component';
 
 @Component({
   selector: 'app-navigation',
-  imports: [RouterLink, CommonModule, FontAwesomeModule],
+  imports: [ CommonModule, FontAwesomeModule,MenuListComponent],
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.css',
 })

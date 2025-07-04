@@ -1,33 +1,35 @@
-import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
-import { Project, User } from "../../interfaces/user";
-import { MOCK_USERS } from "../../localStore/user-data";
-import { OverviewChartComponent } from "../../component/chart/overview-chart/overview-chart.component";
-import { ChartType, ChartData, ChartConfiguration } from "chart.js";
-import { UserListItemComponent } from "../../component/childs/user-list-item/user-list-item.component";
-import { ProjectCardComponent } from "../../component/childs/project-card/project-card.component";
-import { UserService } from "../../service/user.service";
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { Project, User } from '../../interfaces/user';
+import { MOCK_USERS } from '../../localStore/user-data';
+import { OverviewChartComponent } from '../../component/chart/overview-chart/overview-chart.component';
+import { ChartType, ChartData, ChartConfiguration } from 'chart.js';
+import { UserListItemComponent } from '../../component/childs/user-list-item/user-list-item.component';
+import { ProjectCardComponent } from '../../component/childs/project-card/project-card.component';
+import { UserService } from '../../service/user.service';
+import { UserItemComponent } from '../../childs/user-item/user-item.component';
 
 @Component({
-  selector: "app-admin",
+  selector: 'app-admin',
   imports: [
     CommonModule,
     OverviewChartComponent,
     UserListItemComponent,
+    UserItemComponent,
     ProjectCardComponent,
   ],
-  templateUrl: "./admin.component.html",
-  styleUrl: "./admin.component.css",
+  templateUrl: './admin.component.html',
+  styleUrl: './admin.component.css',
 })
 export class AdminComponent {
   userList: User[] = MOCK_USERS;
   userProfileData!: User;
   selectedIndex: number | null = null;
-  chartType: ChartType = "bar";
+  chartType: ChartType = 'bar';
 
   workingResources: any[] = [];
   uniqueResources: any[] = [];
-  chartData: ChartData<"bar"> = {
+  chartData: ChartData<'bar'> = {
     labels: [],
     datasets: [],
   };
@@ -54,26 +56,26 @@ export class AdminComponent {
       labels: this.uniqueResources.map((r) => r.name),
       datasets: [
         {
-          label: "Time Spent (Hours)",
+          label: 'Time Spent (Hours)',
           data: this.uniqueResources.map((r) => r.time_spent_hours),
-          backgroundColor: "#42A5F5",
+          backgroundColor: '#42A5F5',
           borderRadius: 10,
           barThickness: 20, // fixed width
           categoryPercentage: 0.7, // space between groups
           barPercentage: 0.6, // space between bars within group
         },
         {
-          label: "Spacer",
+          label: 'Spacer',
           data: this.uniqueResources.map(() => 0), // invisible spacer
-          backgroundColor: "rgba(0,0,0,0)", // fully transparent
+          backgroundColor: 'rgba(0,0,0,0)', // fully transparent
           barThickness: 10,
           barPercentage: 0.1,
           categoryPercentage: 0.7,
         },
         {
-          label: "Performance Score",
+          label: 'Performance Score',
           data: this.uniqueResources.map((r) => r.performance_score),
-          backgroundColor: "#66BB6A",
+          backgroundColor: '#66BB6A',
           borderRadius: 10,
           barThickness: 20,
           categoryPercentage: 0.7,
@@ -83,19 +85,19 @@ export class AdminComponent {
     };
   }
 
-  chartOptions: ChartConfiguration["options"] = {
+  chartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
       legend: {
-        position: "top",
+        position: 'top',
       },
       tooltip: {
-        mode: "index",
+        mode: 'index',
         intersect: false,
       },
       title: {
         display: true,
-        text: "User Project Overview",
+        text: 'User Project Overview',
       },
     },
     scales: {
@@ -103,7 +105,7 @@ export class AdminComponent {
         beginAtZero: true,
         title: {
           display: true,
-          text: "Values",
+          text: 'Values',
         },
       },
     },

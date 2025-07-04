@@ -1,0 +1,15 @@
+   <li *ngFor="let item of visibleMenuItems"
+              [ngClass]="[
+                    'flex align-middle w-auto tracking-wide transition-all duration-300 py-4 px-1 cursor-pointer',
+                    activeLink.includes(item.link) ? 'bg-[var(--sidebar-active-bg)] border-l-2 border-r-2 border-gray-300 rounded-lg' : 'hover:bg-[var(--sidebar-hover-bg)]',
+                    !collapsed ? 'justify-center':'justify-start'
+                ]"
+            [routerLink]="item.link">
+            <fa-icon
+                [icon]="item.icon"
+                class=" text-xl px-4  ">
+            </fa-icon>
+            <span *ngIf="collapsed" class="text-lg font-medium">
+                {{ item.name |titlecase }} 
+            </span>
+        </li>
