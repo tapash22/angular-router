@@ -10,39 +10,26 @@ import { BaseChartDirective } from 'ng2-charts';
   styleUrl: './overview-chart.component.css',
 })
 export class OverviewChartComponent {
-  @Input() size: 'tiny' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' = 'sm';
-
   @Input() type: ChartType = 'bar';
   // Generic types to allow flexibility from parent
   @Input() data!: ChartData;
   @Input() options?: ChartConfiguration['options'];
 
+  // height pass for chart size as 
+  @Input() chartHeight?: number;
+
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
-  get dialogWidth(): string {
-    switch (this.size) {
-      case 'tiny':
-        return 'w-[20%]';
-      case 'sm':
-        return 'w-[30%]';
-      case 'md':
-        return 'w-[20%]';
-      case 'lg':
-        return 'w-[50%]';
-      case 'xl':
-        return 'w-[70%]';
-      case 'xxl':
-        return 'w-[80%]';
-      default:
-        return 'w-[30%]';
-    }
+  get canvasHeight(): string {
+    return this.chartHeight ? `${this.chartHeight}px` : '300px';
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (this.options) {
+      this.options.maintainAspectRatio = false;
+    }
     if (this.chart) {
-      setTimeout(() => {
-        this.chart?.update();
-      }, 0);
+      setTimeout(() => this.chart?.update(), 0);
     }
   }
 }
