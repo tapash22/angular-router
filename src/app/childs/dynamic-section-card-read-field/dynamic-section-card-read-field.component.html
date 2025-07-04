@@ -1,4 +1,8 @@
-<div *ngFor="let item of userInfo" class="flex items-center gap-2 p-2">
+<div *ngFor="let item of userInfo" class="flex items-center gap-2 "
+  [ngClass]="{
+    'py-2': item.icon,
+    'p-2':!item.icon
+}">
   <fa-icon *ngIf="item.icon" [icon]="item.icon" class="text-base"></fa-icon>
   <span class="font-semibold">{{ item.label }}:</span>
   <span>{{ item.value }}</span>
