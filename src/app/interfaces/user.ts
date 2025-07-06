@@ -1,6 +1,6 @@
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 
-export type UserRole = "admin" | "manager" | "officer" | "user";
+export type UserRole = 'admin' | 'manager' | 'officer' | 'user';
 
 export interface User {
   id: number;
@@ -11,7 +11,7 @@ export interface User {
   department?: string;
   phone?: string;
   avatarUrl?: string;
-  status?: "active" | "inactive" | "on-leave";
+  status?: 'active' | 'inactive' | 'on-leave';
   joiningDate?: string;
   location?: string;
   performanceScore?: number; // average performance across all projects
@@ -24,20 +24,20 @@ export interface User {
   projects?: Project[];
 }
 
-export type LoginPayload = Pick<User, "email" | "password">;
+export type LoginPayload = Pick<User, 'email' | 'password'>;
 
-export type RegistrationPayload = Pick<User, "name" | "email" | "password">;
-export type WorkingResource = Pick<User, "id" | "name" | "email"> & {
+export type RegistrationPayload = Pick<User, 'name' | 'email' | 'password'>;
+export type WorkingResource = Pick<User, 'id' | 'name' | 'email'> & {
   time_spent_hours?: number;
   performance_score?: number;
 };
 
-export interface ProjecctResource{
-     id: number;
-    name: string;
-    email: string;
-    time_spent_hours: number; // ✅ Time spent by the individual user
-    performance_score: number; 
+export interface ProjecctResource {
+  id: number;
+  name: string;
+  email: string;
+  time_spent_hours: number; // ✅ Time spent by the individual user
+  performance_score: number;
 }
 
 export type ProjecctResources = ProjecctResource[];
@@ -51,8 +51,8 @@ export interface Project {
   project_costing_needed: number;
   project_resource_needed: number;
   project_requirement: string[];
-  working_resource:ProjecctResources;
-  projectStatus: "start" | "in-progress" | "completed" |"pause";
+  working_resource: ProjecctResources;
+  projectStatus: 'start' | 'in-progress' | 'completed' | 'pause';
 }
 
 export interface WrokingPerformance {
@@ -88,4 +88,14 @@ export interface UserInfoItem {
   label: string;
   value: string | number;
   icon?: IconDefinition | string;
+}
+
+export interface AllworkingResource {
+  userId: number;
+  name: string;
+  email: string;
+  time_spent_hours: number;
+  performance_score: number;
+  projectId: number;
+  project_title: string;
 }

@@ -2,6 +2,23 @@
     class="flex h-[86vh] overflow-hidden mt-4 ">
     <div
         class="flex-1 overflow-y-auto custom-scrollbar  bg-[var(--surface)]">
+        <div class="flex w-full gap-5">
+            <div class="w-1/2 h-auto ">
+
+                <app-overview-chart
+                    [type]="'bar'"
+                    [data]="chartDataProjectDistribution"
+                    [options]="projectChartOptions" [chartHeight]="500" />
+            </div>
+            <div class="w-1/2 h-auto ">
+                <!-- Chart 3: Summary -->
+                <app-overview-chart
+                    [type]="'bar'"
+                    [data]="chartDataAllUsers"
+                    [options]="summaryChartOptions" [chartHeight]="500" />
+            </div>
+
+        </div>
         <!-- top section -->
         <div
             class="w-full h-auto py-4 flex justify-center items-center gap-4 bg-[var(--surface)] text-[var(--foreground)]">
