@@ -4,7 +4,6 @@
         class="flex-1 overflow-y-auto custom-scrollbar  bg-[var(--surface)]">
         <div class="flex w-full gap-5">
             <div class="w-1/2 h-auto ">
-
                 <app-overview-chart
                     [type]="'bar'"
                     [data]="chartDataProjectDistribution"
@@ -24,7 +23,7 @@
             class="w-full h-auto py-4 flex justify-center items-center gap-4 bg-[var(--surface)] text-[var(--foreground)]">
             <div
                 class="w-2/3 h-auto p-2 rounded-2xl shadow-[var(--shadow-button)]">
-                <app-overview-chart [type]="chartType"
+                <app-overview-chart [type]="'bar'"
                     [data]="chartData"
                     [options]="chartOptions"
                     [chartHeight]="500"></app-overview-chart>

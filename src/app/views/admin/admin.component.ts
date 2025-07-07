@@ -25,7 +25,6 @@ export class AdminComponent {
   userList: User[] = MOCK_USERS;
   userProfileData!: User;
   selectedIndex: number | null = null;
-  chartType: ChartType = 'bar';
 
   allWorkingResources: AllworkingResource[] = [];
 
@@ -39,6 +38,8 @@ export class AdminComponent {
 
   workingResources: any[] = [];
   uniqueResources: any[] = [];
+
+  // declear chart
   chartData: ChartData<'bar'> = {
     labels: [],
     datasets: [],
@@ -357,7 +358,6 @@ export class AdminComponent {
       return true;
     });
 
-    console.log('Flattened Resources:', this.allWorkingResources);
   }
 
   handleUserSelection(event: { index: number; user: User }) {
