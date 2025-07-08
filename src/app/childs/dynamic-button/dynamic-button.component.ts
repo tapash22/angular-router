@@ -65,12 +65,6 @@ export class DynamicButtonComponent {
     return this.isDarkMode ? 'bg-[var(--surface-dark)]' : 'bg-[var(--surface)]';
   }
 
-  get iconColor(): string {
-    return this.isDarkMode
-      ? 'text-[var(--primary-dark)]'
-      : 'text-[var(--primary)]';
-  }
-
   get textColor(): string {
     return this.isDarkMode ? 'text-[var(--demo-dark)]' : 'text-[var(--demo)]';
   }

@@ -1,9 +1,5 @@
  <div
-    class="absolute top-16 py-3 right-0 w-[250px] z-50  h-auto rounded-2xl bg-[var(--surface)]  "
-    [ngClass]="{
-        'text-white shadow-[var(--shadow-dark)]': isDarkMode,
-        'text-[var(--black)] shadow-[var(--shadow)]': !isDarkMode
-        }"
+    class="absolute top-16 py-3 right-0 w-[250px] z-50  h-auto rounded-2xl bg-[var(--surface)]  text-[var(--foreground)] shadow-[var(--shadow)]        "
     *ngIf="visible">
     <div class="block w-full h-full overflow-hidden">
         <h2 class="text-xl font-bold tracking-wide py-3 px-4 border-b-[1px]"

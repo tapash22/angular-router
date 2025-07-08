@@ -4,6 +4,8 @@ import { ThemeService } from '../../service/core/theme.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { DynamicButtonComponent } from '../../childs/dynamic-button/dynamic-button.component';
+import { Observable } from 'rxjs';
+// import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-theme-toggle',
@@ -13,14 +15,14 @@ import { DynamicButtonComponent } from '../../childs/dynamic-button/dynamic-butt
 })
 export class ThemeToggleComponent {
   iconDarkMode = faMoon;
-  darkMode: boolean;
 
-  constructor(public themeService: ThemeService) {
-    this.darkMode = this.themeService.isDarkMode();
+  constructor(public themeService: ThemeService) {}
+
+  get darkMode$(): Observable<boolean> {
+    return this.themeService.darkMode$;
   }
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
-    this.darkMode = this.themeService.isDarkMode(); 
   }
 }

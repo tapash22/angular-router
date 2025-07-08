@@ -28,7 +28,6 @@ import { DynamicDialogComponent } from '../../component/dialog/dynamic-dialog/dy
 import { UserInfoFormComponent } from '../../component/childs/user-info-form/user-info-form.component';
 import { UserService } from '../../service/user.service';
 import { ProjectService } from '../../service/project.service';
-import { ThemeService } from '../../service/core/theme.service';
 import { DynamicButtonComponent } from '../../childs/dynamic-button/dynamic-button.component';
 import { DynamicRatingStarComponent } from '../../childs/dynamic-rating-star/dynamic-rating-star.component';
 import { DynamicProgressBarComponent } from '../../childs/dynamic-progress-bar/dynamic-progress-bar.component';
@@ -115,7 +114,6 @@ export class ProfileComponent {
     private projectService: ProjectService,
     private fb: FormBuilder,
     private toaster: ToasterService,
-    public themeService: ThemeService
   ) {
     this.userProfileData = this.userService.getCurrentUser()!;
   }
@@ -226,7 +224,6 @@ export class ProfileComponent {
         'Your porfile data updated successfully!',
         'success'
       );
-      console.log(this.userService.getCurrentUser());
     } else {
       this.toaster.showToast('Failed to update profile.', 'error');
     }

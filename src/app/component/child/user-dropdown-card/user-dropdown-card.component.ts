@@ -23,7 +23,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './user-dropdown-card.component.css',
 })
 export class UserDropdownCardComponent {
-  @Input() isDarkMode = false;
   userProfileData!: User;
 
   @Input() visible = false;

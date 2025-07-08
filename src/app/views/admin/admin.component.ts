@@ -357,7 +357,6 @@ export class AdminComponent {
       uniqueKey.add(key);
       return true;
     });
-
   }
 
   handleUserSelection(event: { index: number; user: User }) {

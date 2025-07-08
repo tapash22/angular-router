@@ -20,11 +20,10 @@
             <div  class="w-auto h-full relative flex justify-end items-center">
                 <app-dynamic-button #trigger [mode]="'rounded'" [icon]="iconUserClick"
                     [size]="'md'" [shadow]="'default'"
-                    [buttonRounded]="'full'" [isDarkMode]="themeService.isDarkMode()"
+                    [buttonRounded]="'full'" 
                     (buttonClick)="showUserMenu()"></app-dynamic-button>
                 <!-- Dropdown Menu -->
                 <app-user-dropdown-card [(visible)]="show"
-                    [isDarkMode]="themeService.isDarkMode()"
                     (logout)="logoutUser()" />
             </div>
         </div>

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ThemeService } from '../../../service/core/theme.service';
 
 @Component({
   selector: 'app-section-card',
@@ -19,5 +18,4 @@ export class SectionCardComponent {
     this.openDialog.emit();
   }
 
-  constructor(public themeService: ThemeService) {}
 }
