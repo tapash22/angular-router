@@ -1,9 +1,10 @@
-import { Injectable } from "@angular/core";
-import { UserService } from "./user.service";
-import { Project } from "../interfaces/user";
+import { Injectable } from '@angular/core';
+import { UserService } from './user.service';
+import { Project } from '../interfaces/user';
+import { map, take } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ProjectService {
   constructor(private userService: UserService) {}
@@ -13,52 +14,66 @@ export class ProjectService {
     projectId: number,
     resourceId: number,
     updatedScore: number
-  ): boolean {
-    const currentUser = this.userService.getCurrentUser();
-    if (!currentUser) return false;
+  ) {
+    return this.userService.currentUser$.pipe(
+      take(1), // only need latest snapshot
+      map((user) => {
+        if (!user?.projects || !Array.isArray(user.projects)) return false;
 
-    const user = currentUser;
-    if (!user.projects || !Array.isArray(user.projects)) return false;
+        const projectIndex = user.projects.findIndex((p) => p.id === projectId);
+        if (projectIndex === -1) return false;
 
-    const projectIndex = user.projects.findIndex((p) => p.id === projectId);
-    if (projectIndex === -1) return false;
+        const project = user.projects[projectIndex];
+        const resourceIndex = project.working_resource.findIndex(
+          (r) => r.id === resourceId
+        );
+        if (resourceIndex === -1) return false;
 
-    const project = user.projects[projectIndex];
-    const resourceIndex = project.working_resource.findIndex(
-      (r) => r.id === resourceId
+        // Update score
+        const updatedProjects = [...user.projects];
+        updatedProjects[projectIndex] = {
+          ...project,
+          working_resource: [
+            ...project.working_resource.slice(0, resourceIndex),
+            {
+              ...project.working_resource[resourceIndex],
+              performance_score: updatedScore,
+            },
+            ...project.working_resource.slice(resourceIndex + 1),
+          ],
+        };
+
+        return this.userService.updateCurrentUserFields({
+          projects: updatedProjects,
+        });
+      })
     );
-    if (resourceIndex === -1) return false;
-
-    project.working_resource[resourceIndex].performance_score = updatedScore;
-    user.projects[projectIndex] = project;
-
-    return this.userService.updateCurrentUserFields({
-      projects: user.projects,
-    });
   }
 
   //added or update project
-  updateOrAddProject(project: Project, index?: number): void {
-    const currentUser = this.userService.getCurrentUser();
-    if (!currentUser) return;
+  updateOrAddProject(project: Project, index?: number) {
+    return this.userService.currentUser$.pipe(
+      take(1),
+      map((user) => {
+        if (!user) return;
 
-    if (!currentUser.projects) currentUser.projects = [];
+        const updatedProjects = user.projects ? [...user.projects] : [];
 
-    if (
-      index !== undefined &&
-      index > -1 &&
-      index < currentUser.projects.length
-    ) {
-      currentUser.projects[index] = { ...project };
-    } else {
-      const newId =
-        Math.max(0, ...currentUser.projects.map((p) => p.id ?? 0)) + 1;
-      project.id = newId;
-      currentUser.projects.push({ ...project });
-    }
+        if (
+          index !== undefined &&
+          index > -1 &&
+          index < updatedProjects.length
+        ) {
+          updatedProjects[index] = { ...project };
+        } else {
+          const newId =
+            Math.max(0, ...updatedProjects.map((p) => p.id ?? 0)) + 1;
+          project.id = newId;
+          updatedProjects.push({ ...project });
+        }
 
-    this.userService.updateCurrentUserFields({
-      projects: currentUser.projects,
-    });
+        this.userService.updateCurrentUserFields({ projects: updatedProjects });
+      })
+    );
   }
 }

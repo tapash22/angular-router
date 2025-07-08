@@ -10,7 +10,7 @@ import {
   faEdit,
   faCircleDot,
 } from '@fortawesome/free-solid-svg-icons';
-import { filter } from 'rxjs';
+import { filter, forkJoin, Observable, take } from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { SectionCardComponent } from '../../component/childs/section-card/section-card.component';
@@ -52,7 +52,7 @@ import { MenuListComponent } from '../../childs/menu-list/menu-list.component';
     DynamicProgressBarComponent,
     DynamicSectionCardReadFieldComponent,
     UserProfileCardComponent,
-    MenuListComponent
+    MenuListComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
@@ -62,7 +62,7 @@ export class ProfileComponent {
 
   collapsed = true;
 
-//image
+  //image
   image1 = './images/profile.jpg';
 
   profileForm!: FormGroup;
@@ -113,7 +113,7 @@ export class ProfileComponent {
     private userService: UserService,
     private projectService: ProjectService,
     private fb: FormBuilder,
-    private toaster: ToasterService,
+    private toaster: ToasterService
   ) {
     this.userProfileData = this.userService.getCurrentUser()!;
   }
@@ -211,17 +211,20 @@ export class ProfileComponent {
   }
 
   //update user basic info
-  updateUser() {
-    const updatedFields = this.profileForm.getRawValue();
+updateUser() {
+  const updatedFields = this.profileForm.getRawValue();
 
-    const success = this.userService.updateUserProfile(updatedFields);
+  this.userService.updateUserProfile(updatedFields).subscribe(success => {
     console.log('show', success);
 
     if (success) {
-      this.userProfileData = this.userService.getCurrentUser()!;
+      // Since currentUser$ is observable, you should subscribe or get latest value from service:
+      this.userService.currentUser$.pipe(take(1)).subscribe(user => {
+        this.userProfileData = user!;
+      });
 
       this.toaster.showToast(
-        'Your porfile data updated successfully!',
+        'Your profile data updated successfully!',
         'success'
       );
     } else {
@@ -229,7 +232,9 @@ export class ProfileComponent {
     }
 
     this.userInfoDialog = false;
-  }
+  });
+}
+
 
   //update project resource score
   submitProjectScoreUpdate() {
@@ -237,40 +242,39 @@ export class ProfileComponent {
       this.toaster.showToast('Invalid data or no project selected', 'error');
       return;
     }
-
+    const selectedProject = this.selectedProject;
     const scores = this.projectScore.value.working_resource_scores;
 
-    console.log(scores);
+    // create array of observables for each update
+    const updateObservables: Observable<boolean>[] = scores.map(
+      (resource: any) =>
+        this.projectService.updateUserProjectResourceScore(
+          selectedProject.id,
+          resource.id,
+          +resource.performance_score
+        )
+    );
 
-    let allSuccess = true;
+    // Wait for all updates to finish
+    forkJoin(updateObservables).subscribe((results: boolean[]) => {
+      const allSuccess = results.every((success) => success);
 
-    for (let i = 0; i < scores.length; i++) {
-      const resource = scores[i];
-      const success = this.projectService.updateUserProjectResourceScore(
-        this.selectedProject.id,
-        resource.id,
-        +resource.performance_score
-      );
-
-      if (!success) allSuccess = false;
-    }
-
-    if (allSuccess) {
-      this.userProfileData = this.userService.getCurrentUser()!;
-      this.toaster.showToast(
-        'Performance scores updated successfully!',
-        'success'
-      );
-
-      console.log(this.userProfileData);
-    } else {
-      this.toaster.showToast(
-        'Failed to update some performance scores.',
-        'error'
-      );
-    }
-
-    this.projectScoreDialog = false;
+      if (allSuccess) {
+        this.userService.currentUser$.pipe(take(1)).subscribe((user) => {
+          this.userProfileData = user!;
+          this.toaster.showToast(
+            'Performance scores updated successfully!',
+            'success'
+          );
+        });
+      } else {
+        this.toaster.showToast(
+          'Failed to update some performance scores.',
+          'error'
+        );
+      }
+      this.projectScoreDialog = false;
+    });
   }
 
   //close dilaog

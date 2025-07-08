@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import { RegistrationPayload, User } from '../interfaces/user';
 import { MOCK_USERS } from '../localStore/user-data';
 import { StorageService } from './storage.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private users: User[] = MOCK_USERS;
-  private currentUser: User | null = null;
+  private usersSubject =new BehaviorSubject<User[]>([]);
+  users$ = this.usersSubject.asObservable();
+
+  private currentUserSubject = new BehaviorSubject<User | null>(null)
+  currentUser$ = this.currentUserSubject.asObservable();
 
   //declear use role wish page view permission
   private roleAccessMap: Record<string, string[]> = {
@@ -20,90 +24,103 @@ export class UserService {
     work: ['admin', 'manager', 'officer'],
   };
 
-  constructor(private storage: StorageService) {}
-
-  // create method for implement role and use
-  // into component for show or hide
-  hasAccessTo(link: string): boolean {
-    const role = this.getCurrentUser()?.role;
-    const allowedRoles = this.roleAccessMap[link];
-    return !!role && allowedRoles?.includes(role);
+  constructor(private storage: StorageService) {
+    this.initUsers();
+    this.initCurrentUser();
   }
+
   //check user
-  initUsers(): void {
+  private initUsers(): void {
     const storedUsers = this.storage.get<User[]>('users');
 
-    if (storedUsers) {
-      this.users = storedUsers;
+    if (storedUsers?.length) {
+      this.usersSubject.next(storedUsers)
     } else {
-      this.users = MOCK_USERS;
-      this.storage.set('users', this.users);
+      this.usersSubject.next(MOCK_USERS);
+      this.storage.set('users', MOCK_USERS);
     }
+  }
+
+  private initCurrentUser(): void {
+    const storedUser = this.storage.get<User>('currentUser');
+    this.currentUserSubject.next(storedUser ?? null);
   }
 
   getAllUsers(): User[] {
-    return this.users;
+    return this.usersSubject.getValue()
   }
 
   getCurrentUser(): User | null {
-    if (!this.currentUser) {
-      this.currentUser = this.storage.get<User>('currentUser');
-    }
-    return this.currentUser;
+    return this.currentUserSubject.getValue();
   }
 
   setCurrentUser(user: User): void {
-    this.currentUser = user;
+    this.currentUserSubject.next(user)
     this.storage.set('currentUser', user);
   }
 
   clearCurrentUser(): void {
-    this.currentUser = null;
+    this.currentUserSubject.next(null);
     this.storage.remove('currentUser');
     this.storage.remove('userEmail');
     this.storage.remove('users');
   }
 
-  addUser(newUser: RegistrationPayload): boolean {
-    const exists = this.users.some((u) => u.email === newUser.email);
-    if (exists) return false;
+  addUser(newUser: RegistrationPayload): Observable<boolean> {
+    const users = this.usersSubject.getValue();
+    const exists = users.some((u) => u.email === newUser.email);
+    if (exists) return of(false);
 
     const userToSave: User = {
-      id: this.users.length ? this.users.length + 1 : 1,
+      id: users.length ? users.length + 1 : 1,
       name: newUser.name,
       email: newUser.email,
       password: newUser.password,
       role: 'user',
     };
 
-    this.users.push(userToSave);
-    this.storage.set('users', this.users);
-    return true;
+    const updateUsers =[...users, userToSave];
+    this.usersSubject.next(updateUsers);
+    this.storage.set('users', users);
+    return of(true);
   }
 
-  updateCurrentUserFields(fields: Partial<User>): boolean {
+  updateCurrentUserFields(fields: Partial<User>): Observable<boolean> {
     const currentUser = this.getCurrentUser();
-    if (!currentUser) return false;
+    if (!currentUser) return of(false);
 
-    const index = this.users.findIndex((u) => u.id === currentUser.id);
-    if (index === -1) return false;
+    const users = this.usersSubject.getValue();
+    const index = users.findIndex((u) => u.id === currentUser.id);
+    if (index === -1) return of(false);
 
-    this.users[index] = {
-      ...this.users[index],
+    const updatedUser = {
+      ...users[index],
       ...fields,
     };
 
-    this.storage.set('users', this.users);
-    this.setCurrentUser(this.users[index]);
-    return true;
+    const updateUsers = [...users];
+    updateUsers[index]=updatedUser;
+
+    this.usersSubject.next(updateUsers);
+    this.setCurrentUser(updatedUser);
+    this.storage.set('users', updateUsers);
+    return of(true);
   }
 
-  updateUserProfile(updatedData: Partial<User>): boolean {
+  updateUserProfile(updatedData: Partial<User>): Observable<boolean> {
     return this.updateCurrentUserFields(updatedData);
   }
 
   //reset password
-  resetPassword(newPassword: string): boolean {
+  resetPassword(newPassword: string): Observable<boolean> {
     return this.updateCurrentUserFields({ password: newPassword });
+  }
+
+    // create method for implement role and use
+  // into component for show or hide
+  hasAccessTo(link: string): boolean {
+    const role = this.getCurrentUser()?.role;
+    const allowedRoles = this.roleAccessMap[link];
+    return !!role && allowedRoles?.includes(role);
   }
 }

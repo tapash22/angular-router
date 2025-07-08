@@ -5,7 +5,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { DynamicButtonComponent } from '../../childs/dynamic-button/dynamic-button.component';
 import { Observable } from 'rxjs';
-// import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-theme-toggle',
