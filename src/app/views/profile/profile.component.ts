@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Project, User, UserInfoItem } from '../../interfaces/user';
+
 import { ProjectCardComponent } from '../../component/childs/project-card/project-card.component';
 import { CommonModule } from '@angular/common';
+import { faEdit, faCircleDot } from '@fortawesome/free-solid-svg-icons';
 import {
-  faUserGear,
-  faMapLocation,
-  faMailBulk,
-  faMobilePhone,
-  faEdit,
-  faCircleDot,
-} from '@fortawesome/free-solid-svg-icons';
-import { filter, forkJoin, Observable, take } from 'rxjs';
+  combineLatest,
+  filter,
+  forkJoin,
+  map,
+  Observable,
+  of,
+  take,
+} from 'rxjs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { SectionCardComponent } from '../../component/childs/section-card/section-card.component';
@@ -32,6 +34,11 @@ import { DynamicButtonComponent } from '../../childs/dynamic-button/dynamic-butt
 import { DynamicRatingStarComponent } from '../../childs/dynamic-rating-star/dynamic-rating-star.component';
 import { DynamicProgressBarComponent } from '../../childs/dynamic-progress-bar/dynamic-progress-bar.component';
 import { DisplayField, DisplayFieldWithIcon } from '../../interfaces/user';
+import {
+  displayFields,
+  menuItems,
+  displayFieldsWithIcon,
+} from '../../localStore/user-data';
 import { DynamicSectionCardReadFieldComponent } from '../../childs/dynamic-section-card-read-field/dynamic-section-card-read-field.component';
 import { UserProfileCardComponent } from '../../childs/user-profile-card/user-profile-card.component';
 import { MenuListComponent } from '../../childs/menu-list/menu-list.component';
@@ -58,101 +65,90 @@ import { MenuListComponent } from '../../childs/menu-list/menu-list.component';
   styleUrl: './profile.component.css',
 })
 export class ProfileComponent {
-  userProfileData!: User;
-
-  collapsed = true;
-
-  //image
-  image1 = './images/profile.jpg';
-
-  profileForm!: FormGroup;
-  projectScore!: FormGroup;
-
-  selectedIndex: number | null = null;
-  activeSection: string = 'basic';
-  userInfoDialog: boolean = false;
-
-  // project dialog show
-  projectScoreDialog: boolean = false;
-  // selected project
-  selectedProject: Project | null = null;
-  // selected project index
-  selectedResourceIndex: number | null = null;
-
-  color: string = 'bg-green-600';
-  submitBtnTitle: string = 'submitBtnTitle';
-
+  // icon usage
   iconEdit = faEdit;
   iconCircle = faCircleDot;
 
-  menuItems: any[] = [
-    { id: 'basic', label: 'Basic Info' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'performance', label: 'Performance' },
-  ];
+  // Tailwind indicator color
+  color: string = 'bg-green-600';
 
-  // define user data to show
-  displayFields: DisplayField = {
-    name: 'Name',
-    email: 'Email',
-    role: 'Role',
-    department: 'Department',
-    phone: 'Phone',
-    location: 'Location',
-  };
+  //  Menu
+  menuItems = menuItems;
+  activeSection: string = 'basic';
+  collapsed = true;
 
-  displayFieldsWithIcon: DisplayFieldWithIcon = {
-    name: { label: 'Name', icon: this.image1 },
-    role: { label: 'Role', icon: faUserGear },
-    email: { label: 'Email', icon: faMailBulk },
-    phone: { label: 'Phone', icon: faMobilePhone },
-    location: { label: 'Location', icon: faMapLocation },
-  };
+  // Form controls
+  profileForm!: FormGroup;
+  projectScore!: FormGroup;
+
+  // Dialogs
+  userInfoDialog: boolean = false;
+  projectScoreDialog: boolean = false;
+
+  // Selection state
+  selectedIndex: number | null = null;
+  selectedProject: Project | null = null;
+  selectedResourceIndex: number | null = null;
+
+  //  Static field config
+  displayFields$ = of(displayFields);
+  displayFieldsWithIcon$ = of(displayFieldsWithIcon);
+
+  // User observable
+  userProfileData$!: Observable<User | null>;
+
+  //  Derived user info lists
+  userInfoList$!: Observable<UserInfoItem[]>;
+  userInfoListWithIcon$!: Observable<UserInfoItem[]>;
 
   constructor(
     private userService: UserService,
     private projectService: ProjectService,
     private fb: FormBuilder,
     private toaster: ToasterService
-  ) {
-    this.userProfileData = this.userService.getCurrentUser()!;
-  }
+  ) {}
 
   ngOnInit() {
     // ✅ Load the current user from localStorage via userService
-    this.userProfileData = this.userService.getCurrentUser()!;
+    this.userProfileData$ = this.userService.currentUser$;
 
     // ✅ Initialize the user basic info
-    this.profileForm = this.fb.group({
-      name: [{ value: this.userProfileData.name, disabled: true }],
-      email: [this.userProfileData.email],
-      phone: [this.userProfileData.phone],
-      location: [this.userProfileData.location],
+    this.userProfileData$.pipe(take(1)).subscribe((user) => {
+      this.profileForm = this.fb.group({
+        name: [{ value: user?.name, disabled: true }],
+        email: [user?.email],
+        phone: [user?.phone],
+        location: [user?.location],
+      });
     });
 
     this.projectScore = this.fb.group({
       working_resource_scores: this.fb.array([]),
     });
+
+    // ✅ Build user info lists
+    this.userInfoList$ = combineLatest({
+      user: this.userProfileData$,
+      fields: this.displayFields$,
+    }).pipe(map(({ user, fields }) => this.buildUserInfoList(user, fields)));
+
+    this.userInfoListWithIcon$ = combineLatest({
+      user: this.userProfileData$,
+      fields: this.displayFieldsWithIcon$,
+    }).pipe(map(({ user, fields }) => this.buildUserInfoList(user, fields)));
   }
 
   get workingResourceScores(): FormArray {
     return this.projectScore.get('working_resource_scores') as FormArray;
   }
 
-  get userInfoList(): UserInfoItem[] {
-    return this.buildUserInfoList(this.displayFields);
-  }
-
-  get userInfoListWithIcon(): UserInfoItem[] {
-    return this.buildUserInfoList(this.displayFieldsWithIcon);
-  }
-
   private buildUserInfoList(
+    userData: User | null,
     fields: DisplayField | DisplayFieldWithIcon
   ): UserInfoItem[] {
     return Object.entries(fields)
       .map(([key, value]) => {
-        const userValue = this.userProfileData?.[key as keyof User];
+        const userValue = userData?.[key as keyof User];
 
         if (typeof userValue === 'string' || typeof userValue === 'number') {
           if (typeof value === 'string') {
@@ -189,9 +185,7 @@ export class ProfileComponent {
 
     const workingResources = project.working_resource;
 
-    const formArray = this.projectScore.get(
-      'working_resource_scores'
-    ) as FormArray;
+    const formArray = this.workingResourceScores;
     formArray.clear();
 
     workingResources.forEach((resource) => {
@@ -211,75 +205,60 @@ export class ProfileComponent {
   }
 
   //update user basic info
-updateUser() {
-  const updatedFields = this.profileForm.getRawValue();
+  updateUser(): void {
+    const updatedFields = this.profileForm.getRawValue();
 
-  this.userService.updateUserProfile(updatedFields).subscribe(success => {
-    console.log('show', success);
+    this.userService.updateUserProfile(updatedFields).subscribe((success) => {
+      if (success) {
+        this.toaster.showToast(
+          'Your profile data updated successfully!',
+          'success'
+        );
+      } else {
+        this.toaster.showToast('Failed to update profile.', 'error');
+      }
 
-    if (success) {
-      // Since currentUser$ is observable, you should subscribe or get latest value from service:
-      this.userService.currentUser$.pipe(take(1)).subscribe(user => {
-        this.userProfileData = user!;
-      });
-
-      this.toaster.showToast(
-        'Your profile data updated successfully!',
-        'success'
-      );
-    } else {
-      this.toaster.showToast('Failed to update profile.', 'error');
-    }
-
-    this.userInfoDialog = false;
-  });
-}
-
+      this.userInfoDialog = false;
+    });
+  }
 
   //update project resource score
-  submitProjectScoreUpdate() {
+  submitProjectScoreUpdate(): void {
     if (!this.projectScore.valid || !this.selectedProject) {
       this.toaster.showToast('Invalid data or no project selected', 'error');
       return;
     }
-    const selectedProject = this.selectedProject;
+
     const scores = this.projectScore.value.working_resource_scores;
 
-    // create array of observables for each update
     const updateObservables: Observable<boolean>[] = scores.map(
       (resource: any) =>
         this.projectService.updateUserProjectResourceScore(
-          selectedProject.id,
+          this.selectedProject!.id,
           resource.id,
           +resource.performance_score
         )
     );
 
-    // Wait for all updates to finish
     forkJoin(updateObservables).subscribe((results: boolean[]) => {
-      const allSuccess = results.every((success) => success);
+      const allSuccess = results.every(Boolean);
 
-      if (allSuccess) {
-        this.userService.currentUser$.pipe(take(1)).subscribe((user) => {
-          this.userProfileData = user!;
-          this.toaster.showToast(
-            'Performance scores updated successfully!',
-            'success'
-          );
-        });
-      } else {
-        this.toaster.showToast(
-          'Failed to update some performance scores.',
-          'error'
-        );
-      }
+      this.toaster.showToast(
+        allSuccess
+          ? 'Performance scores updated successfully!'
+          : 'Failed to update some performance scores.',
+        allSuccess ? 'success' : 'error'
+      );
+
       this.projectScoreDialog = false;
     });
   }
 
   //close dilaog
   closeDialog() {
-    if (this.userInfoDialog === true) this.userInfoDialog = false;
-    if (this.projectScoreDialog === true) this.projectScoreDialog = false;
+    // if (this.userInfoDialog === true) this.userInfoDialog = false;
+    // if (this.projectScoreDialog === true) this.projectScoreDialog = false;
+    this.userInfoDialog = false;
+    this.projectScoreDialog = false;
   }
 }

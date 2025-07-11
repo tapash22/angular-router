@@ -99,3 +99,8 @@ export interface AllworkingResource {
   projectId: number;
   project_title: string;
 }
+
+export interface UserMenu{
+  id: string
+  label:string
+}

@@ -3,20 +3,26 @@
     <!-- Sidebar -->
     <aside
         class="w-88 h-full bg-[var(--surface)] p-4 ">
+        <!-- user profile card -->
         <app-user-profile-card
+            *ngIf="userInfoListWithIcon$ |async as userInfoListWithIcon"
             [userInfo]="userInfoListWithIcon"></app-user-profile-card>
+        <!-- user profile card end -->
 
+        <!-- user menu section -->
         <div class="block w-full h-auto ring-2 ring-gray-300 rounded-lg">
             <p
                 class="uppercase italic text-xl font-bold tracking-wide p-5 flex justify-center  border-b-2 border-[var(--card-border)]">
                 Menu
             </p>
             <ul class="h-[30vh] my-2 ">
-                <app-menu-list class="space-y-2 py-2" [visibleMenuItems]="menuItems"
+                <app-menu-list class="space-y-2 py-2"
+                    [visibleMenuItems]="menuItems"
                     [(activeLink)]="activeSection"
                     [haveId]="true" [collapsed]="collapsed"></app-menu-list>
             </ul>
         </div>
+        <!-- user menu section end-->
     </aside>
 
     <!-- Content Area -->
@@ -25,6 +31,7 @@
         <app-section-card id="basic" [title]="'Basic Information'"
             [icon]="iconEdit" (openDialog)="editUserInfo()">
             <app-dynamic-section-card-read-field
+                *ngIf="userInfoList$ |async as userInfoList"
                 [userInfo]="userInfoList"></app-dynamic-section-card-read-field>
         </app-section-card>
         <!--Basic Info end-->
@@ -32,27 +39,34 @@
         <app-section-card id="projects" [title]="'Projects'">
             <div
                 class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-                <app-project-card
-                    *ngFor="let project of userProfileData.projects; let i = index"
-                    [project]="project"
-                    [index]="i"
-                    [selected]="selectedIndex === i"
-                    [icon]="iconEdit"
-                    [showUserDetails]="true"
-                    [projectCardDisabled]="false"
-                    (selectProject)="handleProject($event)"
-                    (editProject)="openPerformanceScoreDialog($event)" />
+                <ng-container
+                    *ngIf="userProfileData$ | async as userProfileData">
+                    <app-project-card
+                        *ngFor="let project of userProfileData.projects; let i = index"
+                        [project]="project"
+                        [index]="i"
+                        [selected]="selectedIndex === i"
+                        [icon]="iconEdit"
+                        [showUserDetails]="true"
+                        [projectCardDisabled]="false"
+                        (selectProject)="handleProject($event)"
+                        (editProject)="openPerformanceScoreDialog($event)" />
+                </ng-container>
             </div>
         </app-section-card>
         <!-- project details end -->
         <!-- performance details-->
         <app-section-card id="performance" [title]="'Performance'">
-            <app-dynamic-progress-bar [progressBarTitle]="'Performance Score'"
-                [score]="userProfileData.performanceScore"
-                [height]="'lg'"
-                [striped]="true"></app-dynamic-progress-bar>
-            <app-dynamic-rating-star [titleTag]="'Rating'"
-                [rating]="userProfileData.rating"></app-dynamic-rating-star>
+            <ng-container *ngIf="userProfileData$ | async as userProfileData">
+
+                <app-dynamic-progress-bar
+                    [progressBarTitle]="'Performance Score'"
+                    [score]="userProfileData.performanceScore"
+                    [height]="'lg'"
+                    [striped]="true"></app-dynamic-progress-bar>
+                <app-dynamic-rating-star [titleTag]="'Rating'"
+                    [rating]="userProfileData.rating"></app-dynamic-rating-star>
+            </ng-container>
         </app-section-card>
         <!-- performance details end-->
     </main>
@@ -61,8 +75,7 @@
     <app-dynamic-dialog *ngIf="userInfoDialog" title="Edit User " size="lg"
         [show]="userInfoDialog" [showFooter]="true" (onClose)="closeDialog()">
         <div>
-            <app-user-info-form
-                [profileForm]="profileForm" />
+            <app-user-info-form [profileForm]="profileForm" />
         </div>
         <div class="w-full" footer-controls>
             <div class="flex justify-end">
@@ -84,8 +97,7 @@
         [show]="projectScoreDialog" [showFooter]="true"
         (onClose)="closeDialog()">
         <div>
-            <app-project-score-form
-                [projectScore]="projectScore" />
+            <app-project-score-form [projectScore]="projectScore" />
         </div>
         <div footer-controls class="w-full">
             <div class="flex justify-end">
@@ -94,7 +106,7 @@
                     [size]="'sm'" [shadow]="'button'"
                     [buttonRounded]="'lg'"
                     [buttonText]="'Submit'"
-                    (buttonClick)="submitProjectScoreUpdate()"></app-dynamic-button>
+                    (buttonClick)="submitProjectScoreUpdate()" />
             </div>
         </div>
     </app-dynamic-dialog>

@@ -21,11 +21,11 @@ export class UserProfileCardComponent {
     return this.userInfo[0];
   }
 
-    get userRole(): UserInfoItem | undefined {
+  get userRole(): UserInfoItem | undefined {
     return this.userInfo[1];
   }
 
   get restObjects(): UserInfoItem[] {
-    return this.userInfo.slice(1);
+    return this.userInfo.slice(2);
   }
 }
