@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { Project, User, AllworkingResource } from '../../interfaces/user';
 import { MOCK_USERS } from '../../localStore/user-data';
 import { OverviewChartComponent } from '../../component/chart/overview-chart/overview-chart.component';
-import { ChartType, ChartData, ChartConfiguration } from 'chart.js';
+import { ChartType, ChartData, ChartConfiguration, scales } from 'chart.js';
 import { UserListItemComponent } from '../../component/childs/user-list-item/user-list-item.component';
 import { ProjectCardComponent } from '../../component/childs/project-card/project-card.component';
 import { UserService } from '../../service/user.service';
 import { UserItemComponent } from '../../childs/user-item/user-item.component';
+import { filter, map, Observable, of, shareReplay } from 'rxjs';
 
 @Component({
   selector: 'app-admin',
@@ -22,8 +23,6 @@ import { UserItemComponent } from '../../childs/user-item/user-item.component';
   styleUrl: './admin.component.css',
 })
 export class AdminComponent {
-  userList: User[] = MOCK_USERS;
-  userProfileData!: User;
   selectedIndex: number | null = null;
 
   allWorkingResources: AllworkingResource[] = [];
@@ -50,24 +49,100 @@ export class AdminComponent {
     datasets: [],
   };
 
+  // project cart data
   chartDataProjectDistribution: ChartData<'bar'> = {
     labels: [],
     datasets: [],
   };
+  projectList!: Project[];
+  userList!: User[];
 
-  constructor(private userService: UserService) {
-    this.userProfileData = this.userService.getCurrentUser()!;
-    this.initializeUserChartData();
-    this.collectAllWorkingResources();
-    this.initializeProjectDistributionChart();
-    this.initializeSummaryChart();
+  constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+    this.userService.currentUser$
+      .pipe(filter((user): user is User => !!user))
+      .subscribe((user) => {
+        const projects: Project[] = user.projects ?? [];
+        this.generateProjectChartData(projects);
+        this.initializeUserChartData(user);
+      });
+
+    this.userService.users$
+      .pipe(filter((users) => users.length > 0))
+      .subscribe((users) => {
+        this.projectList = users.flatMap((u) => u.projects ?? []);
+        this.collectAllWorkingResources(users);
+        this.initializeSummaryChart();
+
+        this.userList = users;
+
+        // Optionally:
+      });
   }
 
-  initializeUserChartData(): void {
+  generateProjectChartData(projects: Project[]): void {
+    const labels: string[] = [];
+    const resources: number[] = [];
+    const hours: number[] = [];
+    const scores: number[] = [];
+
+    this.projectSummaries = [];
+
+    projects.forEach((project) => {
+      const res = project.working_resource ?? [];
+      const totalHours = res.reduce(
+        (acc, cur) => acc + cur.time_spent_hours,
+        0
+      );
+      const totalScore = res.reduce(
+        (acc, cur) => acc + cur.performance_score,
+        0
+      );
+      const avgScore = res.length ? totalScore / res.length : 0;
+
+      labels.push(project.project_title);
+      resources.push(res.length);
+      hours.push(totalHours);
+      scores.push(+avgScore.toFixed(2));
+
+      this.projectSummaries.push({
+        title: project.project_title,
+        resourceCount: res.length,
+        totalHours,
+        avgPerformance: +avgScore.toFixed(2),
+        status: project.projectStatus,
+      });
+    });
+
+    this.chartDataProjectDistribution = {
+      labels,
+      datasets: [
+        {
+          label: 'Resources Involved',
+          data: resources,
+          backgroundColor: '#42A5F5',
+          borderRadius: 10,
+        },
+        {
+          label: 'Total Hours',
+          data: hours,
+          backgroundColor: '#66BB6A',
+          borderRadius: 10,
+        },
+        {
+          label: 'Avg Performance Score',
+          data: scores,
+          backgroundColor: '#FFA726',
+          borderRadius: 10,
+        },
+      ],
+    };
+  }
+
+  initializeUserChartData(user: User): void {
     const allResources =
-      this.userProfileData.projects?.flatMap(
-        (project) => project.working_resource
-      ) || [];
+      user.projects?.flatMap((project) => project.working_resource ?? []) ?? [];
 
     this.workingResources = allResources;
 
@@ -103,69 +178,6 @@ export class AdminComponent {
           barThickness: 20,
           categoryPercentage: 0.7,
           barPercentage: 0.6,
-        },
-      ],
-    };
-  }
-
-  initializeProjectDistributionChart(): void {
-    const projectMap = new Map<
-      string,
-      {
-        title: string;
-        resourceCount: number;
-        totalHours: number;
-        avgPerformance: number;
-        status: string;
-      }
-    >();
-
-    this.projectList?.forEach((project) => {
-      const key = project.project_title + '-' + project.id;
-      const resources = project.working_resource || [];
-      const totalHours = resources.reduce(
-        (acc, cur) => acc + cur.time_spent_hours,
-        0
-      );
-      const avgScore = resources.length
-        ? resources.reduce((acc, cur) => acc + cur.performance_score, 0) /
-          resources.length
-        : 0;
-
-      projectMap.set(key, {
-        title: project.project_title,
-        resourceCount: resources.length,
-        totalHours,
-        avgPerformance: +avgScore.toFixed(2),
-        status: project.projectStatus,
-      });
-    });
-
-    const projects = Array.from(projectMap.values());
-
-    console.log(projects);
-    this.projectSummaries = projects;
-
-    this.chartDataProjectDistribution = {
-      labels: projects.map((p) => p.title),
-      datasets: [
-        {
-          label: 'Resources Involved',
-          data: projects.map((p) => p.resourceCount),
-          backgroundColor: '#42A5F5',
-          borderRadius: 10,
-        },
-        {
-          label: 'Total Hours',
-          data: projects.map((p) => p.totalHours),
-          backgroundColor: '#66BB6A',
-          borderRadius: 10,
-        },
-        {
-          label: 'Avg Performance Score',
-          data: projects.map((p) => p.avgPerformance),
-          backgroundColor: '#FFA726',
-          borderRadius: 10,
         },
       ],
     };
@@ -270,13 +282,15 @@ export class AdminComponent {
     },
   };
 
+  //project chart
+  // first chart into this page
   projectChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
-      legend: { position: 'top' },
+      legend: { position: 'bottom' },
       tooltip: {
         mode: 'index',
-        intersect: false,
+        intersect: true,
         callbacks: {
           title: (tooltipItems) => {
             const index = tooltipItems[0].dataIndex;
@@ -294,11 +308,19 @@ export class AdminComponent {
       },
     },
     scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+      },
       y: {
         beginAtZero: true,
         title: {
           display: true,
           text: 'Values',
+        },
+        grid: {
+          display: false,
         },
       },
     },
@@ -325,34 +347,34 @@ export class AdminComponent {
           display: true,
           text: 'Score / Time',
         },
+        grid: {
+          display: false,
+        },
       },
     },
   };
 
-  projectList: Project[] | null = this.userList.flatMap(
-    (user) => user.projects ?? []
-  );
-
   // make new array
-  collectAllWorkingResources(): void {
-    this.allWorkingResources = this.userList.flatMap((user) => {
-      return (user.projects ?? []).flatMap((project) => {
-        return project.working_resource.map((resource) => ({
-          userId: user.id,
+  collectAllWorkingResources(users: User[]): void {
+    const resources = users.flatMap((user) =>
+      (user.projects ?? []).flatMap((project) =>
+        (project.working_resource ?? []).map((resource) => ({
+          userId: user.id, // from user
           name: resource.name,
           email: resource.email,
           time_spent_hours: resource.time_spent_hours,
           performance_score: resource.performance_score,
           projectId: project.id,
           project_title: project.project_title,
-        }));
-      });
-    });
+        }))
+      )
+    );
 
-    // Optional: remove duplicates by email + projectId
-    const uniqueKey = new Set();
-    this.allWorkingResources = this.allWorkingResources.filter((item) => {
-      const key = item.email + '-' + item.projectId;
+    // Remove duplicates by email + projectId
+    const uniqueKey = new Set<string>();
+
+    this.allWorkingResources = resources.filter((item) => {
+      const key = `${item.email}-${item.projectId}`;
       if (uniqueKey.has(key)) return false;
       uniqueKey.add(key);
       return true;
