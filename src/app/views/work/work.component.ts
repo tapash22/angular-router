@@ -15,6 +15,7 @@ import { DynamicFormComponent } from "../../component/form/dynamic-form/dynamic-
 import { FieldSchema } from "../../interfaces/form-field-schema";
 import { UserService } from "../../service/user.service";
 import { ProjectService } from "../../service/project.service";
+import { ChildLayoutComponent } from "../../layout/child-layout/child-layout.component";
 
 @Component({
   selector: "app-work",
@@ -24,6 +25,7 @@ import { ProjectService } from "../../service/project.service";
     ReactiveFormsModule,
     DynamicDialogComponent,
     DynamicFormComponent,
+    ChildLayoutComponent
   ],
   templateUrl: "./work.component.html",
   styleUrl: "./work.component.css",

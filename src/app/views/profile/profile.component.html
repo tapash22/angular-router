@@ -1,5 +1,6 @@
 <div
     class="flex h-[86vh] overflow-hidden mt-4 bg-[var(--surface)] text-[var(--foreground)]">
+    
     <!-- Sidebar -->
     <aside
         class="w-88 h-full bg-[var(--surface)] p-4 ">
@@ -26,7 +27,7 @@
     </aside>
 
     <!-- Content Area -->
-    <main class="flex-1 overflow-y-auto custom-scrollbar">
+    <main class="flex-1 overflow-y-scroll custom-scrollbar">
         <!-- Basic Info -->
         <app-section-card id="basic" [title]="'Basic Information'"
             [icon]="iconEdit" (openDialog)="editUserInfo()">

@@ -1,22 +1,22 @@
-<div
-    class="flex h-[86vh] overflow-hidden mt-4 ">
-    <div
-        class="flex-1 overflow-y-auto custom-scrollbar  bg-[var(--surface)]">
-        <div class="flex w-full gap-5">
-            <div class="w-1/2 h-auto ">
+<app-child-layout>
+    <div main-component>
+        <div class="w-full flex justify-center h-auto py-4 gap-2">
+            <div class="w-3/4 h-auto ">
                 <app-overview-chart
                     [type]="'bar'"
                     [data]="chartDataProjectDistribution"
                     [options]="projectChartOptions" [chartHeight]="500" />
             </div>
-            <div class="w-1/2 h-auto ">
+        </div>
+        <div class="w-full flex justify-center h-auto py-4 gap-2">
+
+               <div class="w-3/4 h-auto ">
                 <!-- Chart 3: Summary -->
                 <app-overview-chart
                     [type]="'bar'"
                     [data]="chartDataAllUsers"
                     [options]="summaryChartOptions" [chartHeight]="500" />
             </div>
-
         </div>
         <!-- top section -->
         <div
@@ -43,15 +43,15 @@
 
         </div>
         <!-- top section end -->
-
         <!-- bottom section -->
         <div
             class="w-full h-auto py-4 grid grid-cols-3 gap-4 bg-[var(--surface)] text-[var(--foreground)]">
-            <app-project-card *ngFor="let project of projectList; let i=index"
+            <app-project-card
+                *ngFor="let project of projectList; let i=index"
                 [project]="project" [index]="i"
                 [selected]="selectedIndex === i "
                 (selectProject)="handleProject($event)"></app-project-card>
         </div>
         <!-- bottom section end -->
     </div>
-</div>
+</app-child-layout>

@@ -6,10 +6,11 @@ import { Project, User } from "../../interfaces/user";
 import { ChartType, ChartData, ChartConfiguration } from "chart.js";
 import { MOCK_USERS } from "../../localStore/user-data";
 import { UserService } from "../../service/user.service";
+import { ChildLayoutComponent } from "../../layout/child-layout/child-layout.component";
 
 @Component({
   selector: "app-employee",
-  imports: [CommonModule, ProjectCardComponent, OverviewChartComponent],
+  imports: [CommonModule, ProjectCardComponent, OverviewChartComponent, ChildLayoutComponent],
   templateUrl: "./employee.component.html",
   styleUrl: "./employee.component.css",
 })

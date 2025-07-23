@@ -9,6 +9,7 @@ import { ProjectCardComponent } from '../../component/childs/project-card/projec
 import { UserService } from '../../service/user.service';
 import { UserItemComponent } from '../../childs/user-item/user-item.component';
 import { filter, map, Observable, of, shareReplay } from 'rxjs';
+import { ChildLayoutComponent } from '../../layout/child-layout/child-layout.component';
 
 @Component({
   selector: 'app-admin',
@@ -18,6 +19,7 @@ import { filter, map, Observable, of, shareReplay } from 'rxjs';
     UserListItemComponent,
     UserItemComponent,
     ProjectCardComponent,
+    ChildLayoutComponent
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css',

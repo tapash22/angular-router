@@ -1,5 +1,6 @@
-<div class="block w-full h-full bg-transparent">
-    <div class="w-full h-auto py-4 flex justify-center items-start gap-4">
+<!-- <div class="block w-full h-full bg-transparent relative"> -->
+<app-child-layout>
+    <div main-component>
         <div class="w-1/2 h-auto p-2 block">
             <app-overview-chart [type]="chartType"
                 [data]="chartData"
@@ -23,4 +24,4 @@
         </div>
     </div>
 
-</div>
+</app-child-layout>

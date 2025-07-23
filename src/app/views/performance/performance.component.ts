@@ -2,10 +2,11 @@ import { Component, Input } from "@angular/core";
 import { DynamicDialogComponent } from "../../component/dialog/dynamic-dialog/dynamic-dialog.component";
 import { CommonModule } from "@angular/common";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { ChildLayoutComponent } from "../../layout/child-layout/child-layout.component";
 
 @Component({
   selector: "app-performance",
-  imports: [DynamicDialogComponent, CommonModule,ReactiveFormsModule],
+  imports: [DynamicDialogComponent, CommonModule,ReactiveFormsModule, ChildLayoutComponent],
   templateUrl: "./performance.component.html",
   styleUrl: "./performance.component.css",
 })
