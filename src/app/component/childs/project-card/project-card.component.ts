@@ -53,6 +53,7 @@ export class ProjectCardComponent implements OnInit {
   }>();
 
   @Output() editProject = new EventEmitter<Project>();
+  @Output() updateResource = new EventEmitter<Project>();
   @Output() deleteProject = new EventEmitter<{
     index: number;
   }>();
@@ -167,6 +168,13 @@ export class ProjectCardComponent implements OnInit {
     console.log(this.project);
   }
 
+  projectResourceUpdate($event: MouseEvent) {
+    if (this.projectCardDisabled || this.isDisabled) return;
+    // event.stopPropagation(); // Prevent parent card click event
+    this.updateResource.emit(this.project);
+    console.log(this.project)
+  }
+
   openProjectChart() {
     this.isDialogVisible = true;
   }
@@ -176,6 +184,6 @@ export class ProjectCardComponent implements OnInit {
   }
 
   projectDelete() {
-    this.deleteProject.emit({index:this.index});
+    this.deleteProject.emit({ index: this.index });
   }
 }

@@ -204,6 +204,29 @@ export class ProfileComponent {
     this.projectScoreDialog = true;
   }
 
+  updateProjectResourceInfo(project: Project ) {
+    this.selectedProject = project;
+
+    const workingResources = project.working_resource;
+
+    const formArray = this.workingResourceScores;
+    formArray.clear();
+
+    workingResources.forEach((resource) => {
+      formArray.push(
+        this.fb.group({
+          id: [resource.id],
+          name: [resource.name],
+          performance_score: [
+            resource.performance_score,
+            [Validators.required, Validators.min(0), Validators.max(100)],
+          ],
+        })
+      );
+    });
+
+    this.projectScoreDialog = true;
+  }
   //update user basic info
   updateUser(): void {
     const updatedFields = this.profileForm.getRawValue();
@@ -263,7 +286,7 @@ export class ProfileComponent {
   }
 
   deleteProject(event: { index: number }) {
-    this.selectedIndex = event.index ;
+    this.selectedIndex = event.index + 1;
 
     this.projectService.deleteProject(this.selectedIndex).subscribe({
       next: () => {

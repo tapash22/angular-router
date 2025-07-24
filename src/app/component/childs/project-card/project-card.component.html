@@ -11,12 +11,14 @@
         <!-- header Section -->
         <app-project-card-header [project]="project" [icon]="icon"
             [isDisabled]="isDisabled" (clickToEdit)="handleEditProject($event)"
-            (clickToOpen)="openProjectChart()" (clickToDelete)="projectDelete()"></app-project-card-header>
+            (clickToOpen)="openProjectChart()"
+            (clickToDelete)="projectDelete()"></app-project-card-header>
         <!-- Requirements Chips -->
         <app-project-card-body [project]="project"></app-project-card-body>
         <!-- Resources Section -->
         <app-project-work-resource
-            [projectResources]="project.working_resource"></app-project-work-resource>
+            [icon]="icon"
+            [projectResources]="project.working_resource" (resourceUpdate)="projectResourceUpdate($event)"></app-project-work-resource>
     </div>
 
     <!-- Dialog Container -->
