@@ -1,11 +1,11 @@
 <!-- <div class="block w-full h-full bg-transparent relative"> -->
 <app-child-layout>
     <div main-component>
-        <div class="w-1/2 h-auto p-2 block">
+        <div class="w-full h-auto p-2 block">
             <app-overview-chart [type]="chartType"
                 [data]="chartData"
                 [options]="chartOptions"></app-overview-chart>
-            <div class="w-full h-auto block py-5">
+            <!-- <div class="w-full h-auto block py-5">
                 <div *ngIf="userDetails; else noUser">
                     <p><strong>Name:</strong> {{ userDetails.name }}</p>
                     <p><strong>Email:</strong> {{ userDetails.email }}</p>
@@ -14,9 +14,9 @@
                 <ng-template #noUser>
                     <p>No user is currently logged in.</p>
                 </ng-template>
-            </div>
+            </div> -->
         </div>
-        <div class="w-1/2 h-auto p-2 grid grid-cols-2 gap-2">
+        <div class="w-full h-auto p-2 grid grid-cols-4 gap-2">
             <app-project-card *ngFor="let project of projectList; let i=index"
                 [project]="project" [index]="i"
                 [selected]="selectedIndex === i "

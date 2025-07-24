@@ -11,7 +11,7 @@
         <!-- header Section -->
         <app-project-card-header [project]="project" [icon]="icon"
             [isDisabled]="isDisabled" (clickToEdit)="handleEditProject($event)"
-            (clickToOpen)="openProjectChart()"></app-project-card-header>
+            (clickToOpen)="openProjectChart()" (clickToDelete)="projectDelete()"></app-project-card-header>
         <!-- Requirements Chips -->
         <app-project-card-body [project]="project"></app-project-card-body>
         <!-- Resources Section -->

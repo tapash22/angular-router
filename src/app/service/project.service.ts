@@ -69,8 +69,30 @@ export class ProjectService {
           const newId =
             Math.max(0, ...updatedProjects.map((p) => p.id ?? 0)) + 1;
           project.id = newId;
+          project.projectStatus = project.projectStatus
+            ? project.projectStatus
+            : 'start';
           updatedProjects.push({ ...project });
         }
+
+        this.userService.updateCurrentUserFields({ projects: updatedProjects });
+      })
+    );
+  }
+
+  deleteProject(index: number) {
+    return this.userService.currentUser$.pipe(
+      take(1),
+      map((user) => {
+        if (!user) return;
+
+        const updatedProjects = user.projects ? [...user.projects] : [];
+
+        if (index < 0 || index >= updatedProjects.length) {
+          throw new Error('Invalid project index');
+        }
+
+        updatedProjects.splice(index, 1); 
 
         this.userService.updateCurrentUserFields({ projects: updatedProjects });
       })

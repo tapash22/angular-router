@@ -1,6 +1,6 @@
 <div
     class="flex h-[86vh] overflow-hidden mt-4 bg-[var(--surface)] text-[var(--foreground)]">
-    
+
     <!-- Sidebar -->
     <aside
         class="w-88 h-full bg-[var(--surface)] p-4 ">
@@ -51,7 +51,8 @@
                         [showUserDetails]="true"
                         [projectCardDisabled]="false"
                         (selectProject)="handleProject($event)"
-                        (editProject)="openPerformanceScoreDialog($event)" />
+                        (editProject)="openPerformanceScoreDialog($event)"
+                        (deleteProject)="deleteProject($event)" />
                 </ng-container>
             </div>
         </app-section-card>

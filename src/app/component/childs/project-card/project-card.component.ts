@@ -1,21 +1,16 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Project } from '../../../interfaces/user';
 import { CommonModule } from '@angular/common';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { DynamicDialogComponent } from '../../dialog/dynamic-dialog/dynamic-dialog.component';
 import { ChartConfiguration, ChartData, ChartDataset } from 'chart.js';
 import { OverviewChartComponent } from '../../chart/overview-chart/overview-chart.component';
 import { ProjectWorkResourceComponent } from '../../../childs/project-work-resource/project-work-resource.component';
 import { ProjectCardHeaderComponent } from '../../../childs/project-card-header/project-card-header.component';
 import { ProjectCardBodyComponent } from '../../../childs/project-card-body/project-card-body.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+// import for icon pass as props to parents
+import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 type ExtendedDoughnutDataset = ChartDataset<'doughnut', number[]> & {
   radius?: string;
@@ -34,7 +29,7 @@ type ExtendedDoughnutDataset = ChartDataset<'doughnut', number[]> & {
     OverviewChartComponent,
     ProjectWorkResourceComponent,
     ProjectCardHeaderComponent,
-    ProjectCardBodyComponent
+    ProjectCardBodyComponent,
   ],
   templateUrl: './project-card.component.html',
   styleUrl: './project-card.component.css',
@@ -58,6 +53,9 @@ export class ProjectCardComponent implements OnInit {
   }>();
 
   @Output() editProject = new EventEmitter<Project>();
+  @Output() deleteProject = new EventEmitter<{
+    index: number;
+  }>();
 
   ngOnInit(): void {
     this.setupDoughnutChart();
@@ -166,6 +164,7 @@ export class ProjectCardComponent implements OnInit {
     if (this.projectCardDisabled || this.isDisabled) return;
     event.stopPropagation(); // Prevent parent card click event
     this.editProject.emit(this.project);
+    console.log(this.project);
   }
 
   openProjectChart() {
@@ -174,5 +173,9 @@ export class ProjectCardComponent implements OnInit {
 
   closeDialog() {
     this.isDialogVisible = false;
+  }
+
+  projectDelete() {
+    this.deleteProject.emit({index:this.index});
   }
 }

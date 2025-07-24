@@ -261,4 +261,17 @@ export class ProfileComponent {
     this.userInfoDialog = false;
     this.projectScoreDialog = false;
   }
+
+  deleteProject(event: { index: number }) {
+    this.selectedIndex = event.index ;
+
+    this.projectService.deleteProject(this.selectedIndex).subscribe({
+      next: () => {
+        this.toaster.showToast('Your project delete successfully!', 'success');
+      },
+      error: (err) => {
+        this.toaster.showToast('There some issue try again later', 'error');
+      },
+    });
+  }
 }
