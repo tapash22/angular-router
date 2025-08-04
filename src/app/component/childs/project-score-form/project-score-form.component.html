@@ -1,55 +1,61 @@
-<form [formGroup]="projectScore">
-  <div formArrayName="working_resource_scores">
-    <div
-      *ngFor="let ctrl of workingResourceScores.controls; let i = index"
-      [formGroupName]="i"
-      class="py-1"
-    >
-      <label class="block font-medium py-1">
-        {{ ctrl.get('name')?.value }}
-      </label>
-      <input
-        class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-        type="number"
-        formControlName="performance_score"
-        min="0"
-        max="100"
-      />
+<form [formGroup]="projectResource">
+  <label class="block font-medium py-1">
+    {{ projectResource.get('name')?.value }}
+  </label>
 
-      <!-- Validation Error -->
-      <div
-        *ngIf="ctrl.get('performance_score')?.touched && ctrl.get('performance_score')?.invalid"
-        class="text-red-500 text-sm mt-1"
-      >
-        <div *ngIf="ctrl.get('performance_score')?.errors?.['required']">
-          Score is required
-        </div>
-        <div *ngIf="ctrl.get('performance_score')?.errors?.['min']">
-          Minimum allowed score is
-          {{ ctrl.get('performance_score')?.errors?.['min'].min }}
-        </div>
-        <div *ngIf="ctrl.get('performance_score')?.errors?.['max']">
-          Maximum allowed score is
-          {{ ctrl.get('performance_score')?.errors?.['max'].max }}
-        </div>
-      </div>
+  <input
+    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+    type="number"
+    formControlName="performance_score"
+    min="0"
+    max="100"
+  />
+
+  <!-- Validation Error -->
+  <div
+    *ngIf="projectResource.get('performance_score')?.touched && projectResource.get('performance_score')?.invalid"
+    class="text-red-500 text-sm mt-1"
+  >
+    <div *ngIf="projectResource.get('performance_score')?.errors?.['required']">
+      Score is required
+    </div>
+    <div *ngIf="projectResource.get('performance_score')?.errors?.['min']">
+      Minimum allowed score is
+      {{ projectResource.get('performance_score')?.errors?.['min'].min }}
+    </div>
+    <div *ngIf="projectResource.get('performance_score')?.errors?.['max']">
+      Maximum allowed score is
+      {{ projectResource.get('performance_score')?.errors?.['max'].max }}
     </div>
   </div>
-</form>
 
-<!-- Footer -->
-<!-- <div footer-controls class="w-full">
-  <div class="flex justify-end">
-    <button
-      [disabled]="projectScore.invalid"
-      (click)="onSubmit()"
-      class="bg-green-500 text-black text-sm tracking-wide font-medium px-5 py-2 rounded hover:opacity-90"
-      [ngClass]="{
-        'opacity-100': !projectScore.invalid,
-        'opacity-50 cursor-not-allowed': projectScore.invalid
-      }"
-    >
-      Submit
-    </button>
+  <!-- Other fields -->
+  <label class="block font-medium py-1 mt-4">Email</label>
+  <input
+    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+    type="email"
+    formControlName="email"
+  />
+  <div
+    *ngIf="projectResource.get('email')?.touched && projectResource.get('email')?.invalid"
+    class="text-red-500 text-sm mt-1"
+  >
+    <div *ngIf="projectResource.get('email')?.errors?.['required']">Email is required</div>
+    <div *ngIf="projectResource.get('email')?.errors?.['email']">Invalid email format</div>
   </div>
-</div> -->
+
+  <label class="block font-medium py-1 mt-4">Time Spent Hours</label>
+  <input
+    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+    type="number"
+    formControlName="time_spent_hours"
+    min="0"
+  />
+  <div
+    *ngIf="projectResource.get('time_spent_hours')?.touched && projectResource.get('time_spent_hours')?.invalid"
+    class="text-red-500 text-sm mt-1"
+  >
+    <div *ngIf="projectResource.get('time_spent_hours')?.errors?.['required']">Time spent is required</div>
+    <div *ngIf="projectResource.get('time_spent_hours')?.errors?.['min']">Minimum value is 0</div>
+  </div>
+</form>

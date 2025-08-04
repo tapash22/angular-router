@@ -18,7 +18,8 @@ export class ProjectWorkResourceComponent {
   @Output() resourceUpdate = new EventEmitter();
 
 
-  handleProjectResounce($event: any) {
-    this.resourceUpdate.emit($event)
+  handleProjectResounce(id:number) {
+    console.log(id)
+    this.resourceUpdate.emit(id)
   }
 }

@@ -9,10 +9,6 @@ import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './project-score-form.component.css'
 })
 export class ProjectScoreFormComponent {
-  @Input() projectScore!: FormGroup;
-
-  get workingResourceScores(): FormArray {
-    return this.projectScore.get('working_resource_scores') as FormArray;
-  }
+  @Input() projectResource!: FormGroup;
 
 }

@@ -80,10 +80,11 @@ export class ProfileComponent {
   // Form controls
   profileForm!: FormGroup;
   projectScore!: FormGroup;
+  projectResource!: FormGroup;
 
   // Dialogs
   userInfoDialog: boolean = false;
-  projectScoreDialog: boolean = false;
+  projectResourceDialog: boolean = false;
 
   // Selection state
   selectedIndex: number | null = null;
@@ -201,32 +202,96 @@ export class ProfileComponent {
       );
     });
 
-    this.projectScoreDialog = true;
+    this.projectResourceDialog = true;
   }
 
-  updateProjectResourceInfo(project: Project ) {
+  // resource update dialog open
+  updateProjectResourceInfo(event: { project: Project; resource: any }) {
+    const { project, resource } = event;
+
     this.selectedProject = project;
+    this.selectedResourceIndex = resource.id;
+    console.log(this.selectedIndex)
 
-    const workingResources = project.working_resource;
-
-    const formArray = this.workingResourceScores;
-    formArray.clear();
-
-    workingResources.forEach((resource) => {
-      formArray.push(
-        this.fb.group({
-          id: [resource.id],
-          name: [resource.name],
-          performance_score: [
-            resource.performance_score,
-            [Validators.required, Validators.min(0), Validators.max(100)],
-          ],
-        })
-      );
+    this.projectResource = this.fb.group({
+      id: [resource.id],
+      name: [{ value: resource.name, disabled: true }],
+      email: [resource.email, [Validators.required, Validators.email]],
+      time_spent_hours: [
+        resource.time_spent_hours,
+        [Validators.required, Validators.min(0)],
+      ],
+      performance_score: [
+        resource.performance_score,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
     });
 
-    this.projectScoreDialog = true;
+    this.projectResourceDialog = true;
   }
+
+  //update project resource score
+  submitProjectScoreUpdate(): void {
+  if (this.projectResource && this.projectResource.valid && this.selectedProject) {
+    // ✅ Single Resource Update
+    const resourceValue = this.projectResource.getRawValue();
+
+    this.projectService.updateUserProjectResourceScore(
+      this.selectedProject.id,
+      resourceValue.id,
+      {
+        email: resourceValue.email,
+        time_spent_hours: +resourceValue.time_spent_hours,
+        performance_score: +resourceValue.performance_score,
+      }
+    ).subscribe({
+      next: (success) => {
+        this.toaster.showToast(
+          success
+            ? 'Resource updated successfully!'
+            : 'Failed to update resource.',
+          success ? 'success' : 'error'
+        );
+        if (success) this.projectResourceDialog = false;
+      },
+      error: () => {
+        this.toaster.showToast('Unexpected error while updating.', 'error');
+      },
+    });
+  } else if (this.projectScore && this.projectScore.valid && this.selectedProject) {
+    // ✅ Multiple Resource Bulk Update
+    const scores = this.projectScore.value.working_resource_scores;
+
+    const updateObservables: Observable<boolean>[] = scores.map((resource: any) =>
+      this.projectService.updateUserProjectResourceScore(
+        this.selectedProject!.id,
+        resource.id,
+        {
+          email: resource.email,
+          time_spent_hours: +resource.time_spent_hours,
+          performance_score: +resource.performance_score,
+        }
+      )
+    );
+
+    forkJoin(updateObservables).subscribe((results: boolean[]) => {
+      const allSuccess = results.every(Boolean);
+
+      this.toaster.showToast(
+        allSuccess
+          ? 'All resources updated successfully!'
+          : 'Some resources failed to update.',
+        allSuccess ? 'success' : 'error'
+      );
+
+      this.projectResourceDialog = false;
+    });
+  } else {
+    this.toaster.showToast('Invalid data or no project selected', 'error');
+  }
+}
+
+
   //update user basic info
   updateUser(): void {
     const updatedFields = this.profileForm.getRawValue();
@@ -245,44 +310,12 @@ export class ProfileComponent {
     });
   }
 
-  //update project resource score
-  submitProjectScoreUpdate(): void {
-    if (!this.projectScore.valid || !this.selectedProject) {
-      this.toaster.showToast('Invalid data or no project selected', 'error');
-      return;
-    }
-
-    const scores = this.projectScore.value.working_resource_scores;
-
-    const updateObservables: Observable<boolean>[] = scores.map(
-      (resource: any) =>
-        this.projectService.updateUserProjectResourceScore(
-          this.selectedProject!.id,
-          resource.id,
-          +resource.performance_score
-        )
-    );
-
-    forkJoin(updateObservables).subscribe((results: boolean[]) => {
-      const allSuccess = results.every(Boolean);
-
-      this.toaster.showToast(
-        allSuccess
-          ? 'Performance scores updated successfully!'
-          : 'Failed to update some performance scores.',
-        allSuccess ? 'success' : 'error'
-      );
-
-      this.projectScoreDialog = false;
-    });
-  }
-
   //close dilaog
   closeDialog() {
     // if (this.userInfoDialog === true) this.userInfoDialog = false;
     // if (this.projectScoreDialog === true) this.projectScoreDialog = false;
     this.userInfoDialog = false;
-    this.projectScoreDialog = false;
+    this.projectResourceDialog = false;
   }
 
   deleteProject(event: { index: number }) {

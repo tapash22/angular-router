@@ -53,7 +53,10 @@ export class ProjectCardComponent implements OnInit {
   }>();
 
   @Output() editProject = new EventEmitter<Project>();
-  @Output() updateResource = new EventEmitter<Project>();
+  @Output() updateResource = new EventEmitter<{
+    project: Project;
+    resource: any;
+  }>();
   @Output() deleteProject = new EventEmitter<{
     index: number;
   }>();
@@ -61,14 +64,6 @@ export class ProjectCardComponent implements OnInit {
   ngOnInit(): void {
     this.setupDoughnutChart();
   }
-
-  // Corrected status-class mapping
-  // statusClassMap: Record<string, string> = {
-  //   start: 'bg-blue-100 ring-blue-500',
-  //   'in-progress': 'bg-yellow-100 ring-yellow-500',
-  //   completed: 'bg-green-100 ring-green-500',
-  //   pause: 'bg-gray-100 ring-gray-500',
-  // };
 
   // Optionally calculate disabled state internally based on projectStatus
 
@@ -168,11 +163,16 @@ export class ProjectCardComponent implements OnInit {
     console.log(this.project);
   }
 
-  projectResourceUpdate($event: MouseEvent) {
-    if (this.projectCardDisabled || this.isDisabled) return;
-    // event.stopPropagation(); // Prevent parent card click event
-    this.updateResource.emit(this.project);
-    console.log(this.project)
+  projectResourceUpdate(resourceId: number) {
+    const resource = this.project.working_resource.find(
+      (r) => r.id === resourceId
+    );
+
+    if (this.project && resource) {
+      this.updateResource.emit({ project: this.project, resource });
+    } else {
+      console.error('Resource not found in project');
+    }
   }
 
   openProjectChart() {

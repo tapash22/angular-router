@@ -94,13 +94,13 @@
     <!-- Basic Info update dialog end -->
 
     <!-- update project performance_score each project with dialog  -->
-    <app-dynamic-dialog *ngIf="projectScoreDialog"
+    <app-dynamic-dialog *ngIf="projectResourceDialog "
         title="Update Project Performance Score "
         size="sm"
-        [show]="projectScoreDialog" [showFooter]="true"
+        [show]="projectResourceDialog " [showFooter]="true"
         (onClose)="closeDialog()">
         <div>
-            <app-project-score-form [projectScore]="projectScore" />
+            <app-project-score-form [projectResource]="projectResource" />
         </div>
         <div footer-controls class="w-full">
             <div class="flex justify-end">
