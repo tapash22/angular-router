@@ -1,6 +1,6 @@
- <div class="chart-container w-auto h-32">
+ <div class="chart-container w-auto h-auto">
     <div class="grid grid-cols-2 gap-3">
-        <div class="rounded-sm p-3 shadow bg-red-400"
+        <div class="rounded-sm p-3 shadow "
             *ngFor="let resource of projectResources">
             <div class="flex justify-between items-center p-2">
 
@@ -8,14 +8,36 @@
                     class="text-sm flex justify-start w-full font-medium tracking-wide py-1 text-[var(--foreground)]">
                     {{resource.name}}
                 </h2>
-                <fa-icon
-                    *ngIf="icon"
-                    [icon]="icon"
-                    class="text-lg cursor-pointer rounded-md transition-all duration-200 hover:scale-110"
-                    style="color: var(--foreground)"
-                    (click)="handleProjectResounce(resource.id) ">
-                </fa-icon>
+                <div class="flex justify-evenly items-center gap-1 p-1">
+                    <fa-icon
+                        *ngIf="icon"
+                        [icon]="icon"
+                        class="text-sm cursor-pointer rounded-md transition-all duration-200 hover:scale-110"
+                        style="color: var(--foreground)"
+                        (click)="handleProjectResounce(resource.id) ">
+                    </fa-icon>
+                           <fa-icon
+                        *ngIf="iconDelete"
+                        [icon]="iconDelete"
+                        class="text-sm cursor-pointer rounded-md transition-all duration-200 hover:scale-110"
+                        style="color: var(--foreground)"
+                        (click)="deleteProjectResounce(resource.id) ">
+                    </fa-icon>
+                </div>
             </div>
+            <div class="w-full block">
+                <p
+                    class="line-clamp-2 text-sm font-medium tracking-wide py-1 text-[var(--foreground)]"
+                    [attr.title]="resource.email">
+                    {{ resource.email }}
+                </p>
+                <p
+                    class="text-sm flex justify-start text-wrap  font-medium tracking-wide py-1 text-[var(--foreground)]">
+                    <span class="font-bold">Time spent : </span> {{
+                    resource.time_spent_hours}}
+                </p>
+            </div>
+
             <div class="w-full h-auto"
                 [ngClass]="resource.performance_score > 10 ? 'block' : 'hidden'">
                 <!-- Progress bar with tooltip -->

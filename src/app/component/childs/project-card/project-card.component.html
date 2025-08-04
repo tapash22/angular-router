@@ -18,7 +18,9 @@
         <!-- Resources Section -->
         <app-project-work-resource
             [icon]="icon"
-            [projectResources]="project.working_resource" (resourceUpdate)="projectResourceUpdate($event)"></app-project-work-resource>
+            [projectResources]="project.working_resource"
+            (resourceUpdate)="projectResourceUpdate($event)"
+            (resourceDelete)="projectResourceDelete($event)"></app-project-work-resource>
     </div>
 
     <!-- Dialog Container -->

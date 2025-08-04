@@ -53,7 +53,11 @@ export class ProjectCardComponent implements OnInit {
   }>();
 
   @Output() editProject = new EventEmitter<Project>();
-  @Output() updateResource = new EventEmitter<{
+  @Output() updateProjectResource = new EventEmitter<{
+    project: Project;
+    resource: any;
+  }>();
+  @Output() deleteProjectResource = new EventEmitter<{
     project: Project;
     resource: any;
   }>();
@@ -163,13 +167,26 @@ export class ProjectCardComponent implements OnInit {
     console.log(this.project);
   }
 
+  //update project resource
   projectResourceUpdate(resourceId: number) {
     const resource = this.project.working_resource.find(
       (r) => r.id === resourceId
     );
 
     if (this.project && resource) {
-      this.updateResource.emit({ project: this.project, resource });
+      this.updateProjectResource.emit({ project: this.project, resource });
+    } else {
+      console.error('Resource not found in project');
+    }
+  }
+
+  //delete project resource
+  projectResourceDelete(resourceId: number) {
+    const resource = this.project.working_resource.find(
+      (r) => r.id === resourceId
+    );
+    if (this.project && resource) {
+      this.deleteProjectResource.emit({ project: this.project, resource });
     } else {
       console.error('Resource not found in project');
     }

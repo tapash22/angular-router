@@ -9,69 +9,153 @@ import { map, Observable, of, switchMap, take } from 'rxjs';
 export class ProjectService {
   constructor(private userService: UserService) {}
 
-  //update user project score
-updateUserProjectResourceScore(
-  projectId: number,
-  resourceId: number,
-  updatedFields: {
-    name?: string;
-    email?: string;
-    time_spent_hours?: number;
-    performance_score?: number;
-  }
-): Observable<boolean> {
-  return this.userService.currentUser$.pipe(
-    take(1),
-    switchMap((user) => {
-      if (!user?.projects || !Array.isArray(user.projects)) {
-        return of(false);
-      }
+  //it can be handle user project resource add or update or remove/detele
+  userProjectResource(
+    projectId: number,
+    resourceId: number,
+    updatedFields: {
+      name?: string;
+      email?: string;
+      time_spent_hours?: number;
+      performance_score?: number;
+      remove?: boolean; 
+    }
+  ): Observable<boolean> {
+    return this.userService.currentUser$.pipe(
+      take(1),
+      switchMap((user) => {
+        if (!user?.projects || !Array.isArray(user.projects)) {
+          return of(false);
+        }
 
-      const projectIndex = user.projects.findIndex((p) => p.id === projectId);
-      if (projectIndex === -1) return of(false);
+        const projectIndex = user.projects.findIndex((p) => p.id === projectId);
+        if (projectIndex === -1) return of(false);
 
-      const project = user.projects[projectIndex];
-      const existingResources = project.working_resource ?? [];
+        const project = user.projects[projectIndex];
+        const existingResources = project.working_resource ?? [];
 
-      const resourceIndex = existingResources.findIndex((r) => r.id === resourceId);
+        let updatedWorkingResource: typeof existingResources;
 
-      // 🔄 Updated resource list
-      const updatedWorkingResource = [...existingResources];
+        if (updatedFields.remove) {
+          // 🗑️ Delete logic
+          updatedWorkingResource = existingResources.filter(
+            (r) => r.id !== resourceId
+          );
+        } else {
+          const resourceIndex = existingResources.findIndex(
+            (r) => r.id === resourceId
+          );
+          updatedWorkingResource = [...existingResources];
 
-      if (resourceIndex !== -1) {
-        // ✅ Update existing
-        const existing = existingResources[resourceIndex];
-        updatedWorkingResource[resourceIndex] = {
-          ...existing,
-          ...updatedFields,
+          if (resourceIndex !== -1) {
+            // ✅ Update existing resource
+            const existing = existingResources[resourceIndex];
+            updatedWorkingResource[resourceIndex] = {
+              ...existing,
+              ...updatedFields,
+            };
+          } else {
+            // ➕ Add new resource
+            const newId =
+              existingResources.length > 0
+                ? Math.max(...existingResources.map((r) => r.id)) + 1
+                : 1;
+
+            const newResource = {
+              id: newId,
+              name: updatedFields.name ?? '',
+              email: updatedFields.email ?? '',
+              time_spent_hours: updatedFields.time_spent_hours ?? 0,
+              performance_score: updatedFields.performance_score ?? 0,
+            };
+
+            updatedWorkingResource.push(newResource);
+          }
+        }
+
+        // 🔁 Replace project
+        const updatedProjects = [...user.projects];
+        updatedProjects[projectIndex] = {
+          ...project,
+          working_resource: updatedWorkingResource,
         };
-      } else {
-        // ✅ Add new
-        updatedWorkingResource.push({
-          id: resourceId,
-          name: updatedFields.name ?? '',
-          email: updatedFields.email ?? '',
-          time_spent_hours: updatedFields.time_spent_hours ?? 0,
-          performance_score: updatedFields.performance_score ?? 0,
+
+        return this.userService.updateCurrentUserFields({
+          projects: updatedProjects,
         });
-      }
+      })
+    );
+  }
 
-      // 🧠 Replace project
-      const updatedProjects = [...user.projects];
-      updatedProjects[projectIndex] = {
-        ...project,
-        working_resource: updatedWorkingResource,
-      };
+  //update or added update user project resource
+  updateUserProjectResourceScore(
+    projectId: number,
+    resourceId: number,
+    updatedFields: {
+      name?: string;
+      email?: string;
+      time_spent_hours?: number;
+      performance_score?: number;
+    }
+  ): Observable<boolean> {
+    return this.userService.currentUser$.pipe(
+      take(1),
+      switchMap((user) => {
+        if (!user?.projects || !Array.isArray(user.projects)) {
+          return of(false);
+        }
 
-      return this.userService.updateCurrentUserFields({
-        projects: updatedProjects,
-      });
-    })
-  );
-}
+        const projectIndex = user.projects.findIndex((p) => p.id === projectId);
+        if (projectIndex === -1) return of(false);
 
+        const project = user.projects[projectIndex];
+        const existingResources = project.working_resource ?? [];
 
-  //added or update project
+        const resourceIndex = existingResources.findIndex(
+          (r) => r.id === resourceId
+        );
+        const updatedWorkingResource = [...existingResources];
+
+        if (resourceIndex !== -1) {
+          // ✅ Update existing resource
+          const existing = existingResources[resourceIndex];
+          updatedWorkingResource[resourceIndex] = {
+            ...existing,
+            ...updatedFields,
+          };
+        } else {
+          // ✅ Add new resource
+          const newId =
+            existingResources.length > 0
+              ? Math.max(...existingResources.map((r) => r.id)) + 1
+              : 1;
+
+          const newResource = {
+            id: newId,
+            name: updatedFields.name ?? '',
+            email: updatedFields.email ?? '',
+            time_spent_hours: updatedFields.time_spent_hours ?? 0,
+            performance_score: updatedFields.performance_score ?? 0,
+          };
+
+          updatedWorkingResource.push(newResource);
+        }
+
+        // 🔁 Update the specific project in user.projects
+        const updatedProjects = [...user.projects];
+        updatedProjects[projectIndex] = {
+          ...project,
+          working_resource: updatedWorkingResource,
+        };
+
+        return this.userService.updateCurrentUserFields({
+          projects: updatedProjects,
+        });
+      })
+    );
+  }
+
+  //update or added user project
   updateOrAddProject(project: Project, index?: number) {
     return this.userService.currentUser$.pipe(
       take(1),
@@ -101,6 +185,7 @@ updateUserProjectResourceScore(
     );
   }
 
+  //remove user project
   deleteProject(index: number) {
     return this.userService.currentUser$.pipe(
       take(1),

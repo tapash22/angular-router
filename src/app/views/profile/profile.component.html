@@ -52,7 +52,8 @@
                         [projectCardDisabled]="false"
                         (selectProject)="handleProject($event)"
                         (editProject)="openPerformanceScoreDialog($event)"
-                        (updateResource)="updateProjectResourceInfo($event)"
+                        (updateProjectResource)="updateProjectResourceInfo($event)"
+                        (deleteProjectResource)="deleteProjectResourceInfo($event)"
                         (deleteProject)="deleteProject($event)" />
                 </ng-container>
             </div>
@@ -96,7 +97,7 @@
     <!-- update project performance_score each project with dialog  -->
     <app-dynamic-dialog *ngIf="projectResourceDialog "
         title="Update Project Performance Score "
-        size="sm"
+        size="lg"
         [show]="projectResourceDialog " [showFooter]="true"
         (onClose)="closeDialog()">
         <div>

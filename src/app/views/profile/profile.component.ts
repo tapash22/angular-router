@@ -211,11 +211,10 @@ export class ProfileComponent {
 
     this.selectedProject = project;
     this.selectedResourceIndex = resource.id;
-    console.log(this.selectedIndex)
 
     this.projectResource = this.fb.group({
       id: [resource.id],
-      name: [{ value: resource.name, disabled: true }],
+      name: [resource.name, [Validators.required]],
       email: [resource.email, [Validators.required, Validators.email]],
       time_spent_hours: [
         resource.time_spent_hours,
@@ -230,67 +229,106 @@ export class ProfileComponent {
     this.projectResourceDialog = true;
   }
 
+  // delete resource
+  deleteProjectResourceInfo(event: { project: Project; resource: any }) {
+    const { project, resource } = event;
+
+    if (!project || !resource) {
+      this.toaster.showToast('Invalid project or resource data.', 'error');
+      return;
+    }
+
+    this.projectService
+      .userProjectResource(project.id, resource.id, { remove: true })
+      .subscribe({
+        next: (success) => {
+          this.toaster.showToast(
+            success
+              ? 'Resource deleted successfully!'
+              : 'Failed to delete resource.',
+            success ? 'success' : 'error'
+          );
+        },
+        error: () => {
+          this.toaster.showToast('Unexpected error during deletion.', 'error');
+        },
+      });
+  }
+
   //update project resource score
   submitProjectScoreUpdate(): void {
-  if (this.projectResource && this.projectResource.valid && this.selectedProject) {
-    // ✅ Single Resource Update
-    const resourceValue = this.projectResource.getRawValue();
+    if (
+      this.projectResource &&
+      this.projectResource.valid &&
+      this.selectedProject
+    ) {
+      // Single Resource Add or Update
+      const resourceValue = this.projectResource.getRawValue();
 
-    this.projectService.updateUserProjectResourceScore(
-      this.selectedProject.id,
-      resourceValue.id,
-      {
-        email: resourceValue.email,
-        time_spent_hours: +resourceValue.time_spent_hours,
-        performance_score: +resourceValue.performance_score,
-      }
-    ).subscribe({
-      next: (success) => {
-        this.toaster.showToast(
-          success
-            ? 'Resource updated successfully!'
-            : 'Failed to update resource.',
-          success ? 'success' : 'error'
-        );
-        if (success) this.projectResourceDialog = false;
-      },
-      error: () => {
-        this.toaster.showToast('Unexpected error while updating.', 'error');
-      },
-    });
-  } else if (this.projectScore && this.projectScore.valid && this.selectedProject) {
-    // ✅ Multiple Resource Bulk Update
-    const scores = this.projectScore.value.working_resource_scores;
+      // If id is -1 or falsy, treat as new resource (id assigned in service)
+      const resourceId =
+        resourceValue.id && resourceValue.id > 0 ? resourceValue.id : -1;
 
-    const updateObservables: Observable<boolean>[] = scores.map((resource: any) =>
-      this.projectService.updateUserProjectResourceScore(
-        this.selectedProject!.id,
-        resource.id,
-        {
-          email: resource.email,
-          time_spent_hours: +resource.time_spent_hours,
-          performance_score: +resource.performance_score,
-        }
-      )
-    );
+      this.projectService
+        .userProjectResource(this.selectedProject.id, resourceId, {
+          name: resourceValue.name,
+          email: resourceValue.email,
+          time_spent_hours: +resourceValue.time_spent_hours,
+          performance_score: +resourceValue.performance_score,
+        })
+        .subscribe({
+          next: (success) => {
+            this.toaster.showToast(
+              success
+                ? resourceId === -1
+                  ? 'Resource added successfully!'
+                  : 'Resource updated successfully!'
+                : 'Failed to update resource.',
+              success ? 'success' : 'error'
+            );
+            if (success) this.projectResourceDialog = false;
+          },
+          error: () => {
+            this.toaster.showToast('Unexpected error while updating.', 'error');
+          },
+        });
+    } else if (
+      this.projectScore &&
+      this.projectScore.valid &&
+      this.selectedProject
+    ) {
+      // ✅ Multiple Resource Bulk Update
+      const scores = this.projectScore.value.working_resource_scores;
 
-    forkJoin(updateObservables).subscribe((results: boolean[]) => {
-      const allSuccess = results.every(Boolean);
-
-      this.toaster.showToast(
-        allSuccess
-          ? 'All resources updated successfully!'
-          : 'Some resources failed to update.',
-        allSuccess ? 'success' : 'error'
+      const updateObservables: Observable<boolean>[] = scores.map(
+        (resource: any) =>
+          this.projectService.userProjectResource(
+            this.selectedProject!.id,
+            resource.id,
+            {
+              email: resource.email,
+              time_spent_hours: +resource.time_spent_hours,
+              performance_score: +resource.performance_score,
+            }
+          )
       );
 
-      this.projectResourceDialog = false;
-    });
-  } else {
-    this.toaster.showToast('Invalid data or no project selected', 'error');
-  }
-}
+      forkJoin(updateObservables).subscribe((results: boolean[]) => {
+        const allSuccess = results.every(Boolean);
 
+        this.toaster.showToast(
+          allSuccess
+            ? 'All resources updated successfully!'
+            : 'Some resources failed to update.',
+          allSuccess ? 'success' : 'error'
+        );
+
+        this.projectResourceDialog = false;
+      });
+    } else {
+      this.toaster.showToast('Invalid data or no project selected', 'error');
+    }
+  }
 
   //update user basic info
   updateUser(): void {

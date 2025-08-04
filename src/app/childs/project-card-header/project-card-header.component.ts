@@ -17,6 +17,7 @@ import {
 export class ProjectCardHeaderComponent {
   @Input() project!: Project;
   @Input() icon?: IconDefinition;
+  
   @Input() isDisabled: boolean = false;
 
   iconBarChart = faBarChart;
