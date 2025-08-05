@@ -373,7 +373,7 @@ export class ProfileComponent {
   }
 
   deleteProject(event: { index: number }) {
-    this.selectedIndex = event.index + 1;
+    this.selectedIndex = event.index ;
 
     this.projectService.deleteProject(this.selectedIndex).subscribe({
       next: () => {

@@ -18,33 +18,101 @@
             [type]="'number'" [formGroup]="project"></app-form-input>
         <app-form-input [label]="'Resources Needed'"
             [controlName]="'project_resource_needed'"
-            [type]="'date'" [formGroup]="project"></app-form-input>
+            [type]="'number'" [formGroup]="project"></app-form-input>
 
     </div>
 
     <!-- Requirements -->
+
     <div class="mt-6">
-        <label class="block font-medium mb-2">Project
-            Requirements</label>
-        <!-- <div formArrayName="project_requirement"
-            class="space-y-2">
-            <div
-                *ngFor="let ctrl of project_requirement.controls; let i = index">
-                <input [formControlName]="i"
-                    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-            </div>
-            <button type="button" (click)="addRequirement()"
-                class="mt-2 px-4 py-2 bg-gray-600 text-white rounded hover:opacity-90">
-                Add Requirement
-            </button>
-        </div> -->
+        <app-form-array-input
+            [formGroup]="project"
+            [arrayName]="'project_requirement'"
+            [label]="'Project Requirements'">
+        </app-form-array-input>
+
+        <button type="button" (click)="addRequirement()"
+            class="mt-2 px-4 py-4 text-[var(--demo)] bg-[var(--surface)] shadow-[var(--shadow-button)] rounded-xl">
+            Add Requirement
+        </button>
     </div>
 
     <!-- Working Resources -->
-    <div class="mt-6">
-        <label class="block font-medium mb-2">Working
+    <div [formGroup]="project">
+        <label class="block font-medium py-2 border-b-2">Working
             Resources</label>
-        <!-- <div formArrayName="working_resource" class="space-y-4">
+
+        <div formArrayName="working_resource" class="space-y-4 my-4">
+            <div
+                *ngFor="let group of working_resource.controls; let i = index"
+                [formGroupName]="i"
+                class="border p-4 rounded-md space-y-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label>Name</label>
+                        <input
+                            formControlName="name"
+                            class="w-full p-3 border border-gray-300 rounded-xl" />
+                        <div
+                            *ngIf="group.get('name')?.touched && group.get('name')?.invalid"
+                            class="text-red-500 text-sm">
+                            Name is required.
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Email</label>
+                        <input
+                            formControlName="email"
+                            class="w-full p-3 border border-gray-300 rounded-xl" />
+                        <div
+                            *ngIf="group.get('email')?.touched && group.get('email')?.invalid"
+                            class="text-red-500 text-sm">
+                            Enter a valid email.
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Time Spent (hours)</label>
+                        <input
+                            type="number"
+                            formControlName="time_spent_hours"
+                            class="w-full p-3 border border-gray-300 rounded-xl" />
+                        <div
+                            *ngIf="group.get('time_spent_hours')?.touched && group.get('time_spent_hours')?.invalid"
+                            class="text-red-500 text-sm">
+                            Enter a valid number ≥ 0.
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Performance Score</label>
+                        <input
+                            type="number"
+                            formControlName="performance_score"
+                            class="w-full p-3 border border-gray-300 rounded-xl" />
+                        <div
+                            *ngIf="group.get('performance_score')?.touched && group.get('performance_score')?.invalid"
+                            class="text-red-500 text-sm">
+                            Enter a valid number ≥ 0.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button
+                type="button"
+                (click)="addWorkingResource()"
+                class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
+                Add Resource
+            </button>
+        </div>
+    </div>
+
+    <!-- <div class="mt-6">
+        <label class="block font-medium py-2 border-b-2">Working
+            Resources</label>
+        <div formArrayName="working_resource" class="space-y-4 my-4">
             <div
                 *ngFor="let group of working_resource.controls; let i = index"
                 [formGroupName]="i"
@@ -57,6 +125,7 @@
                         <input formControlName="name"
                             class="w-full p-3 border border-gray-300 rounded-xl" />
                     </div>
+                    
                     <div>
                         <label>Email</label>
                         <input formControlName="email"
@@ -78,17 +147,17 @@
             </div>
 
             <button type="button" (click)="addWorkingResource()"
-                class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:opacity-90">
+                class="px-4 py-2 text-[var(--demo)] bg-[var(--surface)] shadow-[var(--shadow-button)] rounded-xl">
                 Add Resource
             </button>
-        </div> -->
-    </div>
+        </div>
+    </div> -->
 
     <!-- Status -->
     <div class="mt-6">
-        <label class="block font-medium">Project Status</label>
+        <label class="block font-medium py-2 border-b-2">Project Status</label>
         <select formControlName="projectStatus"
-            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400">
+            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 my-4">
             <option value="start">Start</option>
             <option value="in-progress">In Progress</option>
             <option value="completed">Completed</option>

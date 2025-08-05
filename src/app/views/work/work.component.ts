@@ -26,7 +26,7 @@ import { ProjectFormComponent } from '../../component/childs/project-form/projec
     ReactiveFormsModule,
     DynamicDialogComponent,
     ChildLayoutComponent,
-    ProjectFormComponent
+    ProjectFormComponent,
   ],
   templateUrl: './work.component.html',
   styleUrl: './work.component.css',
@@ -189,7 +189,9 @@ export class WorkComponent {
   }
 
   // Handle form submission from child
-  handleFormSubmit(formValue: any): void {
+  handleFormSubmit(): void {
+    const formValue = this.form.getRawValue(); 
+
     if (this.form.valid) {
       const newProject: Project = {
         ...formValue,
@@ -201,36 +203,19 @@ export class WorkComponent {
 
       this.project = newProject;
 
-      // Save the project
       this.projectService
         .updateOrAddProject(newProject, this.selectedIndex ?? undefined)
         .subscribe(() => {
-          const projectId = newProject.id;
-
-          // Optional: update each resource separately
-          newProject.working_resource.forEach((resource, index) => {
-            this.projectService
-              .userProjectResource(projectId, index, {
-                name: resource.name,
-                email: resource.email,
-                time_spent_hours: resource.time_spent_hours,
-                performance_score: resource.performance_score,
-              })
-              .subscribe((success) => {
-                this.toaster.showToast(
-                  success
-                    ? 'Resource updated successfully!'
-                    : 'Failed to update resource.',
-                  success ? 'success' : 'error'
-                );
-              });
-          });
-
-          // Close the dialog after project is saved
-          this.closeprojectDialog();
+          this.toaster.showToast(
+            this.selectedIndex !== null
+              ? 'Project updated successfully!'
+              : 'Project added successfully!',
+            'success'
+          );
+          this.isDialogVisible = false;
         });
     } else {
-      console.warn('Form is invalid');
+      this.toaster.showToast('Try again after sometime', 'error');
     }
   }
 }
