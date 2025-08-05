@@ -1,0 +1,97 @@
+<form [formGroup]="project">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <app-form-input [label]="'Project Name'" [controlName]="'project_title'"
+            [formGroup]="project"></app-form-input>
+        <app-form-input [label]="'Project Subtitle'"
+            [controlName]="'project_subtitle'"
+            [formGroup]="project"></app-form-input>
+        <app-form-input [label]="'Project Length (months)'"
+            [controlName]="'project_project_length'"
+            [type]="'number'" [formGroup]="project" [min]="1"
+            [max]="100"></app-form-input>
+        <app-form-input [label]="'Estimated Date'"
+            [controlName]="'project_estimated_date'"
+            [type]="'date'" [formGroup]="project"></app-form-input>
+        <app-form-input [label]="'Costing Needed'"
+            [controlName]="'project_costing_needed'"
+            [type]="'number'" [formGroup]="project"></app-form-input>
+        <app-form-input [label]="'Resources Needed'"
+            [controlName]="'project_resource_needed'"
+            [type]="'date'" [formGroup]="project"></app-form-input>
+
+    </div>
+
+    <!-- Requirements -->
+    <div class="mt-6">
+        <label class="block font-medium mb-2">Project
+            Requirements</label>
+        <!-- <div formArrayName="project_requirement"
+            class="space-y-2">
+            <div
+                *ngFor="let ctrl of project_requirement.controls; let i = index">
+                <input [formControlName]="i"
+                    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            </div>
+            <button type="button" (click)="addRequirement()"
+                class="mt-2 px-4 py-2 bg-gray-600 text-white rounded hover:opacity-90">
+                Add Requirement
+            </button>
+        </div> -->
+    </div>
+
+    <!-- Working Resources -->
+    <div class="mt-6">
+        <label class="block font-medium mb-2">Working
+            Resources</label>
+        <!-- <div formArrayName="working_resource" class="space-y-4">
+            <div
+                *ngFor="let group of working_resource.controls; let i = index"
+                [formGroupName]="i"
+                class="border p-4 rounded-md space-y-2">
+
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label>Name</label>
+                        <input formControlName="name"
+                            class="w-full p-3 border border-gray-300 rounded-xl" />
+                    </div>
+                    <div>
+                        <label>Email</label>
+                        <input formControlName="email"
+                            class="w-full p-3 border border-gray-300 rounded-xl" />
+                    </div>
+                    <div>
+                        <label>Time Spent (hours)</label>
+                        <input type="number"
+                            formControlName="time_spent_hours"
+                            class="w-full p-3 border border-gray-300 rounded-xl" />
+                    </div>
+                    <div>
+                        <label>Performance Score</label>
+                        <input type="number"
+                            formControlName="performance_score"
+                            class="w-full p-3 border border-gray-300 rounded-xl" />
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" (click)="addWorkingResource()"
+                class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:opacity-90">
+                Add Resource
+            </button>
+        </div> -->
+    </div>
+
+    <!-- Status -->
+    <div class="mt-6">
+        <label class="block font-medium">Project Status</label>
+        <select formControlName="projectStatus"
+            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <option value="start">Start</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+        </select>
+    </div>
+</form>

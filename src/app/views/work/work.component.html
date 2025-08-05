@@ -15,7 +15,6 @@
             </div>
 
         </div>
-        <!-- project card list -->
         <div class="w-full h-auto py-4 grid grid-cols-4 gap-4">
             <app-project-card *ngFor="let project of projectList; let i=index"
                 [project]="project" [index]="i"
@@ -23,177 +22,36 @@
                 (selectProject)="handleProject($event)"
                 class="h-[400px]"></app-project-card>
         </div>
+        <!-- project card list -->
 
         <!-- create project -->
-
-        <!-- //dynamic form -->
-        <div class="w-full h-auto py-5">
-            <app-dynamic-form [form]="form"
-                [title]="'Create New Project'"
-                [submitBtnTitle]="'Save Project'"
-                [color]="'bg-green-600'"
-                [disableIfInvalid]="true"
-                (formSubmit)="handleFormSubmit($event)">
-                <div [formGroup]="form" form-body>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block font-medium">Project
-                                Title</label>
-                            <input type="text" formControlName="project_title"
-                                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                        </div>
-                        <div>
-                            <label class="block font-medium">Project
-                                Subtitle</label>
-                            <input type="text"
-                                formControlName="project_subtitle"
-                                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                        </div>
-                        <div>
-                            <label class="block font-medium">Project Length
-                                (months)</label>
-                            <input type="number"
-                                formControlName="project_project_length"
-                                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                        </div>
-                        <div>
-                            <label class="block font-medium">Estimated
-                                Date</label>
-                            <input type="date"
-                                formControlName="project_estimated_date"
-                                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                        </div>
-                        <div>
-                            <label class="block font-medium">Costing
-                                Needed</label>
-                            <input type="number"
-                                formControlName="project_costing_needed"
-                                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                        </div>
-                        <div>
-                            <label class="block font-medium">Resources
-                                Needed</label>
-                            <input type="number"
-                                formControlName="project_resource_needed"
-                                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                        </div>
-                    </div>
-
-                    <!-- Requirements -->
-                    <div class="mt-6">
-                        <label class="block font-medium mb-2">Project
-                            Requirements</label>
-                        <div formArrayName="project_requirement"
-                            class="space-y-2">
-                            <div
-                                *ngFor="let ctrl of project_requirement.controls; let i = index">
-                                <input [formControlName]="i"
-                                    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                            </div>
-                            <button type="button" (click)="addRequirement()"
-                                class="mt-2 px-4 py-2 bg-gray-600 text-white rounded hover:opacity-90">
-                                Add Requirement
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Working Resources -->
-                    <div class="mt-6">
-                        <label class="block font-medium mb-2">Working
-                            Resources</label>
-                        <div formArrayName="working_resource" class="space-y-4">
-                            <div
-                                *ngFor="let group of working_resource.controls; let i = index"
-                                [formGroupName]="i"
-                                class="border p-4 rounded-md space-y-2">
-
-                                <div
-                                    class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label>Name</label>
-                                        <input formControlName="name"
-                                            class="w-full p-3 border border-gray-300 rounded-xl" />
-                                    </div>
-                                    <div>
-                                        <label>Email</label>
-                                        <input formControlName="email"
-                                            class="w-full p-3 border border-gray-300 rounded-xl" />
-                                    </div>
-                                    <div>
-                                        <label>Time Spent (hours)</label>
-                                        <input type="number"
-                                            formControlName="time_spent_hours"
-                                            class="w-full p-3 border border-gray-300 rounded-xl" />
-                                    </div>
-                                    <div>
-                                        <label>Performance Score</label>
-                                        <input type="number"
-                                            formControlName="performance_score"
-                                            class="w-full p-3 border border-gray-300 rounded-xl" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button type="button" (click)="addWorkingResource()"
-                                class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:opacity-90">
-                                Add Resource
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Status -->
-                    <div class="mt-6">
-                        <label class="block font-medium">Project Status</label>
-                        <select formControlName="projectStatus"
-                            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400">
-                            <option value="start">Start</option>
-                            <option value="in-progress">In Progress</option>
-                            <option value="completed">Completed</option>
-                        </select>
-                    </div>
-                </div>
-            </app-dynamic-form>
-        </div>
-
-        <!-- dialog -->
         <div class="relative">
-            <button
-                (click)="openDialog()"
-                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                Open Dialog
-            </button>
             <app-dynamic-dialog
-                [title]="'Dynamic Tailwind Dialog'"
-                [size]="'md'"
+                [title]="'Create Project'"
+                [size]="'lg'"
                 [show]="isDialogVisible"
                 [disableClose]="false"
                 [showFooter]="true"
                 (onClose)="closeDialog()">
                 <!-- Dialog body content -->
                 <div>
-                    <p class="text-gray-700">
-                        This is some content inside the dialog. You can put any
-                        HTML
-                        or
-                        components here.
-                    </p>
+                    <app-project-form [project]="form"
+                        (projectRequirement)="addRequirement()"
+                        (projectWorkingResource)="addWorkingResource()"></app-project-form>
                 </div>
 
                 <!-- Footer buttons (pass using attribute selector) -->
-                <div footer-controls>
-                    <button
-                        (click)="closeDialog()"
-                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
-                        Cancel
-                    </button>
-                    <button
-                        (click)="saveData()"
-                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                        Save
-                    </button>
+                <div footer-controls class="w-full">
+                    <div class="flex justify-end items-center w-full">
+                        <button
+                            (click)="handleFormSubmit($event)"
+                            class="px-4 py-2 text-[var(--demo)] bg-[var(--surface)] shadow-[var(--shadow-button)] rounded-xl">
+                            Save
+                        </button>
+                    </div>
+
                 </div>
             </app-dynamic-dialog>
-
         </div>
 
     </div>
