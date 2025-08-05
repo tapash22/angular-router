@@ -1,76 +1,17 @@
 <form [formGroup]="projectResource">
   <!-- name end -->
-  <label class="block font-medium py-1 mt-4">Name</label>
-  <input
-    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-    type="text"
-    formControlName="name" />
-  <div
-    *ngIf="projectResource.get('email')?.touched && projectResource.get('email')?.invalid"
-    class="text-red-500 text-sm mt-1">
-    <div *ngIf="projectResource.get('name')?.errors?.['required']">Name is
-      required</div>
-  </div>
+  <app-form-input [label]="'Name'" [controlName]="'name'" [formGroup]="projectResource"></app-form-input>
   <!-- name end -->
 
   <!-- email -->
-  <label class="block font-medium py-1 mt-4">Email</label>
-  <input
-    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-    type="email"
-    formControlName="email" />
-  <div
-    *ngIf="projectResource.get('email')?.touched && projectResource.get('email')?.invalid"
-    class="text-red-500 text-sm mt-1">
-    <div *ngIf="projectResource.get('email')?.errors?.['required']">Email is
-      required</div>
-    <div *ngIf="projectResource.get('email')?.errors?.['email']">Invalid email
-      format</div>
-  </div>
+  <app-form-input [label]="'Email'" [controlName]="'email'" [type]="'email'" [formGroup]="projectResource"></app-form-input>
   <!-- email end -->
 
   <!-- score -->
-  <label class="block font-medium py-1 mt-4">Score</label>
-  <input
-    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-    type="number"
-    formControlName="performance_score"
-    min="0"
-    max="100" />
-
-  <div
-    *ngIf="projectResource.get('performance_score')?.touched && projectResource.get('performance_score')?.invalid"
-    class="text-red-500 text-sm mt-1">
-    <div *ngIf="projectResource.get('performance_score')?.errors?.['required']">
-      Score is required
-    </div>
-    <div *ngIf="projectResource.get('performance_score')?.errors?.['min']">
-      Minimum allowed score is
-      {{ projectResource.get('performance_score')?.errors?.['min'].min }}
-    </div>
-    <div *ngIf="projectResource.get('performance_score')?.errors?.['max']">
-      Maximum allowed score is
-      {{ projectResource.get('performance_score')?.errors?.['max'].max }}
-    </div>
-  </div>
+  <app-form-input [label]="'score'" [controlName]="'performance_score'" [type]="'number'" [formGroup]="projectResource" [min]="0" [max]="100"></app-form-input>
   <!-- score end -->
 
   <!-- Time -->
-  <label class="block font-medium py-1 mt-4">Time Spent Hours</label>
-  <input
-    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-    type="number"
-    formControlName="time_spent_hours"
-    min="0" />
-  <div
-    *ngIf="projectResource.get('time_spent_hours')?.touched && projectResource.get('time_spent_hours')?.invalid"
-    class="text-red-500 text-sm mt-1">
-    <div
-      *ngIf="projectResource.get('time_spent_hours')?.errors?.['required']">Time
-      spent is required</div>
-    <div
-      *ngIf="projectResource.get('time_spent_hours')?.errors?.['min']">Minimum
-      value is 0</div>
-  </div>
+  <app-form-input [label]="'Time Spent'" [controlName]="'time_spent_hours'" [type]="'number'" [formGroup]="projectResource" [min]="0" [max]="100"></app-form-input>
   <!-- Time end -->
 </form>

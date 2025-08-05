@@ -1,0 +1,28 @@
+<div [formGroup]="formGroup">
+  <label class="block font-medium py-1 mt-4">{{ label }}</label>
+  <input
+    class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+    [type]="type"
+    [attr.min]="min"
+    [attr.max]="max"
+    [formControlName]="controlName"
+  />
+
+  <div
+    *ngIf="formGroup.get(controlName)?.touched && formGroup.get(controlName)?.invalid"
+    class="text-red-500 text-sm mt-1"
+  >
+    <div *ngIf="formGroup.get(controlName)?.errors?.['required']">
+      {{ label }} is required
+    </div>
+    <div *ngIf="formGroup.get(controlName)?.errors?.['email']">
+      Please enter a valid email
+    </div>
+    <div *ngIf="formGroup.get(controlName)?.errors?.['min']">
+      Value must be at least {{ min }}
+    </div>
+    <div *ngIf="formGroup.get(controlName)?.errors?.['max']">
+      Value cannot exceed {{ max }}
+    </div>
+  </div>
+</div>

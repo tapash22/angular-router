@@ -1,35 +1,14 @@
 <form [formGroup]="profileForm">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-            <label class="block font-medium">User Name</label>
-            <input
-                type="text"
-                formControlName="name"
-                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-        </div>
-        <div>
-            <label class="block font-medium">Email</label>
-            <input
-                type="text"
-                formControlName="email"
-                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-        </div>
-        <div>
-            <label class="block font-medium">Phone</label>
-            <input
-                type="text"
-                formControlName="phone"
-                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-        </div>
-        <div>
-            <label class="block font-medium">Location</label>
-            <input
-                type="text"
-                formControlName="location"
-                class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" />
-        </div>
+        <app-form-input [label]="'User Name'" [controlName]="'name'"
+            [formGroup]="profileForm"></app-form-input>
+        <app-form-input [label]="'Email'" [controlName]="'email'"
+            [type]="'email'" [formGroup]="profileForm"></app-form-input>
+        <app-form-input [label]="'Phone'" [controlName]="'phone'"
+             [formGroup]="profileForm"></app-form-input>
+        <app-form-input [label]="'Location'" [controlName]="'location'"
+            [formGroup]="profileForm"></app-form-input>
     </div>
 </form>
 
 <!-- Footer -->
-
