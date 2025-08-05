@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ProjecctResources } from '../../interfaces/user';
 import { DynamicProgressBarComponent } from '../dynamic-progress-bar/dynamic-progress-bar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faTrash, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrash, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-project-work-resource',
@@ -14,17 +14,23 @@ import { faTrash, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 export class ProjectWorkResourceComponent {
   @Input() projectResources!: ProjecctResources;
   @Input() icon?: IconDefinition;
+  
+  iconPlus = faPlus;
   iconDelete = faTrash;
 
   @Output() resourceUpdate = new EventEmitter();
   @Output() resourceDelete = new EventEmitter();
+  @Output() resourceAdded = new EventEmitter();
 
-
-  handleProjectResounce(id:number) {
-    this.resourceUpdate.emit(id)
+  addProjectResounce() {
+    this.resourceAdded.emit();
   }
 
-  deleteProjectResounce(id:number){
-    this.resourceDelete.emit(id)
+  handleProjectResounce(id: number) {
+    this.resourceUpdate.emit(id);
+  }
+
+  deleteProjectResounce(id: number) {
+    this.resourceDelete.emit(id);
   }
 }

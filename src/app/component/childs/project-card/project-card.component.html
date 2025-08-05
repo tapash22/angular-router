@@ -19,6 +19,7 @@
         <app-project-work-resource
             [icon]="icon"
             [projectResources]="project.working_resource"
+            (resourceAdded)="projectResourceAdded()"
             (resourceUpdate)="projectResourceUpdate($event)"
             (resourceDelete)="projectResourceDelete($event)"></app-project-work-resource>
     </div>

@@ -53,6 +53,9 @@ export class ProjectCardComponent implements OnInit {
   }>();
 
   @Output() editProject = new EventEmitter<Project>();
+
+  @Output() addedProjectResource = new EventEmitter<Project>();
+
   @Output() updateProjectResource = new EventEmitter<{
     project: Project;
     resource: any;
@@ -165,6 +168,10 @@ export class ProjectCardComponent implements OnInit {
     event.stopPropagation(); // Prevent parent card click event
     this.editProject.emit(this.project);
     console.log(this.project);
+  }
+
+  projectResourceAdded(){
+    this.addedProjectResource.emit(this.project);
   }
 
   //update project resource

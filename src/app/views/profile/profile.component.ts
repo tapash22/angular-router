@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Project, User, UserInfoItem } from '../../interfaces/user';
-
 import { ProjectCardComponent } from '../../component/childs/project-card/project-card.component';
 import { CommonModule } from '@angular/common';
 import { faEdit, faCircleDot } from '@fortawesome/free-solid-svg-icons';
@@ -200,6 +199,23 @@ export class ProfileComponent {
           ],
         })
       );
+    });
+
+    this.projectResourceDialog = true;
+  }
+
+  addedProjectResourceInfo(project: Project): void {
+    this.selectedProject = project;
+    this.selectedResourceIndex = -1;
+
+    this.projectResource = this.fb.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      time_spent_hours: [0, [Validators.required, Validators.min(0)]],
+      performance_score: [
+        0,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
     });
 
     this.projectResourceDialog = true;

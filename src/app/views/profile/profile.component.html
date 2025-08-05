@@ -52,6 +52,7 @@
                         [projectCardDisabled]="false"
                         (selectProject)="handleProject($event)"
                         (editProject)="openPerformanceScoreDialog($event)"
+                        (addedProjectResource)="addedProjectResourceInfo($event)"
                         (updateProjectResource)="updateProjectResourceInfo($event)"
                         (deleteProjectResource)="deleteProjectResourceInfo($event)"
                         (deleteProject)="deleteProject($event)" />

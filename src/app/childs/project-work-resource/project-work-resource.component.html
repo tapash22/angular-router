@@ -1,14 +1,25 @@
  <div class="chart-container w-auto h-auto">
+    <div class="flex justify-end items-center py-1" *ngIf="icon">
+        <button
+            class="rounded-xl text-sm font-medium items-center w-auto p-2 h-auto bg-[var(--surface)] shadow-[var(--shadow-button)] "
+            (click)="addProjectResounce()">
+            <fa-icon
+                *ngIf="iconPlus"
+                [icon]="iconPlus"
+                class="text-sm font-bold rounded-md transition-all duration-200 hover:scale-110"
+                style="color: var(--foreground)" />
+                Add Resource
+        </button>
+    </div>
     <div class="grid grid-cols-2 gap-3">
-        <div class="rounded-sm p-3 shadow "
+        <div class="rounded-sm p-2 shadow "
             *ngFor="let resource of projectResources">
-            <div class="flex justify-between items-center p-2">
-
+            <div class="flex justify-between items-center p-1">
                 <h2
                     class="text-sm flex justify-start w-full font-medium tracking-wide py-1 text-[var(--foreground)]">
                     {{resource.name}}
                 </h2>
-                <div class="flex justify-evenly items-center gap-1 p-1">
+                <div class="flex justify-evenly items-center gap-3 p-1">
                     <fa-icon
                         *ngIf="icon"
                         [icon]="icon"
@@ -16,8 +27,8 @@
                         style="color: var(--foreground)"
                         (click)="handleProjectResounce(resource.id) ">
                     </fa-icon>
-                           <fa-icon
-                        *ngIf="iconDelete"
+                    <fa-icon
+                        *ngIf="icon && iconDelete"
                         [icon]="iconDelete"
                         class="text-sm cursor-pointer rounded-md transition-all duration-200 hover:scale-110"
                         style="color: var(--foreground)"
