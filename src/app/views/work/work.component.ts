@@ -17,11 +17,14 @@ import { ProjectService } from '../../service/project.service';
 import { ChildLayoutComponent } from '../../layout/child-layout/child-layout.component';
 import { ToasterService } from '../../service/toaster.service';
 import { ProjectFormComponent } from '../../component/childs/project-form/project-form.component';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-work',
   imports: [
     CommonModule,
+    FontAwesomeModule,
     ProjectCardComponent,
     ReactiveFormsModule,
     DynamicDialogComponent,
@@ -41,6 +44,8 @@ export class WorkComponent {
   selectedIndex: number | null = null;
 
   form: FormGroup;
+
+  iconEdit = faEdit;
 
   // for dialog
   isDialogVisible = false;
@@ -126,8 +131,15 @@ export class WorkComponent {
   }
   // open project form dialog
   openProjectDialog() {
-    this.getEmptyProject();
-    this.selectedIndex = null;
+    this.resetProjectForm();
+    this.isDialogVisible = true;
+  }
+
+  //open dialog for edit project
+  handleEditProject(event: { project: Project; index: number }) {
+    this.selectedIndex = event.index;
+    this.project = { ...event.project };
+    this.populateProjectForm(this.project);
     this.isDialogVisible = true;
   }
 
@@ -137,12 +149,10 @@ export class WorkComponent {
     this.project = null!;
     this.selectedIndex = null;
     console.log(this.projectDialogOpen);
-    // this.getEmptyProject()
   }
 
   // create or update project
   addProjectResource() {
-    console.log(this.project, this.selectedIndex);
     this.projectService.updateOrAddProject(
       this.project,
       this.selectedIndex ?? undefined
@@ -188,34 +198,95 @@ export class WorkComponent {
     this.working_resource.push(this.createWorkingResourceGroup());
   }
 
+  //reset form
+  private resetProjectForm(): void {
+    this.selectedIndex = null;
+    this.project = this.getEmptyProject();
+
+    this.form.reset({
+      project_title: '',
+      project_subtitle: '',
+      project_project_length: null,
+      project_estimated_date: '',
+      project_costing_needed: null,
+      project_resource_needed: null,
+      projectStatus: 'start',
+    });
+
+    this.project_requirement.clear();
+    this.working_resource.clear();
+
+    this.addRequirement();
+    this.addWorkingResource();
+  }
+
+  //for edit refill project field with value
+  private populateProjectForm(project: Project): void {
+    this.form.patchValue({
+      project_title: project.project_title,
+      project_subtitle: project.project_subtitle,
+      project_project_length: project.project_project_length,
+      project_estimated_date: project.project_estimated_date,
+      project_costing_needed: project.project_costing_needed,
+      project_resource_needed: project.project_resource_needed,
+      projectStatus: project.projectStatus,
+    });
+
+    this.project_requirement.clear();
+    project.project_requirement.forEach((req) =>
+      this.project_requirement.push(this.fb.control(req, Validators.required))
+    );
+
+    this.working_resource.clear();
+    project.working_resource.forEach((resource) =>
+      this.working_resource.push(
+        this.fb.group({
+          name: [resource.name, Validators.required],
+          email: [resource.email, [Validators.required, Validators.email]],
+          time_spent_hours: [
+            resource.time_spent_hours,
+            [Validators.required, Validators.min(0)],
+          ],
+          performance_score: [
+            resource.performance_score,
+            [Validators.required, Validators.min(0)],
+          ],
+        })
+      )
+    );
+  }
+
   // Handle form submission from child
   handleFormSubmit(): void {
-    const formValue = this.form.getRawValue(); 
-
-    if (this.form.valid) {
-      const newProject: Project = {
-        ...formValue,
-        id: this.project?.id ?? Date.now(),
-        projectStatus: formValue.projectStatus ?? 'start',
-        project_requirement: this.project_requirement.value,
-        working_resource: this.working_resource.value,
-      };
-
-      this.project = newProject;
-
-      this.projectService
-        .updateOrAddProject(newProject, this.selectedIndex ?? undefined)
-        .subscribe(() => {
-          this.toaster.showToast(
-            this.selectedIndex !== null
-              ? 'Project updated successfully!'
-              : 'Project added successfully!',
-            'success'
-          );
-          this.isDialogVisible = false;
-        });
-    } else {
-      this.toaster.showToast('Try again after sometime', 'error');
+    if (this.form.invalid) {
+      this.toaster.showToast(
+        'Please fill all required fields correctly.',
+        'error'
+      );
+      return;
     }
+
+    const formValue = this.form.getRawValue();
+
+    const newProject: Project = {
+      ...formValue,
+      id: this.project?.id ?? undefined, // let service handle ID if it's missing
+      project_requirement: this.project_requirement.value,
+      working_resource: this.working_resource.value,
+    };
+
+    this.project = newProject;
+
+    this.projectService
+      .updateOrAddProject(newProject, this.selectedIndex ?? undefined)
+      .subscribe(() => {
+        this.toaster.showToast(
+          this.selectedIndex !== null
+            ? 'Project updated successfully!'
+            : 'Project added successfully!',
+          'success'
+        );
+        this.isDialogVisible = false;
+      });
   }
 }

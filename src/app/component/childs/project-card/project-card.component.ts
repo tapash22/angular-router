@@ -52,7 +52,10 @@ export class ProjectCardComponent implements OnInit {
     project: Project;
   }>();
 
-  @Output() editProject = new EventEmitter<Project>();
+  @Output() editProject = new EventEmitter<{
+    project:Project;
+    index:number
+  }>();
 
   @Output() addedProjectResource = new EventEmitter<Project>();
 
@@ -165,9 +168,8 @@ export class ProjectCardComponent implements OnInit {
 
   handleEditProject(event: MouseEvent) {
     if (this.projectCardDisabled || this.isDisabled) return;
-    event.stopPropagation(); // Prevent parent card click event
-    this.editProject.emit(this.project);
-    console.log(this.project);
+    event.stopPropagation(); 
+    this.editProject.emit({project:this.project,index:this.index});
   }
 
   projectResourceAdded(){

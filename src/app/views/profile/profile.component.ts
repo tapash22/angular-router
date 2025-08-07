@@ -180,10 +180,10 @@ export class ProfileComponent {
   }
 
   //open project score dialog
-  openPerformanceScoreDialog(project: Project) {
-    this.selectedProject = project;
+  openPerformanceScoreDialog(event: { index: number; project: Project }) {
+    this.selectedProject = event.project;
 
-    const workingResources = project.working_resource;
+    const workingResources = event.project.working_resource;
 
     const formArray = this.workingResourceScores;
     formArray.clear();

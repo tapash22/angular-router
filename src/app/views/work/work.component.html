@@ -15,10 +15,12 @@
             </div>
 
         </div>
-        <div class="w-full h-auto py-4 grid grid-cols-4 gap-4">
+        <div class="w-full h-[100vh] py-4 grid grid-cols-4 gap-4">
             <app-project-card *ngFor="let project of projectList; let i=index"
                 [project]="project" [index]="i"
                 [selected]="selectedIndex === i "
+                [icon]="iconEdit"
+                (editProject)="handleEditProject($event)"
                 (selectProject)="handleProject($event)"
                 class="h-[400px]"></app-project-card>
         </div>
@@ -53,6 +55,5 @@
                 </div>
             </app-dynamic-dialog>
         </div>
-
     </div>
 </app-child-layout>
