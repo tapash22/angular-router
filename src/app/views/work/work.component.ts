@@ -120,6 +120,7 @@ export class WorkComponent {
 
   // open selected project form
   handleProject(event: { index: number; project: Project }) {
+    console.log('open project dialog');
     this.selectedIndex = event.index;
     // this.project = { ...event.project };
     this.project = {
@@ -137,6 +138,7 @@ export class WorkComponent {
 
   //open dialog for edit project
   handleEditProject(event: { project: Project; index: number }) {
+    console.log('open edit project dialog');
     this.selectedIndex = event.index;
     this.project = { ...event.project };
     this.populateProjectForm(this.project);

@@ -29,7 +29,7 @@
         <!-- create project -->
         <div class="relative">
             <app-dynamic-dialog
-                [title]="'Create Project'"
+                [title]="selectedIndex ?'Edit Project':'Create Project'"
                 [size]="'lg'"
                 [show]="isDialogVisible"
                 [disableClose]="false"
@@ -48,7 +48,7 @@
                         <button
                             (click)="handleFormSubmit()"
                             class="px-4 py-2 text-[var(--demo)] bg-[var(--surface)] shadow-[var(--shadow-button)] rounded-xl">
-                            Save
+                           {{selectedIndex ? 'Update' : 'save' }} 
                         </button>
                     </div>
 
