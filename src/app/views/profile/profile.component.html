@@ -77,7 +77,7 @@
     </main>
 
     <!-- Basic Info update dialog(for this need one child handle this code ) -->
-    <app-dynamic-dialog *ngIf="userInfoDialog" title="Edit User " size="lg"
+    <app-dynamic-dialog  title="Edit User " size="lg"
         [show]="userInfoDialog" [showFooter]="true" (onClose)="closeDialog()">
         <div>
             <app-user-info-form [profileForm]="profileForm" />
@@ -96,7 +96,7 @@
     <!-- Basic Info update dialog end -->
 
     <!-- update project performance_score each project with dialog  -->
-    <app-dynamic-dialog *ngIf="projectResourceDialog "
+    <app-dynamic-dialog 
         title="Update Project Performance Score "
         size="lg"
         [show]="projectResourceDialog " [showFooter]="true"

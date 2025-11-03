@@ -1,7 +1,8 @@
 <div
   *ngIf="show"
-  class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center z-50">
-  <div [ngClass]="dialogWidth"
+  @backdropAnimation
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/0 backdrop-blur-xs">
+  <div @dialogAnimation [ngClass]="dialogWidth"
     class="rounded-2xl shadow-[var(--shadow-card)] flex flex-col min-h-[10vh] max-h-[90vh] overflow-hidden bg-[var(--surface)] ">
     <!-- Header -->
     <div
