@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-dummy',
   imports: [],
   templateUrl: './dummy.component.html',
-  styleUrl: './dummy.component.css'
+  styleUrl: './dummy.component.css',
 })
-export class DummyComponent {
-
-}
+export class DummyComponent {}

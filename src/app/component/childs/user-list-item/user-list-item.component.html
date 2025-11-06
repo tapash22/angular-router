@@ -1,19 +1,20 @@
- <li
-    class="w-full h-auto py-2 px-4 block rounded-xl my-1 cursor-pointer"
-    [ngClass]="[
+<li
+  class="w-full h-auto py-2 px-4 block rounded-xl my-1 cursor-pointer"
+  [ngClass]="[
     index % 2 === 0 ? 'bg-[var(--list-bg)]' : 'bg-[var(--list-possitive-bg)]',
-      selected ? 'border-2 border-[var(--card-border)] bg-[var(--card-bg)]' : '',
-     ]"
-    (click)="selectUser()">
-    <h2
-        class="text-lg font-normal  tracking-wide flex justify-between items-center">
-        {{user.name}}
-        <p
-            class="p-2 rounded-lg text-center text-sm font-medium  ">
-            {{user.role |uppercase}}
-        </p>
-    </h2>
-    <p class="text-sm font-medium py-1">
-        {{ user.email}}
+    selected ? 'border-2 border-[var(--card-border)] bg-[var(--card-bg)]' : '',
+  ]"
+  (click)="selectUser()"
+>
+  <h2
+    class="text-lg font-normal tracking-wide flex justify-between items-center"
+  >
+    {{ user.name }}
+    <p class="p-2 rounded-lg text-center text-sm font-medium">
+      {{ user.role | uppercase }}
     </p>
+  </h2>
+  <p class="text-sm font-medium py-1">
+    {{ user.email }}
+  </p>
 </li>

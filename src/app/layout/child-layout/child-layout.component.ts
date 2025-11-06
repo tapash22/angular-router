@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   selector: 'app-child-layout',
   imports: [CommonModule],
   templateUrl: './child-layout.component.html',
-  styleUrl: './child-layout.component.css'
+  styleUrl: './child-layout.component.css',
 })
-export class ChildLayoutComponent {
-
-}
+export class ChildLayoutComponent {}

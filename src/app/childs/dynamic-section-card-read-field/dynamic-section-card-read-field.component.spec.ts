@@ -8,9 +8,8 @@ describe('DynamicSectionCardReadFieldComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DynamicSectionCardReadFieldComponent]
-    })
-    .compileComponents();
+      imports: [DynamicSectionCardReadFieldComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DynamicSectionCardReadFieldComponent);
     component = fixture.componentInstance;

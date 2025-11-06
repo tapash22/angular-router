@@ -11,7 +11,7 @@ export class DynamicProgressBarComponent {
   // pass value from parents
   @Input() progressBarTitle!: string;
   @Input() score: number | null | undefined = 0;
-  @Input() striped: boolean = false;
+  @Input() striped = false;
   @Input() height: 'sm' | 'md' | 'lg' | 'xl' = 'sm';
 
   get progressbarHeight(): string {

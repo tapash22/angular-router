@@ -1,13 +1,19 @@
- <section class="p-6 bg-[var(--surface)] text-[var(--foreground)]">
+<section class="p-6 bg-[var(--surface)] text-[var(--foreground)]">
   <div
-    class="w-full flex justify-between items-center p-4 shadow-sm shadow-blue-400 rounded-t-xl">
-    <h3 class="text-xl font-bold ">{{ title }}</h3>
-    <fa-icon *ngIf="icon" [icon]="icon" class="text-lg font-medium "
-      (click)="editForm()">
+    class="w-full flex justify-between items-center p-4 shadow-sm shadow-blue-400 rounded-t-xl"
+  >
+    <h3 class="text-xl font-bold">{{ title }}</h3>
+    <fa-icon
+      *ngIf="icon"
+      [icon]="icon"
+      class="text-lg font-medium"
+      (click)="editForm()"
+    >
     </fa-icon>
   </div>
   <div
-    class="shadow-lg shadow-blue-200 p-5 space-y-2 rounded-b-xl ring-1 ring-gray-300">
+    class="shadow-lg shadow-blue-200 p-5 space-y-2 rounded-b-xl ring-1 ring-gray-300"
+  >
     <ng-content></ng-content>
   </div>
 </section>

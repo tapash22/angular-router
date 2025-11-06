@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterOutlet,
+} from '@angular/router';
 import { NavigationComponent } from '../../component/navigation/navigation.component';
 import { HeaderComponent } from '../../component/header/header.component';
 import { filter } from 'rxjs';
@@ -10,16 +15,16 @@ import { CommonModule } from '@angular/common';
   selector: 'app-layout',
   imports: [RouterOutlet, CommonModule],
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.css'
+  styleUrl: './layout.component.css',
 })
 export class LayoutComponent {
   showSidebar = true;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
-           this.router.events
+    this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
         let currentRoute = this.activatedRoute.firstChild;
@@ -27,7 +32,7 @@ export class LayoutComponent {
         while (currentRoute?.firstChild) {
           currentRoute = currentRoute.firstChild;
         }
-        const hideSidebar = currentRoute?.snapshot.data["hideSidebar"];
+        const hideSidebar = currentRoute?.snapshot.data['hideSidebar'];
         // console.log(hideSidebar)
         this.showSidebar = !hideSidebar;
       });

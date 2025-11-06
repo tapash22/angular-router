@@ -1,6 +1,6 @@
-import { CanActivateFn, Router } from "@angular/router";
-import { AuthService } from "../service/auth/auth.service";
-import { inject } from "@angular/core";
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../service/auth/auth.service';
+import { inject } from '@angular/core';
 
 export const guestGuard: CanActivateFn = (route, state) => {
   const auth = inject(AuthService);
@@ -10,7 +10,7 @@ export const guestGuard: CanActivateFn = (route, state) => {
     return true;
   } else {
     // Redirect to dashboard if already logged in
-    return router.createUrlTree(["/auth/login"]);
+    return router.createUrlTree(['/auth/login']);
   }
   // return true;
 };

@@ -8,9 +8,8 @@ describe('UserDropdownCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserDropdownCardComponent]
-    })
-    .compileComponents();
+      imports: [UserDropdownCardComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UserDropdownCardComponent);
     component = fixture.componentInstance;

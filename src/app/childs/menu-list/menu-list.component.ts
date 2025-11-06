@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { filter } from 'rxjs';
@@ -10,7 +10,7 @@ import { filter } from 'rxjs';
   templateUrl: './menu-list.component.html',
   styleUrl: './menu-list.component.css',
 })
-export class MenuListComponent {
+export class MenuListComponent implements OnInit {
   @Input() visibleMenuItems!: any[];
   @Input() collapsed?: boolean;
   @Input() haveId?: boolean;

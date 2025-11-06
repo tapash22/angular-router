@@ -1,22 +1,24 @@
 <div
-  class="dashboard flex w-screen h-screen overflow-hidden bg-[var(--surface)] ">
+  class="dashboard flex w-screen h-screen overflow-hidden bg-[var(--surface)]"
+>
   <!-- Sidebar -->
   <div
-    class="navigation h-full shadow-[var(--shadow-button)]  transition-all duration-300 ease-in-out flex flex-col w-[80px]"
+    class="navigation h-full shadow-[var(--shadow-button)] transition-all duration-300 ease-in-out flex flex-col w-[80px]"
     [ngClass]="{
-         'w-[250px]': !showSidebar,
-         'w-[80px]': showSidebar
-       }">
-
+      'w-[250px]': !showSidebar,
+      'w-[80px]': showSidebar,
+    }"
+  >
     <div class="flex-1 overflow-y-hidden">
       <app-navigation [collapsed]="!showSidebar"></app-navigation>
     </div>
   </div>
 
   <div class="flex-1 flex flex-col h-full relative">
-
-    <app-header [showSidebar]="showSidebar"
-      (onClose)="toggleSidebar()"></app-header>
+    <app-header
+      [showSidebar]="showSidebar"
+      (onClose)="toggleSidebar()"
+    ></app-header>
 
     <div class="flex-1 overflow-hidden mt-8">
       <div class="h-full w-full overflow-auto p-10">

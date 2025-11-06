@@ -8,9 +8,8 @@ describe('DynamicProgressBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DynamicProgressBarComponent]
-    })
-    .compileComponents();
+      imports: [DynamicProgressBarComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DynamicProgressBarComponent);
     component = fixture.componentInstance;

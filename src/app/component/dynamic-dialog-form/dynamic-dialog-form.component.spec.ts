@@ -8,9 +8,8 @@ describe('DynamicDialogFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DynamicDialogFormComponent]
-    })
-    .compileComponents();
+      imports: [DynamicDialogFormComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DynamicDialogFormComponent);
     component = fixture.componentInstance;

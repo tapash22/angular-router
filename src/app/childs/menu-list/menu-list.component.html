@@ -1,21 +1,26 @@
+<li
+  *ngFor="let item of visibleMenuItems"
+  (click)="onItemClicked(item)"
+  [ngClass]="[
+    'flex items-center w-auto h-auto tracking-wide transition-all duration-300 ease-in-out py-4 px-1 justify-start cursor-pointer hover:bg-[var(--sidebar-hover-bg)] border-[var(--card-border)] rounded-lg hover-flow-border',
+    isActive(item)
+      ? 'bg-[var(--sidebar-active-bg)] border-l-2 border-r-2 border-[var(--card-border)] rounded-lg'
+      : '',
+  ]"
+  [routerLink]="item.link"
+>
+  <fa-icon *ngIf="item.icon" [icon]="item.icon" class="text-xl px-4"></fa-icon>
 
-<li *ngFor="let item of visibleMenuItems"
-    (click)="onItemClicked(item)"
-    [ngClass]="[
-      'flex items-center w-auto h-auto tracking-wide transition-all duration-300 ease-in-out py-4 px-1 justify-start cursor-pointer hover:bg-[var(--sidebar-hover-bg)] border-[var(--card-border)] rounded-lg hover-flow-border',
-       isActive(item) ? 'bg-[var(--sidebar-active-bg)] border-l-2 border-r-2 border-[var(--card-border)] rounded-lg' : '' ]"
-    [routerLink]="item.link">
-    <fa-icon *ngIf="item.icon" [icon]="item.icon"
-        class="text-xl px-4"></fa-icon>
-
-    <span
-        class="text-lg font-medium  origin-left whitespace-nowrap overflow-hidden"
-        [ngClass]="{
-            'transition-all duration-300 ease-out opacity-100 scale-100 max-w-[200px] visible ': collapsed,
-            'transition-all duration-500 ease-in opacity-0 scale-0 max-w-0 invisible': !collapsed,
-            'px-2' : haveId
-        }">
-        {{ item.label || item.name | titlecase }}
-    </span>
-
+  <span
+    class="text-lg font-medium origin-left whitespace-nowrap overflow-hidden"
+    [ngClass]="{
+      'transition-all duration-300 ease-out opacity-100 scale-100 max-w-[200px] visible ':
+        collapsed,
+      'transition-all duration-500 ease-in opacity-0 scale-0 max-w-0 invisible':
+        !collapsed,
+      'px-2': haveId,
+    }"
+  >
+    {{ item.label || item.name | titlecase }}
+  </span>
 </li>

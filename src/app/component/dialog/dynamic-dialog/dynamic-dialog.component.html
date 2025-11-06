@@ -1,35 +1,44 @@
 <div
   *ngIf="show"
   @backdropAnimation
-  class="fixed inset-0 z-50 flex items-center justify-center bg-black/0 backdrop-blur-xs">
-  <div @dialogAnimation [ngClass]="dialogWidth"
-    class="rounded-2xl shadow-[var(--shadow-card)] flex flex-col min-h-[10vh] max-h-[90vh] overflow-hidden bg-[var(--surface)] ">
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/0 backdrop-blur-xs"
+>
+  <div
+    @dialogAnimation
+    [ngClass]="dialogWidth"
+    class="rounded-2xl shadow-[var(--shadow-card)] flex flex-col min-h-[10vh] max-h-[90vh] overflow-hidden bg-[var(--surface)]"
+  >
     <!-- Header -->
     <div
-      class="sticky top-0  flex items-center justify-between px-5 py-4 border-b-2 rounded-t-2xl">
-
+      class="sticky top-0 flex items-center justify-between px-5 py-4 border-b-2 rounded-t-2xl"
+    >
       <h2 class="text-lg font-semibold">{{ title }}</h2>
       <button
         (click)="closeDialog()"
         [disabled]="disableClose"
-        class="text-black font-medium disabled:opacity-50">
+        class="text-black font-medium disabled:opacity-50"
+      >
         <fa-icon
           [icon]="iconClose"
-          class="text-xl font-medium cursor-pointer rounded-md transition-all duration-200 "
-          style="color: var(--foreground)">
+          class="text-xl font-medium cursor-pointer rounded-md transition-all duration-200"
+          style="color: var(--foreground)"
+        >
         </fa-icon>
       </button>
     </div>
 
     <!-- Body -->
-    <div class="overflow-y-auto overflow-x-hidden px-5 py-4 max-h-[80vh]"
-      [ngClass]="{ 'mb-2': showFooter }">
+    <div
+      class="overflow-y-auto overflow-x-hidden px-5 py-4 max-h-[80vh]"
+      [ngClass]="{ 'mb-2': showFooter }"
+    >
       <ng-content></ng-content>
     </div>
     <!-- Footer -->
     <div
       *ngIf="showFooter"
-      class="sticky bottom-0 w-full   flex items-center justify-center gap-4 p-5  border-t border-gray-200 rounded-b-2xl h-auto">
+      class="sticky bottom-0 w-full flex items-center justify-center gap-4 p-5 border-t border-gray-200 rounded-b-2xl h-auto"
+    >
       <ng-content select="[footer-controls]"></ng-content>
     </div>
   </div>

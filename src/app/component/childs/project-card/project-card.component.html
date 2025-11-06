@@ -1,45 +1,53 @@
 <div class="relative animate-fade-in">
-    <div
-        class="card my-3 p-4 w-full h-full rounded-2xl bg-[var(--surface)] text-[var(--foreground)]"
-        [ngClass]="{
-          'border-2': selected || (projectCardDisabled || isDisabled),
-          'border-[var(--border)]': selected,
-          'border-[var(--danger)] cursor-not-allowed pointer-events-none opacity-35': projectCardDisabled || isDisabled
-        }"
-        (click)="handleSelectProject()">
+  <div
+    class="card my-3 p-4 w-full h-full rounded-2xl bg-[var(--surface)] text-[var(--foreground)]"
+    [ngClass]="{
+      'border-2': selected || projectCardDisabled || isDisabled,
+      'border-[var(--border)]': selected,
+      'border-[var(--danger)] cursor-not-allowed pointer-events-none opacity-35':
+        projectCardDisabled || isDisabled,
+    }"
+    (click)="handleSelectProject()"
+  >
+    <!-- header Section -->
+    <app-project-card-header
+      [project]="project"
+      [icon]="icon"
+      [isDisabled]="isDisabled"
+      (clickToEdit)="handleEditProject($event)"
+      (clickToOpen)="openProjectChart()"
+      (clickToDelete)="projectDelete()"
+    ></app-project-card-header>
+    <!-- Requirements Chips -->
+    <app-project-card-body [project]="project"></app-project-card-body>
+    <!-- Resources Section -->
+    <app-project-work-resource
+      [icon]="icon"
+      [projectResources]="project.working_resource"
+      (resourceAdded)="projectResourceAdded()"
+      (resourceUpdate)="projectResourceUpdate($event)"
+      (resourceDelete)="projectResourceDelete($event)"
+    ></app-project-work-resource>
+  </div>
 
-        <!-- header Section -->
-        <app-project-card-header [project]="project" [icon]="icon"
-            [isDisabled]="isDisabled" (clickToEdit)="handleEditProject($event)"
-            (clickToOpen)="openProjectChart()"
-            (clickToDelete)="projectDelete()"></app-project-card-header>
-        <!-- Requirements Chips -->
-        <app-project-card-body [project]="project"></app-project-card-body>
-        <!-- Resources Section -->
-        <app-project-work-resource
-            [icon]="icon"
-            [projectResources]="project.working_resource"
-            (resourceAdded)="projectResourceAdded()"
-            (resourceUpdate)="projectResourceUpdate($event)"
-            (resourceDelete)="projectResourceDelete($event)"></app-project-work-resource>
-    </div>
-
-    <!-- Dialog Container -->
-    <ng-container *ngIf="isDialogVisible">
-        <app-dynamic-dialog
-            [title]="'Project Overview'"
-            [size]="'lg'"
-            [show]="isDialogVisible"
-            [disableClose]="false"
-            [showFooter]="false"
-            (onClose)="closeDialog()">
-            <div class="chart-container flex justify-center items-center">
-                <app-overview-chart
-                    [type]="doughnutChartConfig.type"
-                    [data]="doughnutChartConfig.data"
-                    [options]="doughnutChartConfig.options">
-                </app-overview-chart>
-            </div>
-        </app-dynamic-dialog>
-    </ng-container>
+  <!-- Dialog Container -->
+  <ng-container *ngIf="isDialogVisible">
+    <app-dynamic-dialog
+      [title]="'Project Overview'"
+      [size]="'lg'"
+      [show]="isDialogVisible"
+      [disableClose]="false"
+      [showFooter]="false"
+      (onClose)="closeDialog()"
+    >
+      <div class="chart-container flex justify-center items-center">
+        <app-overview-chart
+          [type]="doughnutChartConfig.type"
+          [data]="doughnutChartConfig.data"
+          [options]="doughnutChartConfig.options"
+        >
+        </app-overview-chart>
+      </div>
+    </app-dynamic-dialog>
+  </ng-container>
 </div>

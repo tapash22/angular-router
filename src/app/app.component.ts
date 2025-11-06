@@ -1,18 +1,18 @@
-import { Component } from "@angular/core";
-import { LayoutComponent } from "./layout/layout/layout.component";
-import { ToasterComponent } from "./component/childs/shared/toaster/toaster.component";
-import { ToasterService, ToastType } from "./service/toaster.service";
-import { CommonModule } from "@angular/common";
+import { Component } from '@angular/core';
+import { LayoutComponent } from './layout/layout/layout.component';
+import { ToasterComponent } from './component/childs/shared/toaster/toaster.component';
+import { ToasterService, ToastType } from './service/toaster.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: "app-root",
+  selector: 'app-root',
   imports: [LayoutComponent, ToasterComponent, CommonModule],
-  templateUrl: "./app.component.html",
-  styleUrl: "./app.component.css",
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-  toastMessage = "";
-  toastType: ToastType = "info";
+  toastMessage = '';
+  toastType: ToastType = 'info';
   toastDuration = 1000;
 
   private timeoutId: any;
@@ -26,7 +26,7 @@ export class AppComponent {
       clearTimeout(this.timeoutId);
 
       this.timeoutId = setTimeout(() => {
-        this.toastMessage = "";
+        this.toastMessage = '';
       }, duration);
     });
   }

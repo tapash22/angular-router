@@ -8,9 +8,8 @@ describe('DynamicChipComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DynamicChipComponent]
-    })
-    .compileComponents();
+      imports: [DynamicChipComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DynamicChipComponent);
     component = fixture.componentInstance;

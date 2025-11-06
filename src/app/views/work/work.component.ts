@@ -40,7 +40,7 @@ export class WorkComponent {
 
   // for project
   project: Project = this.getEmptyProject();
-  projectDialogOpen: boolean = false;
+  projectDialogOpen = false;
   selectedIndex: number | null = null;
 
   form: FormGroup;
@@ -79,7 +79,7 @@ export class WorkComponent {
     private userService: UserService,
     private projectService: ProjectService,
     private fb: FormBuilder,
-    private toaster: ToasterService
+    private toaster: ToasterService,
   ) {
     this.form = this.fb.group({
       project_title: ['', Validators.required],
@@ -155,7 +155,7 @@ export class WorkComponent {
   addProjectResource() {
     this.projectService.updateOrAddProject(
       this.project,
-      this.selectedIndex ?? undefined
+      this.selectedIndex ?? undefined,
     );
     this.closeprojectDialog();
   }
@@ -234,7 +234,7 @@ export class WorkComponent {
 
     this.project_requirement.clear();
     project.project_requirement.forEach((req) =>
-      this.project_requirement.push(this.fb.control(req, Validators.required))
+      this.project_requirement.push(this.fb.control(req, Validators.required)),
     );
 
     this.working_resource.clear();
@@ -251,8 +251,8 @@ export class WorkComponent {
             resource.performance_score,
             [Validators.required, Validators.min(0)],
           ],
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -261,7 +261,7 @@ export class WorkComponent {
     if (this.form.invalid) {
       this.toaster.showToast(
         'Please fill all required fields correctly.',
-        'error'
+        'error',
       );
       return;
     }
@@ -284,7 +284,7 @@ export class WorkComponent {
           this.selectedIndex !== null
             ? 'Project updated successfully!'
             : 'Project added successfully!',
-          'success'
+          'success',
         );
         this.isDialogVisible = false;
       });

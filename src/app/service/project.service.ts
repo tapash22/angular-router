@@ -18,8 +18,8 @@ export class ProjectService {
       email?: string;
       time_spent_hours?: number;
       performance_score?: number;
-      remove?: boolean; 
-    }
+      remove?: boolean;
+    },
   ): Observable<boolean> {
     return this.userService.currentUser$.pipe(
       take(1),
@@ -39,11 +39,11 @@ export class ProjectService {
         if (updatedFields.remove) {
           // 🗑️ Delete logic
           updatedWorkingResource = existingResources.filter(
-            (r) => r.id !== resourceId
+            (r) => r.id !== resourceId,
           );
         } else {
           const resourceIndex = existingResources.findIndex(
-            (r) => r.id === resourceId
+            (r) => r.id === resourceId,
           );
           updatedWorkingResource = [...existingResources];
 
@@ -83,7 +83,7 @@ export class ProjectService {
         return this.userService.updateCurrentUserFields({
           projects: updatedProjects,
         });
-      })
+      }),
     );
   }
 
@@ -113,7 +113,7 @@ export class ProjectService {
         }
 
         this.userService.updateCurrentUserFields({ projects: updatedProjects });
-      })
+      }),
     );
   }
 
@@ -133,7 +133,7 @@ export class ProjectService {
         updatedProjects.splice(index, 1);
 
         this.userService.updateCurrentUserFields({ projects: updatedProjects });
-      })
+      }),
     );
   }
 }

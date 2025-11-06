@@ -14,7 +14,7 @@ import {
 export class WindowSizeService {
   size$: Observable<{ width: number; height: number }> = fromEvent(
     window,
-    'resize'
+    'resize',
   ).pipe(
     debounceTime(500),
     map(() => ({ width: window.innerWidth, height: window.innerHeight })),
@@ -22,6 +22,6 @@ export class WindowSizeService {
       width: window.innerWidth,
       height: window.innerHeight,
     }),
-    shareReplay(1)
+    shareReplay(1),
   );
 }

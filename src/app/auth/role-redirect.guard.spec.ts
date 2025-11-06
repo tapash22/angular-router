@@ -4,8 +4,8 @@ import { CanActivateFn } from '@angular/router';
 import { roleRedirectGuard } from './role-redirect.guard';
 
 describe('roleRedirectGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => roleRedirectGuard(...guardParameters));
+  const executeGuard: CanActivateFn = (...guardParameters) =>
+    TestBed.runInInjectionContext(() => roleRedirectGuard(...guardParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

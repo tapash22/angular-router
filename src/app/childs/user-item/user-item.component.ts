@@ -6,8 +6,8 @@ import { User } from '../../interfaces/user';
   selector: 'app-user-item',
   imports: [CommonModule],
   templateUrl: './user-item.component.html',
-  styleUrl: './user-item.component.css'
+  styleUrl: './user-item.component.css',
 })
 export class UserItemComponent {
-  @Input() title: string = ''
+  @Input() title = '';
 }

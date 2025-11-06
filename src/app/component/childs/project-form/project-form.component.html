@@ -1,115 +1,150 @@
 <form [formGroup]="project">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <app-form-input
+      [label]="'Project Name'"
+      [controlName]="'project_title'"
+      [formGroup]="project"
+    ></app-form-input>
+    <app-form-input
+      [label]="'Project Subtitle'"
+      [controlName]="'project_subtitle'"
+      [formGroup]="project"
+    ></app-form-input>
+    <app-form-input
+      [label]="'Project Length (months)'"
+      [controlName]="'project_project_length'"
+      [type]="'number'"
+      [formGroup]="project"
+      [min]="1"
+      [max]="100"
+    ></app-form-input>
+    <app-form-input
+      [label]="'Estimated Date'"
+      [controlName]="'project_estimated_date'"
+      [type]="'date'"
+      [formGroup]="project"
+    ></app-form-input>
+    <app-form-input
+      [label]="'Costing Needed'"
+      [controlName]="'project_costing_needed'"
+      [type]="'number'"
+      [formGroup]="project"
+    ></app-form-input>
+    <app-form-input
+      [label]="'Resources Needed'"
+      [controlName]="'project_resource_needed'"
+      [type]="'number'"
+      [formGroup]="project"
+    ></app-form-input>
+  </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <app-form-input [label]="'Project Name'" [controlName]="'project_title'"
-            [formGroup]="project"></app-form-input>
-        <app-form-input [label]="'Project Subtitle'"
-            [controlName]="'project_subtitle'"
-            [formGroup]="project"></app-form-input>
-        <app-form-input [label]="'Project Length (months)'"
-            [controlName]="'project_project_length'"
-            [type]="'number'" [formGroup]="project" [min]="1"
-            [max]="100"></app-form-input>
-        <app-form-input [label]="'Estimated Date'"
-            [controlName]="'project_estimated_date'"
-            [type]="'date'" [formGroup]="project"></app-form-input>
-        <app-form-input [label]="'Costing Needed'"
-            [controlName]="'project_costing_needed'"
-            [type]="'number'" [formGroup]="project"></app-form-input>
-        <app-form-input [label]="'Resources Needed'"
-            [controlName]="'project_resource_needed'"
-            [type]="'number'" [formGroup]="project"></app-form-input>
+  <!-- Requirements -->
 
-    </div>
+  <div class="mt-6">
+    <app-form-array-input
+      [formGroup]="project"
+      [arrayName]="'project_requirement'"
+      [label]="'Project Requirements'"
+    >
+    </app-form-array-input>
 
-    <!-- Requirements -->
+    <button
+      type="button"
+      (click)="addRequirement()"
+      class="mt-2 px-4 py-4 text-[var(--demo)] bg-[var(--surface)] shadow-[var(--shadow-button)] rounded-xl"
+    >
+      Add Requirement
+    </button>
+  </div>
 
-    <div class="mt-6">
-        <app-form-array-input
-            [formGroup]="project"
-            [arrayName]="'project_requirement'"
-            [label]="'Project Requirements'">
-        </app-form-array-input>
+  <!-- Working Resources -->
+  <div [formGroup]="project">
+    <label class="block font-medium py-2 border-b-2">Working Resources</label>
 
-        <button type="button" (click)="addRequirement()"
-            class="mt-2 px-4 py-4 text-[var(--demo)] bg-[var(--surface)] shadow-[var(--shadow-button)] rounded-xl">
-            Add Requirement
-        </button>
-    </div>
-
-    <!-- Working Resources -->
-    <div [formGroup]="project">
-        <label class="block font-medium py-2 border-b-2">Working
-            Resources</label>
-
-        <div formArrayName="working_resource" class="space-y-4 my-4">
+    <div formArrayName="working_resource" class="space-y-4 my-4">
+      <div
+        *ngFor="let group of working_resource.controls; let i = index"
+        [formGroupName]="i"
+        class="border p-4 rounded-md space-y-2"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label>Name</label>
+            <input
+              formControlName="name"
+              class="w-full p-3 border border-gray-300 rounded-xl"
+            />
             <div
-                *ngFor="let group of working_resource.controls; let i = index"
-                [formGroupName]="i"
-                class="border p-4 rounded-md space-y-2">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label>Name</label>
-                        <input
-                            formControlName="name"
-                            class="w-full p-3 border border-gray-300 rounded-xl" />
-                        <div
-                            *ngIf="group.get('name')?.touched && group.get('name')?.invalid"
-                            class="text-red-500 text-sm">
-                            Name is required.
-                        </div>
-                    </div>
-
-                    <div>
-                        <label>Email</label>
-                        <input
-                            formControlName="email"
-                            class="w-full p-3 border border-gray-300 rounded-xl" />
-                        <div
-                            *ngIf="group.get('email')?.touched && group.get('email')?.invalid"
-                            class="text-red-500 text-sm">
-                            Enter a valid email.
-                        </div>
-                    </div>
-
-                    <div>
-                        <label>Time Spent (hours)</label>
-                        <input
-                            type="number"
-                            formControlName="time_spent_hours"
-                            class="w-full p-3 border border-gray-300 rounded-xl" />
-                        <div
-                            *ngIf="group.get('time_spent_hours')?.touched && group.get('time_spent_hours')?.invalid"
-                            class="text-red-500 text-sm">
-                            Enter a valid number ≥ 0.
-                        </div>
-                    </div>
-
-                    <div>
-                        <label>Performance Score</label>
-                        <input
-                            type="number"
-                            formControlName="performance_score"
-                            class="w-full p-3 border border-gray-300 rounded-xl" />
-                        <div
-                            *ngIf="group.get('performance_score')?.touched && group.get('performance_score')?.invalid"
-                            class="text-red-500 text-sm">
-                            Enter a valid number ≥ 0.
-                        </div>
-                    </div>
-                </div>
+              *ngIf="group.get('name')?.touched && group.get('name')?.invalid"
+              class="text-red-500 text-sm"
+            >
+              Name is required.
             </div>
+          </div>
 
-            <button
-                type="button"
-                (click)="addWorkingResource()"
-                class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
-                Add Resource
-            </button>
+          <div>
+            <label>Email</label>
+            <input
+              formControlName="email"
+              class="w-full p-3 border border-gray-300 rounded-xl"
+            />
+            <div
+              *ngIf="group.get('email')?.touched && group.get('email')?.invalid"
+              class="text-red-500 text-sm"
+            >
+              Enter a valid email.
+            </div>
+          </div>
+
+          <div>
+            <label>Time Spent (hours)</label>
+            <input
+              type="number"
+              formControlName="time_spent_hours"
+              class="w-full p-3 border border-gray-300 rounded-xl"
+            />
+            <div
+              *ngIf="
+                group.get('time_spent_hours')?.touched &&
+                group.get('time_spent_hours')?.invalid
+              "
+              class="text-red-500 text-sm"
+            >
+              Enter a valid number ≥ 0.
+            </div>
+          </div>
+
+          <div>
+            <label>Performance Score</label>
+            <input
+              type="number"
+              formControlName="performance_score"
+              class="w-full p-3 border border-gray-300 rounded-xl"
+            />
+            <div
+              *ngIf="
+                group.get('performance_score')?.touched &&
+                group.get('performance_score')?.invalid
+              "
+              class="text-red-500 text-sm"
+            >
+              Enter a valid number ≥ 0.
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <!-- <div class="mt-6">
+      <button
+        type="button"
+        (click)="addWorkingResource()"
+        class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
+      >
+        Add Resource
+      </button>
+    </div>
+  </div>
+
+  <!-- <div class="mt-6">
         <label class="block font-medium py-2 border-b-2">Working
             Resources</label>
         <div formArrayName="working_resource" class="space-y-4 my-4">
@@ -153,14 +188,16 @@
         </div>
     </div> -->
 
-    <!-- Status -->
-    <div class="mt-6">
-        <label class="block font-medium py-2 border-b-2">Project Status</label>
-        <select formControlName="projectStatus"
-            class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 my-4">
-            <option value="start">Start</option>
-            <option value="in-progress">In Progress</option>
-            <option value="completed">Completed</option>
-        </select>
-    </div>
+  <!-- Status -->
+  <div class="mt-6">
+    <label class="block font-medium py-2 border-b-2">Project Status</label>
+    <select
+      formControlName="projectStatus"
+      class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 my-4"
+    >
+      <option value="start">Start</option>
+      <option value="in-progress">In Progress</option>
+      <option value="completed">Completed</option>
+    </select>
+  </div>
 </form>

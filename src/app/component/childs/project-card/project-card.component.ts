@@ -37,9 +37,9 @@ type ExtendedDoughnutDataset = ChartDataset<'doughnut', number[]> & {
 export class ProjectCardComponent implements OnInit {
   @Input() project!: Project;
   @Input() index!: number;
-  @Input() selected: boolean = false;
-  @Input() projectCardDisabled: boolean = false;
-  @Input() showUserDetails: boolean = false;
+  @Input() selected = false;
+  @Input() projectCardDisabled = false;
+  @Input() showUserDetails = false;
   @Input() icon?: IconDefinition;
 
   isDialogVisible = false;
@@ -53,8 +53,8 @@ export class ProjectCardComponent implements OnInit {
   }>();
 
   @Output() editProject = new EventEmitter<{
-    project:Project;
-    index:number
+    project: Project;
+    index: number;
   }>();
 
   @Output() addedProjectResource = new EventEmitter<Project>();
@@ -96,7 +96,7 @@ export class ProjectCardComponent implements OnInit {
       type: 'doughnut',
       data: {
         labels: ['Duration', 'Resources', 'Cost'],
-        datasets: <ExtendedDoughnutDataset[]>[
+        datasets: [
           {
             label: 'Working Time (hours)',
             data: [
@@ -130,7 +130,7 @@ export class ProjectCardComponent implements OnInit {
             radius: '85%', // 💡 Outermost ring
             cutout: '75%', // 💡 Leaves gap between rings
           },
-        ],
+        ] as ExtendedDoughnutDataset[],
       },
       options: {
         responsive: true,
@@ -168,18 +168,18 @@ export class ProjectCardComponent implements OnInit {
 
   handleEditProject(event: MouseEvent) {
     if (this.projectCardDisabled || this.isDisabled) return;
-    event.stopPropagation(); 
-    this.editProject.emit({project:this.project,index:this.index});
+    event.stopPropagation();
+    this.editProject.emit({ project: this.project, index: this.index });
   }
 
-  projectResourceAdded(){
+  projectResourceAdded() {
     this.addedProjectResource.emit(this.project);
   }
 
   //update project resource
   projectResourceUpdate(resourceId: number) {
     const resource = this.project.working_resource.find(
-      (r) => r.id === resourceId
+      (r) => r.id === resourceId,
     );
 
     if (this.project && resource) {
@@ -192,7 +192,7 @@ export class ProjectCardComponent implements OnInit {
   //delete project resource
   projectResourceDelete(resourceId: number) {
     const resource = this.project.working_resource.find(
-      (r) => r.id === resourceId
+      (r) => r.id === resourceId,
     );
     if (this.project && resource) {
       this.deleteProjectResource.emit({ project: this.project, resource });

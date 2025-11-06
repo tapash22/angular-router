@@ -2,10 +2,12 @@
   <h2 class="text-xl font-semibold mb-4">{{ title }}</h2>
 
   <form [formGroup]="form" (ngSubmit)="handleSubmit()">
-    <div class="w-full block ">
-        <h1 class="w-full flex justify-center align-middle text-lg font-medium text-black py-2">
-            {{title}}
-        </h1>
+    <div class="w-full block">
+      <h1
+        class="w-full flex justify-center align-middle text-lg font-medium text-black py-2"
+      >
+        {{ title }}
+      </h1>
       <!-- Projected form fields go here -->
       <ng-content select="[form-body]"></ng-content>
     </div>

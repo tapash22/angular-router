@@ -1,13 +1,16 @@
- <div class="block w-full h-auto py-3">
-    <p class="text-lg font-normal  ">
-        {{project.project_subtitle}}
-    </p>
-    <app-dynamic-chip
-        *ngIf="project.project_requirement"
-        [chipList]="project.project_requirement"></app-dynamic-chip>
-    <p *ngIf="project.working_resource" class="text-lg font-normal text-[var(--foreground)]"
-        >
-        User Engaged: {{project.working_resource.length}}
-    </p>
-    <ng-content></ng-content>
+<div class="block w-full h-auto py-3">
+  <p class="text-lg font-normal">
+    {{ project.project_subtitle }}
+  </p>
+  <app-dynamic-chip
+    *ngIf="project.project_requirement"
+    [chipList]="project.project_requirement"
+  ></app-dynamic-chip>
+  <p
+    *ngIf="project.working_resource"
+    class="text-lg font-normal text-[var(--foreground)]"
+  >
+    User Engaged: {{ project.working_resource.length }}
+  </p>
+  <ng-content></ng-content>
 </div>

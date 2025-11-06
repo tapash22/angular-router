@@ -22,7 +22,7 @@ export class ThemeService {
     const newDarkMode = !this.darkModeSubject.value;
     this.darkModeSubject.next(newDarkMode);
     this.applyTheme(newDarkMode);
-    localStorage.setItem('theme',newDarkMode ? 'dark': '')
+    localStorage.setItem('theme', newDarkMode ? 'dark' : '');
   }
 
   applyTheme(isDark: boolean): void {

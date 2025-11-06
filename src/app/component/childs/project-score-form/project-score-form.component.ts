@@ -7,9 +7,8 @@ import { FormInputComponent } from '../form-input/form-input.component';
   selector: 'app-project-score-form',
   imports: [CommonModule, ReactiveFormsModule, FormInputComponent],
   templateUrl: './project-score-form.component.html',
-  styleUrl: './project-score-form.component.css'
+  styleUrl: './project-score-form.component.css',
 })
 export class ProjectScoreFormComponent {
   @Input() projectResource!: FormGroup;
-
 }

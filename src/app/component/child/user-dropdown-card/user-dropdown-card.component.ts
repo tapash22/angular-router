@@ -37,7 +37,7 @@ export class UserDropdownCardComponent {
   constructor(
     private renderer: Renderer2,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
   ) {
     this.userProfileData = userService.getCurrentUser()!;
   }
@@ -61,7 +61,7 @@ export class UserDropdownCardComponent {
     this.renderer.setStyle(
       element,
       'background',
-      `linear-gradient(90deg, transparent 0%, ${primaryColor}20 50%, transparent 100%)`
+      `linear-gradient(90deg, transparent 0%, ${primaryColor}20 50%, transparent 100%)`,
     );
   }
 
@@ -74,7 +74,7 @@ export class UserDropdownCardComponent {
     this.renderer.setStyle(
       element,
       'background',
-      `linear-gradient(90deg, transparent 0%, ${primaryColor}10 50%, transparent 100%)`
+      `linear-gradient(90deg, transparent 0%, ${primaryColor}10 50%, transparent 100%)`,
     );
   }
 

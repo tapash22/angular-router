@@ -18,7 +18,7 @@ export class AuthService {
   currentUser$ = this.userService.currentUser$;
 
   isAuthenticated$: Observable<boolean> = this.currentUser$.pipe(
-    map((user) => !!user)
+    map((user) => !!user),
   );
 
   // ✅ Synchronous method (for guards)
@@ -27,7 +27,9 @@ export class AuthService {
   }
 
   // ✅ Reactive role check (e.g. for template bindings)
-  hasRole$(role: 'admin' | 'manager' | 'officer' | 'user'): Observable<boolean> {
+  hasRole$(
+    role: 'admin' | 'manager' | 'officer' | 'user',
+  ): Observable<boolean> {
     return this.currentUser$.pipe(map((user) => user?.role === role));
   }
 
@@ -42,7 +44,7 @@ export class AuthService {
     const user = this.userService
       .getAllUsers()
       .find(
-        (u) => u.email === normalizedEmail && u.password === normalizedPassword
+        (u) => u.email === normalizedEmail && u.password === normalizedPassword,
       );
 
     if (user) {

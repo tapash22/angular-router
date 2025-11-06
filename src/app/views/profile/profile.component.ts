@@ -63,17 +63,17 @@ import { MenuListComponent } from '../../childs/menu-list/menu-list.component';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   // icon usage
   iconEdit = faEdit;
   iconCircle = faCircleDot;
 
   // Tailwind indicator color
-  color: string = 'bg-green-600';
+  color = 'bg-green-600';
 
   //  Menu
   menuItems = menuItems;
-  activeSection: string = 'basic';
+  activeSection = 'basic';
   collapsed = true;
 
   // Form controls
@@ -82,8 +82,8 @@ export class ProfileComponent {
   projectResource!: FormGroup;
 
   // Dialogs
-  userInfoDialog: boolean = false;
-  projectResourceDialog: boolean = false;
+  userInfoDialog = false;
+  projectResourceDialog = false;
 
   // Selection state
   selectedIndex: number | null = null;
@@ -105,7 +105,7 @@ export class ProfileComponent {
     private userService: UserService,
     private projectService: ProjectService,
     private fb: FormBuilder,
-    private toaster: ToasterService
+    private toaster: ToasterService,
   ) {}
 
   ngOnInit() {
@@ -144,7 +144,7 @@ export class ProfileComponent {
 
   private buildUserInfoList(
     userData: User | null,
-    fields: DisplayField | DisplayFieldWithIcon
+    fields: DisplayField | DisplayFieldWithIcon,
   ): UserInfoItem[] {
     return Object.entries(fields)
       .map(([key, value]) => {
@@ -197,7 +197,7 @@ export class ProfileComponent {
             resource.performance_score,
             [Validators.required, Validators.min(0), Validators.max(100)],
           ],
-        })
+        }),
       );
     });
 
@@ -262,7 +262,7 @@ export class ProfileComponent {
             success
               ? 'Resource deleted successfully!'
               : 'Failed to delete resource.',
-            success ? 'success' : 'error'
+            success ? 'success' : 'error',
           );
         },
         error: () => {
@@ -300,7 +300,7 @@ export class ProfileComponent {
                   ? 'Resource added successfully!'
                   : 'Resource updated successfully!'
                 : 'Failed to update resource.',
-              success ? 'success' : 'error'
+              success ? 'success' : 'error',
             );
             if (success) this.projectResourceDialog = false;
           },
@@ -325,8 +325,8 @@ export class ProfileComponent {
               email: resource.email,
               time_spent_hours: +resource.time_spent_hours,
               performance_score: +resource.performance_score,
-            }
-          )
+            },
+          ),
       );
 
       forkJoin(updateObservables).subscribe((results: boolean[]) => {
@@ -336,7 +336,7 @@ export class ProfileComponent {
           allSuccess
             ? 'All resources updated successfully!'
             : 'Some resources failed to update.',
-          allSuccess ? 'success' : 'error'
+          allSuccess ? 'success' : 'error',
         );
 
         this.projectResourceDialog = false;
@@ -354,7 +354,7 @@ export class ProfileComponent {
       if (success) {
         this.toaster.showToast(
           'Your profile data updated successfully!',
-          'success'
+          'success',
         );
       } else {
         this.toaster.showToast('Failed to update profile.', 'error');
@@ -373,7 +373,7 @@ export class ProfileComponent {
   }
 
   deleteProject(event: { index: number }) {
-    this.selectedIndex = event.index ;
+    this.selectedIndex = event.index;
 
     this.projectService.deleteProject(this.selectedIndex).subscribe({
       next: () => {

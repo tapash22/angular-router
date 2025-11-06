@@ -1,14 +1,27 @@
 <form [formGroup]="profileForm">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <app-form-input [label]="'User Name'" [controlName]="'name'"
-            [formGroup]="profileForm"></app-form-input>
-        <app-form-input [label]="'Email'" [controlName]="'email'"
-            [type]="'email'" [formGroup]="profileForm"></app-form-input>
-        <app-form-input [label]="'Phone'" [controlName]="'phone'"
-             [formGroup]="profileForm"></app-form-input>
-        <app-form-input [label]="'Location'" [controlName]="'location'"
-            [formGroup]="profileForm"></app-form-input>
-    </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <app-form-input
+      [label]="'User Name'"
+      [controlName]="'name'"
+      [formGroup]="profileForm"
+    ></app-form-input>
+    <app-form-input
+      [label]="'Email'"
+      [controlName]="'email'"
+      [type]="'email'"
+      [formGroup]="profileForm"
+    ></app-form-input>
+    <app-form-input
+      [label]="'Phone'"
+      [controlName]="'phone'"
+      [formGroup]="profileForm"
+    ></app-form-input>
+    <app-form-input
+      [label]="'Location'"
+      [controlName]="'location'"
+      [formGroup]="profileForm"
+    ></app-form-input>
+  </div>
 </form>
 
 <!-- Footer -->

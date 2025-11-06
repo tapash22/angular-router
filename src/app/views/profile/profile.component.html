@@ -1,119 +1,142 @@
 <div
-    class="flex h-[86vh] overflow-hidden mt-4 bg-[var(--surface)] text-[var(--foreground)]">
+  class="flex h-[86vh] overflow-hidden mt-4 bg-[var(--surface)] text-[var(--foreground)]"
+>
+  <!-- Sidebar -->
+  <aside class="w-88 h-full bg-[var(--surface)] p-4">
+    <!-- user profile card -->
+    <app-user-profile-card
+      *ngIf="userInfoListWithIcon$ | async as userInfoListWithIcon"
+      [userInfo]="userInfoListWithIcon"
+    ></app-user-profile-card>
+    <!-- user profile card end -->
 
-    <!-- Sidebar -->
-    <aside
-        class="w-88 h-full bg-[var(--surface)] p-4 ">
-        <!-- user profile card -->
-        <app-user-profile-card
-            *ngIf="userInfoListWithIcon$ |async as userInfoListWithIcon"
-            [userInfo]="userInfoListWithIcon"></app-user-profile-card>
-        <!-- user profile card end -->
+    <!-- user menu section -->
+    <div class="block w-full h-auto ring-2 ring-gray-300 rounded-lg">
+      <p
+        class="uppercase italic text-xl font-bold tracking-wide p-5 flex justify-center border-b-2 border-[var(--card-border)]"
+      >
+        Menu
+      </p>
+      <ul class="h-[30vh] my-2">
+        <app-menu-list
+          class="space-y-2 py-2"
+          [visibleMenuItems]="menuItems"
+          [(activeLink)]="activeSection"
+          [haveId]="true"
+          [collapsed]="collapsed"
+        ></app-menu-list>
+      </ul>
+    </div>
+    <!-- user menu section end-->
+  </aside>
 
-        <!-- user menu section -->
-        <div class="block w-full h-auto ring-2 ring-gray-300 rounded-lg">
-            <p
-                class="uppercase italic text-xl font-bold tracking-wide p-5 flex justify-center  border-b-2 border-[var(--card-border)]">
-                Menu
-            </p>
-            <ul class="h-[30vh] my-2 ">
-                <app-menu-list class="space-y-2 py-2"
-                    [visibleMenuItems]="menuItems"
-                    [(activeLink)]="activeSection"
-                    [haveId]="true" [collapsed]="collapsed"></app-menu-list>
-            </ul>
-        </div>
-        <!-- user menu section end-->
-    </aside>
+  <!-- Content Area -->
+  <main class="flex-1 overflow-y-scroll custom-scrollbar">
+    <!-- Basic Info -->
+    <app-section-card
+      id="basic"
+      [title]="'Basic Information'"
+      [icon]="iconEdit"
+      (openDialog)="editUserInfo()"
+    >
+      <app-dynamic-section-card-read-field
+        *ngIf="userInfoList$ | async as userInfoList"
+        [userInfo]="userInfoList"
+      ></app-dynamic-section-card-read-field>
+    </app-section-card>
+    <!--Basic Info end-->
+    <!-- project details -->
+    <app-section-card id="projects" [title]="'Projects'">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4"
+      >
+        <ng-container *ngIf="userProfileData$ | async as userProfileData">
+          <app-project-card
+            *ngFor="let project of userProfileData.projects; let i = index"
+            [project]="project"
+            [index]="i"
+            [selected]="selectedIndex === i"
+            [icon]="iconEdit"
+            [showUserDetails]="true"
+            [projectCardDisabled]="false"
+            (selectProject)="handleProject($event)"
+            (editProject)="openPerformanceScoreDialog($event)"
+            (addedProjectResource)="addedProjectResourceInfo($event)"
+            (updateProjectResource)="updateProjectResourceInfo($event)"
+            (deleteProjectResource)="deleteProjectResourceInfo($event)"
+            (deleteProject)="deleteProject($event)"
+          />
+        </ng-container>
+      </div>
+    </app-section-card>
+    <!-- project details end -->
+    <!-- performance details-->
+    <app-section-card id="performance" [title]="'Performance'">
+      <ng-container *ngIf="userProfileData$ | async as userProfileData">
+        <app-dynamic-progress-bar
+          [progressBarTitle]="'Performance Score'"
+          [score]="userProfileData.performanceScore"
+          [height]="'lg'"
+          [striped]="true"
+        ></app-dynamic-progress-bar>
+        <app-dynamic-rating-star
+          [titleTag]="'Rating'"
+          [rating]="userProfileData.rating"
+        ></app-dynamic-rating-star>
+      </ng-container>
+    </app-section-card>
+    <!-- performance details end-->
+  </main>
 
-    <!-- Content Area -->
-    <main class="flex-1 overflow-y-scroll custom-scrollbar">
-        <!-- Basic Info -->
-        <app-section-card id="basic" [title]="'Basic Information'"
-            [icon]="iconEdit" (openDialog)="editUserInfo()">
-            <app-dynamic-section-card-read-field
-                *ngIf="userInfoList$ |async as userInfoList"
-                [userInfo]="userInfoList"></app-dynamic-section-card-read-field>
-        </app-section-card>
-        <!--Basic Info end-->
-        <!-- project details -->
-        <app-section-card id="projects" [title]="'Projects'">
-            <div
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-                <ng-container
-                    *ngIf="userProfileData$ | async as userProfileData">
-                    <app-project-card
-                        *ngFor="let project of userProfileData.projects; let i = index"
-                        [project]="project"
-                        [index]="i"
-                        [selected]="selectedIndex === i"
-                        [icon]="iconEdit"
-                        [showUserDetails]="true"
-                        [projectCardDisabled]="false"
-                        (selectProject)="handleProject($event)"
-                        (editProject)="openPerformanceScoreDialog($event)"
-                        (addedProjectResource)="addedProjectResourceInfo($event)"
-                        (updateProjectResource)="updateProjectResourceInfo($event)"
-                        (deleteProjectResource)="deleteProjectResourceInfo($event)"
-                        (deleteProject)="deleteProject($event)" />
-                </ng-container>
-            </div>
-        </app-section-card>
-        <!-- project details end -->
-        <!-- performance details-->
-        <app-section-card id="performance" [title]="'Performance'">
-            <ng-container *ngIf="userProfileData$ | async as userProfileData">
+  <!-- Basic Info update dialog(for this need one child handle this code ) -->
+  <app-dynamic-dialog
+    title="Edit User "
+    size="lg"
+    [show]="userInfoDialog"
+    [showFooter]="true"
+    (onClose)="closeDialog()"
+  >
+    <div>
+      <app-user-info-form [profileForm]="profileForm" />
+    </div>
+    <div class="w-full" footer-controls>
+      <div class="flex justify-end">
+        <app-dynamic-button
+          [mode]="'submit'"
+          [size]="'sm'"
+          [shadow]="'button'"
+          [buttonRounded]="'lg'"
+          [buttonText]="'Update'"
+          (buttonClick)="updateUser()"
+        ></app-dynamic-button>
+      </div>
+    </div>
+  </app-dynamic-dialog>
+  <!-- Basic Info update dialog end -->
 
-                <app-dynamic-progress-bar
-                    [progressBarTitle]="'Performance Score'"
-                    [score]="userProfileData.performanceScore"
-                    [height]="'lg'"
-                    [striped]="true"></app-dynamic-progress-bar>
-                <app-dynamic-rating-star [titleTag]="'Rating'"
-                    [rating]="userProfileData.rating"></app-dynamic-rating-star>
-            </ng-container>
-        </app-section-card>
-        <!-- performance details end-->
-    </main>
-
-    <!-- Basic Info update dialog(for this need one child handle this code ) -->
-    <app-dynamic-dialog  title="Edit User " size="lg"
-        [show]="userInfoDialog" [showFooter]="true" (onClose)="closeDialog()">
-        <div>
-            <app-user-info-form [profileForm]="profileForm" />
-        </div>
-        <div class="w-full" footer-controls>
-            <div class="flex justify-end">
-                <app-dynamic-button
-                    [mode]="'submit'"
-                    [size]="'sm'" [shadow]="'button'"
-                    [buttonRounded]="'lg'"
-                    [buttonText]="'Update'"
-                    (buttonClick)="updateUser()"></app-dynamic-button>
-            </div>
-        </div>
-    </app-dynamic-dialog>
-    <!-- Basic Info update dialog end -->
-
-    <!-- update project performance_score each project with dialog  -->
-    <app-dynamic-dialog 
-        title="Update Project Performance Score "
-        size="lg"
-        [show]="projectResourceDialog " [showFooter]="true"
-        (onClose)="closeDialog()">
-        <div>
-            <app-project-score-form [projectResource]="projectResource" />
-        </div>
-        <div footer-controls class="w-full">
-            <div class="flex justify-end">
-                <app-dynamic-button
-                    [mode]="'submit'"
-                    [size]="'sm'" [shadow]="'button'"
-                    [buttonRounded]="'lg'"
-                    [buttonText]="'Submit'"
-                    (buttonClick)="submitProjectScoreUpdate()" />
-            </div>
-        </div>
-    </app-dynamic-dialog>
-    <!-- update project performance_score each project with dialog end  -->
+  <!-- update project performance_score each project with dialog  -->
+  <app-dynamic-dialog
+    title="Update Project Performance Score "
+    size="lg"
+    [show]="projectResourceDialog"
+    [showFooter]="true"
+    (onClose)="closeDialog()"
+  >
+    <div>
+      <app-project-score-form [projectResource]="projectResource" />
+    </div>
+    <div footer-controls class="w-full">
+      <div class="flex justify-end">
+        <app-dynamic-button
+          [mode]="'submit'"
+          [size]="'sm'"
+          [shadow]="'button'"
+          [buttonRounded]="'lg'"
+          [buttonText]="'Submit'"
+          (buttonClick)="submitProjectScoreUpdate()"
+        />
+      </div>
+    </div>
+  </app-dynamic-dialog>
+  <!-- update project performance_score each project with dialog end  -->
 </div>

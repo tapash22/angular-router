@@ -12,7 +12,7 @@ export class FormInputComponent {
   @Input() label!: string;
   @Input() controlName!: string;
   @Input() formGroup!: FormGroup;
-  @Input() type: string = 'text';
+  @Input() type = 'text';
   @Input() min?: number;
   @Input() max?: number;
 }

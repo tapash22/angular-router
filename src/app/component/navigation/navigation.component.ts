@@ -21,7 +21,7 @@ import { MenuListComponent } from '../../childs/menu-list/menu-list.component';
 
 @Component({
   selector: 'app-navigation',
-  imports: [ CommonModule, FontAwesomeModule,MenuListComponent],
+  imports: [CommonModule, FontAwesomeModule, MenuListComponent],
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.css',
 })
@@ -38,7 +38,7 @@ export class NavigationComponent {
   iconWork = faNetworkWired;
 
   // using for which link are active
-  activeLink: string = 'admin';
+  activeLink = 'admin';
 
   // decclear permission wish page for different user depend on role
   menuItems = [
@@ -55,7 +55,10 @@ export class NavigationComponent {
     { id: 7, name: 'work', link: 'work', icon: this.iconWork },
   ];
 
-  constructor(private router: Router, private userService: UserService) {
+  constructor(
+    private router: Router,
+    private userService: UserService,
+  ) {
     // this.router.events
     //   .pipe(filter((event) => event instanceof NavigationEnd))
     //   .subscribe((event: NavigationEnd) => {
@@ -72,5 +75,4 @@ export class NavigationComponent {
   get visibleMenuItems() {
     return this.menuItems.filter((item) => this.hasAccess(item.link));
   }
-  
 }

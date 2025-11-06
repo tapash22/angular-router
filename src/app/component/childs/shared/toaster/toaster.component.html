@@ -1,17 +1,9 @@
-<div
-  *ngIf="visible"
-  class="toast-center-screen"
-  [ngClass]="type"
->
+<div *ngIf="visible" class="toast-center-screen" [ngClass]="type">
   <div class="toast-message">{{ message }}</div>
   <div class="toast-progress-bar"></div>
 </div>
 
-
 <div *ngIf="visible" class="toast-center-screen" [ngClass]="type">
   <div class="toast-message">{{ message }}</div>
-  <div
-    class="toast-progress-bar"
-    [style.animationDuration.ms]="duration"
-  ></div>
+  <div class="toast-progress-bar" [style.animationDuration.ms]="duration"></div>
 </div>

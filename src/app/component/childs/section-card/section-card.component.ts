@@ -17,5 +17,4 @@ export class SectionCardComponent {
   editForm() {
     this.openDialog.emit();
   }
-
 }

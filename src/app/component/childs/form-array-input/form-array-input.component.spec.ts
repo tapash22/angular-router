@@ -8,9 +8,8 @@ describe('FormArrayInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormArrayInputComponent]
-    })
-    .compileComponents();
+      imports: [FormArrayInputComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FormArrayInputComponent);
     component = fixture.componentInstance;

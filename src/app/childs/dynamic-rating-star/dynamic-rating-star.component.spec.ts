@@ -8,9 +8,8 @@ describe('DynamicRatingStarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DynamicRatingStarComponent]
-    })
-    .compileComponents();
+      imports: [DynamicRatingStarComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DynamicRatingStarComponent);
     component = fixture.componentInstance;

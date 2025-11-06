@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Project, User, AllworkingResource } from '../../interfaces/user';
 import { MOCK_USERS } from '../../localStore/user-data';
 import { OverviewChartComponent } from '../../component/chart/overview-chart/overview-chart.component';
@@ -19,12 +19,12 @@ import { ChildLayoutComponent } from '../../layout/child-layout/child-layout.com
     UserListItemComponent,
     UserItemComponent,
     ProjectCardComponent,
-    ChildLayoutComponent
+    ChildLayoutComponent,
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css',
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
   selectedIndex: number | null = null;
 
   allWorkingResources: AllworkingResource[] = [];
@@ -95,11 +95,11 @@ export class AdminComponent {
       const res = project.working_resource ?? [];
       const totalHours = res.reduce(
         (acc, cur) => acc + cur.time_spent_hours,
-        0
+        0,
       );
       const totalScore = res.reduce(
         (acc, cur) => acc + cur.performance_score,
-        0
+        0,
       );
       const avgScore = res.length ? totalScore / res.length : 0;
 
@@ -149,7 +149,7 @@ export class AdminComponent {
     this.workingResources = allResources;
 
     this.uniqueResources = Array.from(
-      new Map(allResources.map((r) => [r.email, r])).values()
+      new Map(allResources.map((r) => [r.email, r])).values(),
     );
 
     this.chartData = {
@@ -368,8 +368,8 @@ export class AdminComponent {
           performance_score: resource.performance_score,
           projectId: project.id,
           project_title: project.project_title,
-        }))
-      )
+        })),
+      ),
     );
 
     // Remove duplicates by email + projectId

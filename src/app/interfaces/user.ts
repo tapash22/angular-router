@@ -73,16 +73,15 @@ export interface Performance {
   working_list: WrokingPerformance[];
 }
 
-export interface DisplayField {
-  [key: string]: string;
-}
+export type DisplayField = Record<string, string>;
 
-export interface DisplayFieldWithIcon {
-  [key: string]: {
+export type DisplayFieldWithIcon = Record<
+  string,
+  {
     label: string;
     icon: IconDefinition | string;
-  };
-}
+  }
+>;
 
 export interface UserInfoItem {
   label: string;
@@ -100,7 +99,7 @@ export interface AllworkingResource {
   project_title: string;
 }
 
-export interface UserMenu{
-  id: string
-  label:string
+export interface UserMenu {
+  id: string;
+  label: string;
 }

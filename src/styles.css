@@ -31,7 +31,6 @@
   --list: rgba(185, 175, 175, 0.568);
   --list-possitive: #ddd8d8a1;
 
-
   /* Dark using */
   --color-background-dark: #020617;
   /* Cosmic Black */
@@ -147,13 +146,20 @@
   --shadow-card: var(--shadow-dark);
   --shadow-button: 0 0 6px 2px rgba(148, 163, 184, 0.4);
 
-
   --list-bg: var(--list-dark);
   --list-possitive-bg: var(--list-possitive-dark);
 
   /* Dark-mode stripe overlays using surface-dark */
-  --stripe-dark-primary: color-mix(in srgb, var(--color-surface-dark) 85%, #fff);
-  --stripe-dark-secondary: color-mix(in srgb, var(--color-surface-dark) 65%, #fff);
+  --stripe-dark-primary: color-mix(
+    in srgb,
+    var(--color-surface-dark) 85%,
+    #fff
+  );
+  --stripe-dark-secondary: color-mix(
+    in srgb,
+    var(--color-surface-dark) 65%,
+    #fff
+  );
 
   /* progress track */
   --progress-track: #334155;
@@ -163,7 +169,7 @@
 /* ============ Base Styles ============ */
 body {
   @apply bg-[var(--background)] text-[var(--foreground)] transition-colors duration-200;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   line-height: 1.5;
 }
 
@@ -189,9 +195,7 @@ body {
   bottom: 0;
   left: 0;
   width: 0;
-  background: linear-gradient(to right,
-      rgba(79, 70, 229, 0.3),
-      transparent);
+  background: linear-gradient(to right, rgba(79, 70, 229, 0.3), transparent);
   background-size: 200% 50%;
   background-position: left;
   transition: width 0.9s ease;
@@ -200,7 +204,7 @@ body {
 }
 
 .hover-flow-border:hover {
-    border-color: var(--card-border);
+  border-color: var(--card-border);
 }
 
 .hover-flow-border:hover::before {
@@ -208,7 +212,7 @@ body {
   animation: flow-bg 0.9s linear forwards;
 }
 
-.hover-flow-border>* {
+.hover-flow-border > * {
   position: relative;
   z-index: 1;
 }
@@ -228,26 +232,28 @@ body {
   }
 }
 
-
-
 /* ============== Striped ================ */
 
 .striped {
-  background-image: repeating-linear-gradient(45deg,
-      var(--stripe-light-primary) 0,
-      var(--stripe-light-primary) 8px,
-      var(--stripe-light-secondary) 8px,
-      var(--stripe-light-secondary) 16px);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--stripe-light-primary) 0,
+    var(--stripe-light-primary) 8px,
+    var(--stripe-light-secondary) 8px,
+    var(--stripe-light-secondary) 16px
+  );
   animation: moveStripes 2.5s linear infinite;
   transition: background-image 0.4s ease-in-out;
 }
 
 .dark .striped {
-  background-image: repeating-linear-gradient(45deg,
-      var(--stripe-dark-primary) 0,
-      var(--stripe-dark-primary) 8px,
-      var(--stripe-dark-secondary) 8px,
-      var(--stripe-dark-secondary) 16px);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--stripe-dark-primary) 0,
+    var(--stripe-dark-primary) 8px,
+    var(--stripe-dark-secondary) 8px,
+    var(--stripe-dark-secondary) 16px
+  );
 }
 
 @keyframes moveStripes {
@@ -259,8 +265,6 @@ body {
     background-position: 32px 0;
   }
 }
-
-
 
 /* ============ Component Classes ============ */
 .card {
@@ -279,7 +283,6 @@ body {
     transform: translateY(-1px);
   }
 }
-
 
 .chart-container {
   @apply rounded-lg p-4;
@@ -322,7 +325,6 @@ body {
   mix-blend-mode: normal;
 }
 
-
 /* Scrollbar styles */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
@@ -332,7 +334,7 @@ body {
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #5959ff5e;
 }
 

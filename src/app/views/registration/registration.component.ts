@@ -1,22 +1,21 @@
-import { Component } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { AuthService } from "../../service/auth/auth.service";
-import { CommonModule } from "@angular/common";
-import { RegistrationPayload } from "../../interfaces/user";
-import { RouterLink } from "@angular/router";
-
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../service/auth/auth.service';
+import { CommonModule } from '@angular/common';
+import { RegistrationPayload } from '../../interfaces/user';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: "app-registration",
-  imports: [FormsModule, CommonModule,RouterLink],
-  templateUrl: "./registration.component.html",
-  styleUrl: "./registration.component.css",
+  selector: 'app-registration',
+  imports: [FormsModule, CommonModule, RouterLink],
+  templateUrl: './registration.component.html',
+  styleUrl: './registration.component.css',
 })
 export class RegistrationComponent {
   registerUser: RegistrationPayload = {
-    name: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: '',
   };
 
   errorMessage: string | null = null;
@@ -29,12 +28,12 @@ export class RegistrationComponent {
     this.errorMessage = null;
 
     const { name, email, password } = this.registerUser;
-    console.log("this is register user information",this.registerUser)
+    console.log('this is register user information', this.registerUser);
 
-    localStorage.setItem('userEmail', JSON.stringify({email}));
+    localStorage.setItem('userEmail', JSON.stringify({ email }));
 
     if (!name || !email || !password) {
-      this.errorMessage = "All field are required.";
+      this.errorMessage = 'All field are required.';
       return;
     }
     this.isLoading = true;
@@ -42,16 +41,15 @@ export class RegistrationComponent {
     setTimeout(() => {
       const isRegistered = this.authService.register(this.registerUser);
       if (isRegistered) {
-        this.authService.navigateByUrl("/auth/login");
+        this.authService.navigateByUrl('/auth/login');
       } else {
-        this.errorMessage = "This email is already registered";
+        this.errorMessage = 'This email is already registered';
       }
     }, 500);
   }
 
-
-// goToLogin() {
-//   this.router.navigate(['/auth/login']);
-//   console.log(this.router)
-// }
+  // goToLogin() {
+  //   this.router.navigate(['/auth/login']);
+  //   console.log(this.router)
+  // }
 }

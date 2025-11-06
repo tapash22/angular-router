@@ -24,9 +24,9 @@ import { ToasterService } from '../../service/toaster.service';
   styleUrl: './performance.component.css',
 })
 export class PerformanceComponent {
-  showDialog: boolean = false;
-  submitBtnTitle: string = 'Click';
-  color: string = 'bg-gray-200';
+  showDialog = false;
+  submitBtnTitle = 'Click';
+  color = 'bg-gray-200';
   editIndex?: number;
 
   @Input() form!: FormGroup;
@@ -34,7 +34,7 @@ export class PerformanceComponent {
   constructor(
     private fb: FormBuilder,
     private projectService: ProjectService,
-    private toaster: ToasterService
+    private toaster: ToasterService,
   ) {
     this.form = this.fb.group({
       project_title: ['', Validators.required],
@@ -67,7 +67,7 @@ export class PerformanceComponent {
         },
         error: (err) => {
           console.error('Failed to save project:', err);
-          this.toaster?.showToast?.('Failed to save project', 'error'); 
+          this.toaster?.showToast?.('Failed to save project', 'error');
         },
       });
   }

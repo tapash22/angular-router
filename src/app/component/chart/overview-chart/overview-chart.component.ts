@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  SimpleChanges,
+  ViewChild,
+  OnChanges,
+} from '@angular/core';
 import { ChartType, ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -9,13 +15,13 @@ import { BaseChartDirective } from 'ng2-charts';
   templateUrl: './overview-chart.component.html',
   styleUrl: './overview-chart.component.css',
 })
-export class OverviewChartComponent {
+export class OverviewChartComponent implements OnChanges {
   @Input() type: ChartType = 'bar';
   // Generic types to allow flexibility from parent
   @Input() data!: ChartData;
   @Input() options?: ChartConfiguration['options'];
 
-  // height pass for chart size as 
+  // height pass for chart size as
   @Input() chartHeight?: number;
 
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;

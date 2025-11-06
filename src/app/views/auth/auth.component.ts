@@ -5,8 +5,6 @@ import { AuthLayoutComponent } from '../../auth-layout/auth-layout.component';
   selector: 'app-auth',
   imports: [AuthLayoutComponent],
   templateUrl: './auth.component.html',
-  styleUrl: './auth.component.css'
+  styleUrl: './auth.component.css',
 })
-export class AuthComponent {
-
-}
+export class AuthComponent {}

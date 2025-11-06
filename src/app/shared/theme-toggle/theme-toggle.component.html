@@ -1,3 +1,9 @@
-<app-dynamic-button [mode]="'rounded'" [icon]="iconDarkMode" [size]="'md'" [shadow]="'default'"
-    [buttonRounded]="'full'" [isDarkMode]="(darkMode$ | async)!"
-    (buttonClick)="toggleTheme()"></app-dynamic-button>
+<app-dynamic-button
+  [mode]="'rounded'"
+  [icon]="iconDarkMode"
+  [size]="'md'"
+  [shadow]="'default'"
+  [buttonRounded]="'full'"
+  [isDarkMode]="(darkMode$ | async)!"
+  (buttonClick)="toggleTheme()"
+></app-dynamic-button>

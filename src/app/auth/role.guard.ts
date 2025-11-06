@@ -1,6 +1,6 @@
-import { CanActivateFn, Router } from "@angular/router";
-import { inject } from "@angular/core";
-import { UserService } from "../service/user.service";
+import { CanActivateFn, Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { UserService } from '../service/user.service';
 
 export const roleGuard: CanActivateFn = (route, state) => {
   const userService = inject(UserService);
@@ -14,5 +14,5 @@ export const roleGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  return router.createUrlTree(["/auth/login"]); // redirect if not allowed
+  return router.createUrlTree(['/auth/login']); // redirect if not allowed
 };

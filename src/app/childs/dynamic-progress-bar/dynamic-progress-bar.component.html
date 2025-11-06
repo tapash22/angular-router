@@ -1,16 +1,19 @@
 <div class="block w-full h-auto py-2">
-    <p *ngIf="progressBarTitle" class="p-3 w-full flex justify-between">
-        <strong>{{progressBarTitle}}:</strong>
-        {{ score }}%
-    </p>
+  <p *ngIf="progressBarTitle" class="p-3 w-full flex justify-between">
+    <strong>{{ progressBarTitle }}:</strong>
+    {{ score }}%
+  </p>
 
+  <div
+    class="w-full rounded-full overflow-hidden"
+    [ngClass]="progressbarHeight"
+    [ngStyle]="{ backgroundColor: 'var(--progress-track)' }"
+  >
+    <!-- Progress bar fill -->
     <div
-        class="w-full rounded-full overflow-hidden" [ngClass]="progressbarHeight"
-        [ngStyle]="{ backgroundColor: 'var(--progress-track)' }">
-        <!-- Progress bar fill -->
-        <div
-            class="h-full rounded-full transition-all duration-700"
-            [style.width.%]="score"
-            [ngClass]="striped ? 'striped' : 'bg-[var(--primary)]'"></div>
-    </div>
+      class="h-full rounded-full transition-all duration-700"
+      [style.width.%]="score"
+      [ngClass]="striped ? 'striped' : 'bg-[var(--primary)]'"
+    ></div>
+  </div>
 </div>

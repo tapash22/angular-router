@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -12,11 +12,11 @@ type StarType = 'full' | 'half' | 'empty';
 
 @Component({
   selector: 'app-dynamic-rating-star',
-  imports: [CommonModule,FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './dynamic-rating-star.component.html',
   styleUrl: './dynamic-rating-star.component.css',
 })
-export class DynamicRatingStarComponent {
+export class DynamicRatingStarComponent implements OnChanges {
   // pass tile and rating list from parent
   @Input() titleTag!: string;
   @Input() rating: number | null | undefined = 0;

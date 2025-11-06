@@ -8,11 +8,10 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  
-  private usersSubject =new BehaviorSubject<User[]>([]);
+  private usersSubject = new BehaviorSubject<User[]>([]);
   users$ = this.usersSubject.asObservable();
 
-  private currentUserSubject = new BehaviorSubject<User | null>(null)
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
   //declear use role wish page view permission
@@ -35,7 +34,7 @@ export class UserService {
     const storedUsers = this.storage.get<User[]>('users');
 
     if (storedUsers?.length) {
-      this.usersSubject.next(storedUsers)
+      this.usersSubject.next(storedUsers);
     } else {
       this.usersSubject.next(MOCK_USERS);
       this.storage.set('users', MOCK_USERS);
@@ -48,7 +47,7 @@ export class UserService {
   }
 
   getAllUsers(): User[] {
-    return this.usersSubject.getValue()
+    return this.usersSubject.getValue();
   }
 
   getCurrentUser(): User | null {
@@ -56,7 +55,7 @@ export class UserService {
   }
 
   setCurrentUser(user: User): void {
-    this.currentUserSubject.next(user)
+    this.currentUserSubject.next(user);
     this.storage.set('currentUser', user);
   }
 
@@ -80,7 +79,7 @@ export class UserService {
       role: 'user',
     };
 
-    const updateUsers =[...users, userToSave];
+    const updateUsers = [...users, userToSave];
     this.usersSubject.next(updateUsers);
     this.storage.set('users', users);
     return of(true);
@@ -100,7 +99,7 @@ export class UserService {
     };
 
     const updateUsers = [...users];
-    updateUsers[index]=updatedUser;
+    updateUsers[index] = updatedUser;
 
     this.usersSubject.next(updateUsers);
     this.setCurrentUser(updatedUser);
@@ -117,7 +116,7 @@ export class UserService {
     return this.updateCurrentUserFields({ password: newPassword });
   }
 
-    // create method for implement role and use
+  // create method for implement role and use
   // into component for show or hide
   hasAccessTo(link: string): boolean {
     const role = this.getCurrentUser()?.role;

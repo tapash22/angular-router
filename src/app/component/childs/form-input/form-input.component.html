@@ -9,7 +9,9 @@
   />
 
   <div
-    *ngIf="formGroup.get(controlName)?.touched && formGroup.get(controlName)?.invalid"
+    *ngIf="
+      formGroup.get(controlName)?.touched && formGroup.get(controlName)?.invalid
+    "
     class="text-red-500 text-sm mt-1"
   >
     <div *ngIf="formGroup.get(controlName)?.errors?.['required']">

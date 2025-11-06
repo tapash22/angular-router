@@ -26,9 +26,9 @@ import { WindowSizeService } from '../../service/window-size/window-size.service
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.css',
 })
-export class ResetPasswordComponent {
+export class ResetPasswordComponent implements OnInit {
   profileForm: FormGroup;
-  showPassword: boolean = false;
+  showPassword = false;
 
   iconEye = faEye;
   iconEyeClose = faEyeSlash;
@@ -51,7 +51,7 @@ export class ResetPasswordComponent {
     private fb: FormBuilder,
     private userService: UserService,
     private toaster: ToasterService,
-    private windowSizeService: WindowSizeService
+    private windowSizeService: WindowSizeService,
   ) {
     this.profileForm = this.fb.group(
       {
@@ -61,13 +61,13 @@ export class ResetPasswordComponent {
             Validators.required,
             Validators.minLength(8),
             Validators.pattern(
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/,
             ),
           ],
         ],
         confirmPassword: ['', Validators.required],
       },
-      { validators: this.passwordMatchValidator }
+      { validators: this.passwordMatchValidator },
     );
 
     // implement Rx.jx
@@ -75,7 +75,7 @@ export class ResetPasswordComponent {
     this.size$ = windowSizeService.size$;
     this.clickSubject
       .pipe(
-        scan((count) => count + 1, 0) // accumulate count
+        scan((count) => count + 1, 0), // accumulate count
       )
       .subscribe((count) => {
         this.clickCount = count;

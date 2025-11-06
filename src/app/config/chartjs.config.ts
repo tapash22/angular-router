@@ -11,7 +11,7 @@ import {
   BarController,
   BarElement,
   DoughnutController,
-  ArcElement
+  ArcElement,
 } from 'chart.js';
 
 Chart.register(
@@ -31,5 +31,5 @@ Chart.register(
 
   // Doughnut
   DoughnutController,
-  ArcElement
+  ArcElement,
 );

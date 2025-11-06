@@ -47,10 +47,10 @@ export class HeaderComponent {
   iconResetPassword = faKey;
   iconUserClick = faUserShield;
 
-  show: boolean = false;
-  lastSegment: string = '';
+  show = false;
+  lastSegment = '';
   pathSegments: string[] = [];
-  pathWithSlashes: string = '';
+  pathWithSlashes = '';
 
   @Input() showSidebar!: boolean;
   // @ViewChild('trigger') trigger!: ElementRef;
@@ -62,7 +62,7 @@ export class HeaderComponent {
   constructor(
     private router: Router,
     private authService: AuthService,
-    public themeService: ThemeService
+    public themeService: ThemeService,
   ) {
     // Listen for route changes
     this.router.events

@@ -8,9 +8,8 @@ describe('OverviewChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OverviewChartComponent]
-    })
-    .compileComponents();
+      imports: [OverviewChartComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(OverviewChartComponent);
     component = fixture.componentInstance;

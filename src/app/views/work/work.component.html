@@ -1,59 +1,60 @@
-
 <app-child-layout>
-    <div main-component>
-        <div class="w-full h-auto py-4 flex justify-center items-center gap-4">
-            <div
-                class="w-full h-auto p-2 flex justify-between items-center ">
-                <h2 class="text-xl font-bold tracking-wide ">
-                    Project List
-                </h2>
-                <button
-                    class="w-auto h-auto p-3 rounded-xl bg-white text-lg font-medium tracking-wide text-black shadow-sm shadow-gray-200 px-5 py-3"
-                    (click)="openProjectDialog()">
-                    Add Project
-                </button>
-            </div>
-
-        </div>
-        <div class="w-full h-auto py-4 grid grid-cols-4 gap-4 ">
-            <app-project-card *ngFor="let project of projectList; let i=index"
-                [project]="project" [index]="i"
-                [selected]="selectedIndex === i "
-                [icon]="iconEdit"
-                (editProject)="handleEditProject($event)"
-                (selectProject)="handleProject($event)"
-                ></app-project-card>
-        </div>
-        <!-- project card list -->
-
-        <!-- create project -->
-        <div class="relative">
-            <app-dynamic-dialog
-                [title]="'Create Project'"
-                [size]="'lg'"
-                [show]="isDialogVisible"
-                [disableClose]="false"
-                [showFooter]="true"
-                (onClose)="closeDialog()">
-                <!-- Dialog body content -->
-                <div>
-                    <app-project-form [project]="form"
-                        (projectRequirement)="addRequirement()"
-                        (projectWorkingResource)="addWorkingResource()"></app-project-form>
-                </div>
-
-                <!-- Footer buttons (pass using attribute selector) -->
-                <div footer-controls class="w-full">
-                    <div class="flex justify-end items-center w-full">
-                        <button
-                            (click)="handleFormSubmit()"
-                            class="px-4 py-2 text-[var(--demo)] bg-[var(--surface)] shadow-[var(--shadow-button)] rounded-xl">
-                            Save
-                        </button>
-                    </div>
-
-                </div>
-            </app-dynamic-dialog>
-        </div>
+  <div main-component>
+    <div class="w-full h-auto py-4 flex justify-center items-center gap-4">
+      <div class="w-full h-auto p-2 flex justify-between items-center">
+        <h2 class="text-xl font-bold tracking-wide">Project List</h2>
+        <button
+          class="w-auto h-auto p-3 rounded-xl bg-white text-lg font-medium tracking-wide text-black shadow-sm shadow-gray-200 px-5 py-3"
+          (click)="openProjectDialog()"
+        >
+          Add Project
+        </button>
+      </div>
     </div>
+    <div class="w-full h-auto py-4 grid grid-cols-4 gap-4">
+      <app-project-card
+        *ngFor="let project of projectList; let i = index"
+        [project]="project"
+        [index]="i"
+        [selected]="selectedIndex === i"
+        [icon]="iconEdit"
+        (editProject)="handleEditProject($event)"
+        (selectProject)="handleProject($event)"
+      ></app-project-card>
+    </div>
+    <!-- project card list -->
+
+    <!-- create project -->
+    <div class="relative">
+      <app-dynamic-dialog
+        [title]="'Create Project'"
+        [size]="'lg'"
+        [show]="isDialogVisible"
+        [disableClose]="false"
+        [showFooter]="true"
+        (onClose)="closeDialog()"
+      >
+        <!-- Dialog body content -->
+        <div>
+          <app-project-form
+            [project]="form"
+            (projectRequirement)="addRequirement()"
+            (projectWorkingResource)="addWorkingResource()"
+          ></app-project-form>
+        </div>
+
+        <!-- Footer buttons (pass using attribute selector) -->
+        <div footer-controls class="w-full">
+          <div class="flex justify-end items-center w-full">
+            <button
+              (click)="handleFormSubmit()"
+              class="px-4 py-2 text-[var(--demo)] bg-[var(--surface)] shadow-[var(--shadow-button)] rounded-xl"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </app-dynamic-dialog>
+    </div>
+  </div>
 </app-child-layout>

@@ -8,9 +8,8 @@ describe('DynamicButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DynamicButtonComponent]
-    })
-    .compileComponents();
+      imports: [DynamicButtonComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DynamicButtonComponent);
     component = fixture.componentInstance;

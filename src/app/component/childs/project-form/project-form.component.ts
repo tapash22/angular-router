@@ -6,7 +6,12 @@ import { FormArrayInputComponent } from '../form-array-input/form-array-input.co
 
 @Component({
   selector: 'app-project-form',
-  imports: [CommonModule, ReactiveFormsModule, FormInputComponent,FormArrayInputComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormInputComponent,
+    FormArrayInputComponent,
+  ],
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.css',
 })

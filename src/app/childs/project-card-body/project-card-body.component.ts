@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-project-card-body',
-  imports: [DynamicChipComponent,CommonModule],
+  imports: [DynamicChipComponent, CommonModule],
   templateUrl: './project-card-body.component.html',
   styleUrl: './project-card-body.component.css',
 })
