@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   iconEyeClose = faEyeSlash;
 
   errorMessage: string | null = null;
-  private authService = inject(AuthService)
+      private authService = inject(AuthService)
 
 
   ngOnInit(): void {
