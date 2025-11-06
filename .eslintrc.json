@@ -16,7 +16,7 @@
       },
       "rules": {
         "@typescript-eslint/no-unused-vars": "error",
-        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-explicit-any": "error",
         "@angular-eslint/component-selector": [
           "error",
           { "type": "element", "prefix": "app", "style": "kebab-case" }
