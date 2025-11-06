@@ -42,7 +42,7 @@ export class DynamicDialogComponent {
   @Input() disableClose = false;
   @Input() showFooter = false;
   @Input() submitBtnTitle!: string;
-  @Output() onClose = new EventEmitter<void>();
+        @Output() onClose = new EventEmitter<void>();
 
   // icon
   iconClose = faTimes;
