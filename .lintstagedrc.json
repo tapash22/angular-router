@@ -1,0 +1,5 @@
+{
+  "*.ts": ["eslint --fix --max-warnings=0", "git add"],
+  "*.html": ["eslint --fix --max-warnings=0", "git add"],
+  "*.{css,scss,json,md}": ["prettier --write", "git add"]
+}
