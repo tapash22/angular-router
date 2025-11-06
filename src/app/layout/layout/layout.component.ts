@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   ActivatedRoute,
   NavigationEnd,
   Router,
   RouterOutlet,
 } from '@angular/router';
-import { NavigationComponent } from '../../component/navigation/navigation.component';
-import { HeaderComponent } from '../../component/header/header.component';
 import { filter } from 'rxjs';
 import { AuthService } from '../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
@@ -19,10 +17,12 @@ import { CommonModule } from '@angular/common';
 })
 export class LayoutComponent {
   showSidebar = true;
+
+      private router = inject(Router)
+      private activatedRoute = inject(ActivatedRoute)
+      private authService = inject(AuthService)
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private authService: AuthService,
+
   ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))

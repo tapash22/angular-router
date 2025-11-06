@@ -1,4 +1,4 @@
-<form [formGroup]="projectResource">
+<form *ngIf="projectResource" [formGroup]="projectResource">
   <!-- name end -->
   <app-form-input
     [label]="'Name'"

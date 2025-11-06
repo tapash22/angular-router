@@ -14,6 +14,7 @@ export class DynamicFormComponent {
   @Input() color = 'bg-blue-600';
   @Input() disableIfInvalid = true;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Output() formSubmit = new EventEmitter<any>();
 
   handleSubmit() {

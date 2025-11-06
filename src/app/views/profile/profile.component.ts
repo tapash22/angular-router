@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Project, User, UserInfoItem } from '../../interfaces/user';
 import { ProjectCardComponent } from '../../component/childs/project-card/project-card.component';
 import { CommonModule } from '@angular/common';
 import { faEdit, faCircleDot } from '@fortawesome/free-solid-svg-icons';
 import {
   combineLatest,
-  filter,
   forkJoin,
   map,
   Observable,
@@ -101,12 +100,12 @@ export class ProfileComponent implements OnInit {
   userInfoList$!: Observable<UserInfoItem[]>;
   userInfoListWithIcon$!: Observable<UserInfoItem[]>;
 
-  constructor(
-    private userService: UserService,
-    private projectService: ProjectService,
-    private fb: FormBuilder,
-    private toaster: ToasterService,
-  ) {}
+
+  private userService = inject(UserService)
+  private projectService = inject(ProjectService)
+  private fb = inject(FormBuilder)
+  private toaster = inject(ToasterService)
+
 
   ngOnInit() {
     // ✅ Load the current user from localStorage via userService
@@ -222,6 +221,7 @@ export class ProfileComponent implements OnInit {
   }
 
   // resource update dialog open
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateProjectResourceInfo(event: { project: Project; resource: any }) {
     const { project, resource } = event;
 
@@ -246,6 +246,7 @@ export class ProfileComponent implements OnInit {
   }
 
   // delete resource
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deleteProjectResourceInfo(event: { project: Project; resource: any }) {
     const { project, resource } = event;
 
@@ -317,6 +318,7 @@ export class ProfileComponent implements OnInit {
       const scores = this.projectScore.value.working_resource_scores;
 
       const updateObservables: Observable<boolean>[] = scores.map(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (resource: any) =>
           this.projectService.userProjectResource(
             this.selectedProject!.id,
@@ -379,7 +381,7 @@ export class ProfileComponent implements OnInit {
       next: () => {
         this.toaster.showToast('Your project delete successfully!', 'success');
       },
-      error: (err) => {
+      error: () => {
         this.toaster.showToast('There some issue try again later', 'error');
       },
     });

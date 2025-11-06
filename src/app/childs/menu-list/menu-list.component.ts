@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { filter } from 'rxjs';
@@ -11,14 +11,15 @@ import { filter } from 'rxjs';
   styleUrl: './menu-list.component.css',
 })
 export class MenuListComponent implements OnInit {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() visibleMenuItems!: any[];
   @Input() collapsed?: boolean;
   @Input() haveId?: boolean;
 
   @Input() activeLink!: string;
   @Output() activeLinkChange = new EventEmitter<string>();
+  private router = inject(Router)
 
-  constructor(private router: Router) {}
 
   ngOnInit() {
     if (!this.haveId) {
@@ -31,6 +32,7 @@ export class MenuListComponent implements OnInit {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onItemClicked(item: any) {
     if (this.haveId) {
       this.activeLink = item.id;
@@ -43,9 +45,14 @@ export class MenuListComponent implements OnInit {
     this.activeLinkChange.emit(this.activeLink);
   }
 
-  isActive(item: any): boolean {
-    return this.haveId
-      ? this.activeLink === item.id
-      : this.activeLink.includes(item.link);
+  isActive(item: { id?: string; link?: string }): boolean {
+    if (!item || !this.activeLink) return false;
+
+    if (this.haveId) {
+      return this.activeLink === item.id;
+    } else {
+      return item.link ? this.activeLink.includes(item.link) : false;
+    }
   }
+
 }

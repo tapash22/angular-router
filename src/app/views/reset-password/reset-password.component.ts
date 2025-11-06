@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -46,12 +46,11 @@ export class ResetPasswordComponent implements OnInit {
   targetWidth = 0;
 
   // declear end  Rx.jx
-
+private fb = inject(FormBuilder)
+    private userService = inject(UserService)
+    private toaster = inject(ToasterService)
+    private windowSizeService = inject(WindowSizeService)
   constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-    private toaster: ToasterService,
-    private windowSizeService: WindowSizeService,
   ) {
     this.profileForm = this.fb.group(
       {
@@ -72,7 +71,7 @@ export class ResetPasswordComponent implements OnInit {
 
     // implement Rx.jx
 
-    this.size$ = windowSizeService.size$;
+    this.size$ = this.windowSizeService.size$;
     this.clickSubject
       .pipe(
         scan((count) => count + 1, 0), // accumulate count

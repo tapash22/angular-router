@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Project } from '../../../interfaces/user';
 import { CommonModule } from '@angular/common';
 import { DynamicDialogComponent } from '../../dialog/dynamic-dialog/dynamic-dialog.component';
-import { ChartConfiguration, ChartData, ChartDataset } from 'chart.js';
+import { ChartConfiguration, ChartDataset } from 'chart.js';
 import { OverviewChartComponent } from '../../chart/overview-chart/overview-chart.component';
 import { ProjectWorkResourceComponent } from '../../../childs/project-work-resource/project-work-resource.component';
 import { ProjectCardHeaderComponent } from '../../../childs/project-card-header/project-card-header.component';
@@ -61,10 +61,12 @@ export class ProjectCardComponent implements OnInit {
 
   @Output() updateProjectResource = new EventEmitter<{
     project: Project;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resource: any;
   }>();
   @Output() deleteProjectResource = new EventEmitter<{
     project: Project;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resource: any;
   }>();
   @Output() deleteProject = new EventEmitter<{
@@ -83,7 +85,6 @@ export class ProjectCardComponent implements OnInit {
 
   // chart calculation
   setupDoughnutChart() {
-    const duration = this.project.project_project_length || 0;
     const resources = this.project.project_resource_needed || 0;
     const cost = this.project.project_costing_needed / 1000; // to 'K'
 

@@ -19,7 +19,8 @@ export class DynamicDialogFormComponent {
   @Input() show = false;
   @Input() showFooter = true;
 
-  @Output() onClose = new EventEmitter<void>();
+  @Output() closeView = new EventEmitter<void>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Output() formSubmit = new EventEmitter<any>();
 
   // Called on footer button click
@@ -32,6 +33,6 @@ export class DynamicDialogFormComponent {
   }
 
   closeDialog(): void {
-    this.onClose.emit();
+    this.closeView.emit();
   }
 }

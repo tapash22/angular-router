@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ProjectCardComponent } from '../../component/childs/project-card/project-card.component';
 import { Project, User } from '../../interfaces/user';
 import { MOCK_USERS } from '../../localStore/user-data';
@@ -73,13 +73,13 @@ export class WorkComponent {
       colSpan: 1,
     },
   ];
+private fb = inject(FormBuilder)
+    private userService = inject(UserService)
+    private projectService = inject(ProjectService)
+    private toaster = inject(ToasterService)
 
   // import and use userService which are declear
   constructor(
-    private userService: UserService,
-    private projectService: ProjectService,
-    private fb: FormBuilder,
-    private toaster: ToasterService,
   ) {
     this.form = this.fb.group({
       project_title: ['', Validators.required],

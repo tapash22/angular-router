@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ProjectCardComponent } from '../../component/childs/project-card/project-card.component';
 import { OverviewChartComponent } from '../../component/chart/overview-chart/overview-chart.component';
 import { Project, User } from '../../interfaces/user';
@@ -49,8 +49,7 @@ export class EmployeeComponent implements OnInit {
       },
     },
   };
-
-  constructor(private userService: UserService) {}
+private userService = inject(UserService)
 
   projectList: Project[] | null = this.userList.flatMap(
     (user) => user.projects ?? [],

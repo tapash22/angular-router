@@ -1,9 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import {
-  NavigationEnd,
   Router,
-  RouterLink,
-  RouterLinkActive,
 } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -15,7 +12,6 @@ import {
   faSignalPerfect,
   faNetworkWired,
 } from '@fortawesome/free-solid-svg-icons';
-import { filter } from 'rxjs';
 import { UserService } from '../../service/user.service';
 import { MenuListComponent } from '../../childs/menu-list/menu-list.component';
 
@@ -55,9 +51,10 @@ export class NavigationComponent {
     { id: 7, name: 'work', link: 'work', icon: this.iconWork },
   ];
 
+  private router = inject(Router)
+  private userService = inject(UserService)
+
   constructor(
-    private router: Router,
-    private userService: UserService,
   ) {
     // this.router.events
     //   .pipe(filter((event) => event instanceof NavigationEnd))

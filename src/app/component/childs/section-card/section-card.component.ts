@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-section-card',
@@ -10,7 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class SectionCardComponent {
   @Input() title!: string;
-  @Input() icon?: any;
+  @Input() icon?: IconDefinition;
 
   @Output() openDialog = new EventEmitter<void>();
 

@@ -30,6 +30,7 @@ export class OverviewChartComponent implements OnChanges {
     return this.chartHeight ? `${this.chartHeight}px` : '300px';
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ngOnChanges(changes: SimpleChanges): void {
     if (this.options) {
       this.options.maintainAspectRatio = false;

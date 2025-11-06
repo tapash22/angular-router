@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { LoginPayload, User, RegistrationPayload } from '../../interfaces/user';
+import { LoginPayload, User} from '../../interfaces/user';
 import { RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
   iconEyeClose = faEyeSlash;
 
   errorMessage: string | null = null;
+  private authService = inject(AuthService)
 
-  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     const preFill = localStorage.getItem('userEmail');

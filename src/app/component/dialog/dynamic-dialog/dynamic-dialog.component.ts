@@ -36,17 +36,17 @@ import { trigger, transition, style, animate } from '@angular/animations';
   ],
 })
 export class DynamicDialogComponent {
-  const test = 123;
+  // const test = 123;
   @Input() title!: string;
   @Input() size: 'tiny' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' = 'sm';
   @Input() show = false;
   @Input() disableClose = false;
   @Input() showFooter = false;
   @Input() submitBtnTitle!: string;
-  @Output() onClose = new EventEmitter<void>();
+  @Output() closeView = new EventEmitter<void>();
 
   // icon
-  iconClose = faTimes;
+  iccloseView = faTimes;
 
   get dialogWidth(): string {
     switch (this.size) {
@@ -69,7 +69,7 @@ export class DynamicDialogComponent {
 
   closeDialog() {
     if (!this.disableClose) {
-      this.onClose.emit();
+      this.closeView.emit();
     }
   }
 }

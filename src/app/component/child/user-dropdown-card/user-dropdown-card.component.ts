@@ -1,12 +1,13 @@
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   Output,
   Renderer2,
 } from '@angular/core';
 import { User } from '../../../interfaces/user';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import {  RouterLink } from '@angular/router';
 import { UserService } from '../../../service/user.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -34,12 +35,12 @@ export class UserDropdownCardComponent {
   iconLogout = faArrowRightToBracket;
   iconResetPassword = faKey;
 
+   private renderer = inject(Renderer2);
+  private userService = inject(UserService);
+
   constructor(
-    private renderer: Renderer2,
-    private router: Router,
-    private userService: UserService,
   ) {
-    this.userProfileData = userService.getCurrentUser()!;
+    this.userProfileData = this.userService.getCurrentUser()!;
   }
 
   closeDropdown() {
@@ -51,7 +52,6 @@ export class UserDropdownCardComponent {
     this.logout.emit();
   }
 
-  // Improved hover methods with Renderer2 for Angular-safe DOM manipulation
   hoverItem(event: Event): void {
     const element = event.currentTarget as HTMLElement;
     const primaryColor = getComputedStyle(document.documentElement)

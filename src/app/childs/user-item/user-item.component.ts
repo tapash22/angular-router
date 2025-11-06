@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-user-item',

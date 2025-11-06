@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
@@ -19,8 +19,7 @@ export class RegistrationComponent {
   };
 
   errorMessage: string | null = null;
-
-  constructor(private authService: AuthService) {}
+private authService = inject(AuthService)
 
   isLoading = false;
 

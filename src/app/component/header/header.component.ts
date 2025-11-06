@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  ElementRef,
   EventEmitter,
   HostListener,
+  inject,
   Input,
   Output,
   ViewChild,
@@ -41,7 +41,7 @@ import { DynamicButtonComponent } from '../../childs/dynamic-button/dynamic-butt
 export class HeaderComponent {
   iconBell = faBell;
   iconBars = faBars;
-  iconClose = faClose;
+  iccloseView = faClose;
   iconProfile = faUser;
   iconLogout = faArrowRightToBracket;
   iconResetPassword = faKey;
@@ -57,12 +57,13 @@ export class HeaderComponent {
   // @ViewChild('btn', { static: true }) private buttonRef!: ElementRef<HTMLButtonElement>;
   @ViewChild('trigger') triggerButton!: DynamicButtonComponent;
 
-  @Output() onClose = new EventEmitter<void>();
+  @Output() closeView = new EventEmitter<void>();
+
+  private router = inject(Router)
+  private authService = inject(AuthService)
+  private themeService = inject(ThemeService)
 
   constructor(
-    private router: Router,
-    private authService: AuthService,
-    public themeService: ThemeService,
   ) {
     // Listen for route changes
     this.router.events
@@ -79,7 +80,7 @@ export class HeaderComponent {
   }
 
   closeNavigattion() {
-    this.onClose.emit();
+    this.closeView.emit();
   }
 
   logoutUser() {

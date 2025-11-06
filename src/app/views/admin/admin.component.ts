@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Project, User, AllworkingResource } from '../../interfaces/user';
-import { MOCK_USERS } from '../../localStore/user-data';
 import { OverviewChartComponent } from '../../component/chart/overview-chart/overview-chart.component';
-import { ChartType, ChartData, ChartConfiguration, scales } from 'chart.js';
+import {  ChartData, ChartConfiguration } from 'chart.js';
 import { UserListItemComponent } from '../../component/childs/user-list-item/user-list-item.component';
 import { ProjectCardComponent } from '../../component/childs/project-card/project-card.component';
 import { UserService } from '../../service/user.service';
 import { UserItemComponent } from '../../childs/user-item/user-item.component';
-import { filter, map, Observable, of, shareReplay } from 'rxjs';
+import { filter } from 'rxjs';
 import { ChildLayoutComponent } from '../../layout/child-layout/child-layout.component';
 
 @Component({
@@ -37,7 +36,9 @@ export class AdminComponent implements OnInit {
     status: string;
   }[] = [];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   workingResources: any[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   uniqueResources: any[] = [];
 
   // declear chart
@@ -58,8 +59,8 @@ export class AdminComponent implements OnInit {
   };
   projectList!: Project[];
   userList!: User[];
+  private userService = inject(UserService)
 
-  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.userService.currentUser$

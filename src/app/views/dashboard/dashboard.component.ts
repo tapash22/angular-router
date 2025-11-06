@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { User } from '../../interfaces/user';
 import { CommonModule } from '@angular/common';
 import {
@@ -21,10 +21,10 @@ import { UserService } from '../../service/user.service';
 export class DashboardComponent implements OnInit {
   usersData: User[] = [];
   showSidebar = true;
+  private router = inject(Router)
+  private activatedRoute = inject(ActivatedRoute)
+  private userService = inject(UserService)
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private userService: UserService,
   ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -34,8 +34,6 @@ export class DashboardComponent implements OnInit {
         while (currentRoute?.firstChild) {
           currentRoute = currentRoute.firstChild;
         }
-        const hideSidebar = currentRoute?.snapshot.data['hideSidebar'];
-        // this.showSidebar = !hideSidebar;
       });
   }
 

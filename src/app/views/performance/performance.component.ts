@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { DynamicDialogComponent } from '../../component/dialog/dynamic-dialog/dynamic-dialog.component';
 import { CommonModule } from '@angular/common';
 import {
@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 import { ChildLayoutComponent } from '../../layout/child-layout/child-layout.component';
 import { ProjectService } from '../../service/project.service';
-import { Project } from '../../interfaces/user';
 import { ToasterService } from '../../service/toaster.service';
 
 @Component({
@@ -31,10 +30,10 @@ export class PerformanceComponent {
 
   @Input() form!: FormGroup;
 
+  private fb = inject(FormBuilder)
+private projectService = inject(ProjectService)
+private toaster = inject(ToasterService)
   constructor(
-    private fb: FormBuilder,
-    private projectService: ProjectService,
-    private toaster: ToasterService,
   ) {
     this.form = this.fb.group({
       project_title: ['', Validators.required],

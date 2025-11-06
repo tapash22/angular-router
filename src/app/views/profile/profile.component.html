@@ -94,7 +94,7 @@
     size="lg"
     [show]="userInfoDialog"
     [showFooter]="true"
-    (onClose)="closeDialog()"
+    (closeView)="closeDialog()"
   >
     <div>
       <app-user-info-form [profileForm]="profileForm" />
@@ -120,7 +120,7 @@
     size="lg"
     [show]="projectResourceDialog"
     [showFooter]="true"
-    (onClose)="closeDialog()"
+    (closeView)="closeDialog()"
   >
     <div>
       <app-project-score-form [projectResource]="projectResource" />

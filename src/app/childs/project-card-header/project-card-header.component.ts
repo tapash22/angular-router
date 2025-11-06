@@ -27,6 +27,7 @@ export class ProjectCardHeaderComponent {
   @Output() clickToEdit = new EventEmitter();
   @Output() clickToDelete = new EventEmitter();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleEditProject($event: any) {
     this.clickToEdit.emit($event);
   }

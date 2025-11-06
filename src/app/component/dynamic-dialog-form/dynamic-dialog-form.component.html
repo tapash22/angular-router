@@ -3,7 +3,7 @@
   [size]="size"
   [show]="show"
   [showFooter]="showFooter"
-  (onClose)="closeDialog()"
+  (closeView)="closeDialog()"
 >
   <form [formGroup]="form">
     <ng-content select="[form-body]"></ng-content>
