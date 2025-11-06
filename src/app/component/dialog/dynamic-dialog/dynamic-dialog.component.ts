@@ -36,6 +36,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
   ],
 })
 export class DynamicDialogComponent {
+  const test = 123; 
   @Input() title!: string;
   @Input() size: 'tiny' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' = 'sm';
   @Input() show = false;
